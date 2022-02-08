@@ -5,7 +5,7 @@ import java.awt.*;
 import map.Block;
 
 
-public class Item extends Element{
+public class Item extends MElement{
 	private int nbre;
 	private int priority;
 	private String name;
@@ -19,6 +19,14 @@ public class Item extends Element{
 		this.priority = priority;
 		this.name = name;
 		this.image = image;
+	}
+	
+	public Item(Block position, String name) {
+		super(position);
+		this.nbre = 0;
+		this.priority = 0;
+		this.name = name;
+		this.image = null;
 	}
 
 	public int getNbre() {
@@ -43,6 +51,14 @@ public class Item extends Element{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void increment(int n) {
+		nbre+=n;
+	}
+	
+	public void decrement(int n) {
+		nbre-=n;
 	}
 
 

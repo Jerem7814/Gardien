@@ -3,7 +3,7 @@ import java.awt.*;
 
 import map.Block;
 
-public class Obstacle extends Element{
+public class Obstacle extends MElement{
 	private Image image;
 
 	public Obstacle(Block position, Image image) {

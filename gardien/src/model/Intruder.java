@@ -1,15 +1,18 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import map.Block;
 
-public class Intruder extends Element{
+public class Intruder extends MElement{
 	private int vision;
 	private int agility;
 	private HashMap<String, Item> items;
 	public int dodge;
 	public int moneyearned;
+	private List<Block> visionZone;
 
 
 
@@ -30,6 +33,7 @@ public class Intruder extends Element{
 		items = new HashMap<String,Item>();
 		this.dodge = 0;
 		this.moneyearned = 0;
+		visionZone = new ArrayList<Block>();
 	}
 
 	public void inititem() {
@@ -41,7 +45,7 @@ public class Intruder extends Element{
 		int ppV=6;
 		int nbpV=0;
 		Item vp=new Item(null,nbpV,ppV,pV,null);
-		String pR="Reflex Potion";
+		String pR="Dodge Potion";
 		int ppR=5;
 		int nbpR=0;
 		Item rp=new Item(null,nbpR,ppR,pR,null);
@@ -110,6 +114,58 @@ public class Intruder extends Element{
 
 	public void setItems(HashMap<String, Item> items) {
 		this.items = items;
+	}
+	
+	public void setVisionzone() {
+		int line = super.getPosition().getLine();
+		int column = super.getPosition().getColumn();
+		for(int i=1;i<=vision;i++) {
+			Block bas=new Block(line+i,column);
+			Block haut=new Block(line-i,column);
+			Block gauche=new Block(line,column-i);
+			Block droite=new Block(line,column+i);
+	
+			visionZone.add(haut);
+			visionZone.add(bas);
+			visionZone.add(gauche);
+			visionZone.add(droite);
+		}
+	}
+	
+	public List<Block> getVisionzone() {
+		return visionZone;
+	}
+	
+	public void incrementA(int n) {
+		agility+=n;
+	}
+	
+	public void decrementA(int n) {
+		agility-=n;
+	}
+	
+	public void incrementV(int n) {
+		vision+=n;
+	}
+	
+	public void decrementV(int n) {
+		vision-=n;
+	}
+	
+	public void incrementD(int n) {
+		dodge+=n;
+	}
+	
+	public void decrementD(int n) {
+		dodge-=n;
+	}
+	
+	public void incrementM(int n) {
+		moneyearned+=n;
+	}
+	
+	public void decrementM(int n) {
+		moneyearned-=n;
 	}
 
 
