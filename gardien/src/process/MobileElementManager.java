@@ -1,10 +1,10 @@
 package process;
 
 import map.Map;
+import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import model.MElement;
 import map.Block;
 
 import java.util.ArrayList;
@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import config.GameConfiguration;
-import engine.mobile.Enemy;
-import engine.mobile.Missile;
 
 
 
@@ -30,12 +28,19 @@ public class MobileElementManager {
 	private List<Item> items = new ArrayList<Item>();
 	private List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
+	private ExitGate gate;
+	private List<Intruder> freeintruders = new ArrayList<Intruder>();
+
 	
 
 	public MobileElementManager(Map map) {
 		this.map = map;
 		this.round=0;
 	}
+	
+
+	
+	
 
 	public void add(Item item) {
 		items.add(item);
@@ -57,20 +62,32 @@ public class MobileElementManager {
 
 
 	public void nextRound() {
-		incrementRound();
-		if(isTen()) {
+		exitintruders();
+		if(isNumber(40)) {
 			generateGuardian();
 		}
-		if(isFive()) {
+		if(isNumber(22)) {
 			generateItem();
+		}
+		if(isNumber(15)) {
+			generateMoney();
+		}
+		if(isNumber(2)) {
+			deplaleatoireI();
+		}
+		else {
+			deplaleatoireG();
 		}
 		evolution();
 		combat();
-		
+		incrementRound();
+
+
+
 	}
 	
-	public boolean isTen() {
-		if(round%10==0) {
+	public boolean isNumber(int i) {
+		if(round%i==0) {
 			return true;
 		}
 		else {
@@ -78,14 +95,7 @@ public class MobileElementManager {
 		}
 	}
 	
-	public boolean isFive() {
-		if(round%5==0) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+	
 
 	private void generateGuardian() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
@@ -105,16 +115,24 @@ public class MobileElementManager {
 		add(item);	
 		}
 	
+	private void generateMoney() {
+		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
+		int lineColumn = getRandomNumber(0, GameConfiguration.LINE_COUNT - 1);
+		Block position = new Block(lineColumn, randomColumn);
+		String nm="Money";
+		Item item = new Item(position,nm);
+		add(item);	
+		}
+	
 	public String randomItem() {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
 		rdm.put("1", "Vision Potion");
 		rdm.put("2", "Precision Potion");
-		rdm.put("3", "Dodge Potion");
-		rdm.put("4", "Filet");
-		rdm.put("5", "Lure");
-		rdm.put("6", "Invisibility cloak");
-		int r=getRandomNumber(0,6);
+		rdm.put("3", "Filet");
+		rdm.put("4", "Lure");
+		rdm.put("5", "Invisibility cloak");
+		int r=getRandomNumber(0,5);
 		String nb=String.valueOf(r);
 		String rt=rdm.get(nb);
 		return rt;
@@ -128,26 +146,9 @@ public class MobileElementManager {
 
 
 
-	private void winnerG() {
-		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
-		for (Guardian guardian : guardians) {
-			Block guardianPosition = guardian.getPosition();
-			for (Intruder intruder : intruders) {
-				if (intruder.getPosition().equals(guardianPosition)) {
-					eliminatedIntruder.add(intruder);
-				}
-			}
-		}
-		for (Intruder intruder : eliminatedIntruder) {
-			intruders.remove(intruder);
-		}
-	}
-	
 
 	
-	private void winnerI() {
-		
-	}
+
 	
 	public void evolution() {
 		evolutionI();
@@ -159,7 +160,10 @@ public class MobileElementManager {
 			for (Guardian guardian : guardians) {
 				Block guardianPosition = guardian.getPosition();
 				for (Item item : items) {
+
 					if (item.getPosition().equals(guardianPosition)) {
+						System.out.println("Item gagne");
+
 						Item i=item;
 						eliminatedItem.add(item);
 						if(i.getName() == "Filet") {
@@ -193,22 +197,33 @@ public class MobileElementManager {
 					}
 					}
 				}
-			}
+			for(Item item:eliminatedItem) {
+				items.remove(item);
+			}			}
 	
 	public void combat() {
+		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
+		List<Guardian> eliminatedGuardian = new ArrayList<Guardian>();
 		for (Guardian guardian : guardians) {
 			Block guardianPosition = guardian.getPosition();
 			for (Intruder intruder : intruders) {
+
 				if (intruder.getPosition().equals(guardianPosition)) {
-					if(guardian.getAgility()<intruder.getDodge()) {
-						winnerI();
+					if(guardian.getPrecision()<intruder.getDodge()) {
+						eliminatedGuardian.add(guardian);
 					}
 					else {
-						winnerG();
+						eliminatedIntruder.add(intruder);
 					}
 				}
 				}
 			}
+		for(Guardian guardian:eliminatedGuardian) {
+			guardians.remove(guardian);
+		}	
+		for(Intruder intruder:eliminatedIntruder) {
+			intruders.remove(intruder);
+		}
 	}
 	
 	public void evolutionI() {
@@ -257,14 +272,17 @@ public class MobileElementManager {
 						}
 					}
 					
-					else if(i.getName() == "Dodge Potion") {
+					else if(i.getName() == "Precision Potion") {
 						if(intruder.getDodge() <= 10) {
-							intruder.incrementD(1);
+							intruder.incrementP(1);
 						}
 					}
 				}
 				}
 			}
+		for(Item item:eliminatedItem) {
+			items.remove(item);
+		}	
 		}
 	
 
@@ -278,32 +296,108 @@ public class MobileElementManager {
 	}
 	
 	
-	public void deplaléatoire(Guardian a) {
+	public void deplaleatoireG() {
 		
-		
-		int rdm=getRandomNumber(0,3);
+		for(Guardian a : guardians) {
+			int rdm=getRandomNumber(0,3);
+			
 		
 	
-
-		if(rdm==0) {
-			a.getPosition().setColumn(a.getPosition().getColumn()+1);
-		}
-		else if(rdm==1) {
-			a.getPosition().setColumn(a.getPosition().getColumn()-1);
+			if(rdm==0&&isOk(a,0)) {
+				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+			}
+			else if(rdm==1&&isOk(a,1)) {
+				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+			}
+			
+			else if(rdm==2&&isOk(a,2)) {
+				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+			}
+			else if(rdm==0&&isOk(a,3)) {
+				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+			}
 		}
 		
-		else if(rdm==2) {
-			a.getPosition().setLine(a.getPosition().getLine()+1);
+	}
+	
+	public boolean isOk(Intruder i,int mvt){
+		if (mvt==0&&i.getPosition().getColumn()+i.getAgility()<GameConfiguration.COLUMN_COUNT) {
+			return true;
 		}
-		else if(rdm==0) {
-			a.getPosition().setLine(a.getPosition().getLine()-1);
+		else if (mvt==1&&i.getPosition().getColumn()-i.getAgility()>0) {
+			return true;
+		}
+		else if (mvt==2&&i.getPosition().getLine()+i.getAgility()<GameConfiguration.LINE_COUNT) {
+			return true;
+		}
+		else if (mvt==3&&i.getPosition().getLine()-i.getAgility()>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	
+	public boolean isOk(Guardian i,int mvt){
+		if (mvt==0&&i.getPosition().getColumn()+i.getAgility()<GameConfiguration.COLUMN_COUNT) {
+			return true;
+		}
+		else if (mvt==1&&i.getPosition().getColumn()-i.getAgility()>0) {
+			return true;
+		}
+		else if (mvt==2&&i.getPosition().getLine()+i.getAgility()<GameConfiguration.LINE_COUNT) {
+			return true;
+		}
+		else if (mvt==3&&i.getPosition().getLine()-i.getAgility()>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	public void deplaleatoireI() {
+		
+		for(Intruder a : intruders) {
+			int rdm=getRandomNumber(0,3);
+			
+		
+	
+			if(rdm==0&&isOk(a,0)) {
+				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+			}
+			else if(rdm==1&&isOk(a,1)) {
+				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+			}
+			
+			else if(rdm==2&&isOk(a,2)) {
+				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+			}
+			else if(rdm==3&&isOk(a,3)) {
+				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+			}
 		}
 		
 	}
 	
 
 	
-
+	public void exitintruders() {
+		List<Intruder> eliminatedintruders = new ArrayList<Intruder>();
+		for (Intruder intruder : intruders) {
+			Block intruderPosition = intruder.getPosition();
+			if(gate.getPosition().equals(intruderPosition)) {
+				eliminatedintruders.add(intruder);
+			}
+		}
+		for(Intruder intruder:eliminatedintruders) {
+			intruders.remove(intruder);
+			freeintruders.add(intruder);
+		}			
+	}
 	
 
 
@@ -342,6 +436,22 @@ public class MobileElementManager {
 
 	public void setIntruders(List<Intruder> intruders) {
 		this.intruders = intruders;
+	}
+	
+	public List<Intruder> getFreeintruders() {
+		return freeintruders;
+	}
+
+	public void setFreeintruders(List<Intruder> freeintruders) {
+		this.freeintruders = freeintruders;
+	}
+	
+	public ExitGate getGate() {
+		return gate;
+	}
+
+	public void setGate(ExitGate gate) {
+		this.gate = gate;
 	}
 
 

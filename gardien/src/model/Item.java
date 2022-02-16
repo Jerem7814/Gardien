@@ -9,7 +9,6 @@ public class Item extends MElement{
 	private int nbre;
 	private int priority;
 	private String name;
-	private Image image;
 	
 
 
@@ -18,7 +17,6 @@ public class Item extends MElement{
 		this.nbre = nbre;
 		this.priority = priority;
 		this.name = name;
-		this.image = image;
 	}
 	
 	public Item(Block position, String name) {
@@ -26,7 +24,6 @@ public class Item extends MElement{
 		this.nbre = 0;
 		this.priority = 0;
 		this.name = name;
-		this.image = null;
 	}
 
 	public int getNbre() {
@@ -62,13 +59,8 @@ public class Item extends MElement{
 	}
 
 
-	public Image getImage() {
-		return image;
-	}
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
+
 	
 	
 }

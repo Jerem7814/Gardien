@@ -31,6 +31,15 @@ public class Block {
 	public void setColumn(int column) {
 		this.column = column;
 	}
+	
+	public boolean equals(Block position) {
+		if(position.getColumn()==column&&position.getLine()==line) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 
 

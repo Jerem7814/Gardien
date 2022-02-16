@@ -66,7 +66,7 @@ public class Guardian extends MElement{
 		items.put(pA, ap);	
 		vision=1;
 		agility=1;
-		precision=4;
+		precision=5;
 		setVisionzone();
 	}
 

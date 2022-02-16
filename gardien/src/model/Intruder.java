@@ -10,7 +10,7 @@ public class Intruder extends MElement{
 	private int vision;
 	private int agility;
 	private HashMap<String, Item> items;
-	public int dodge;
+	public int precision;
 	public int moneyearned;
 	private List<Block> visionZone;
 
@@ -22,7 +22,7 @@ public class Intruder extends MElement{
 		this.vision = vision;
 		this.agility = agility;
 		this.items = items;
-		this.dodge = dodge;
+		this.precision = dodge;
 		this.moneyearned = moneyearned;
 	}
 	
@@ -31,7 +31,7 @@ public class Intruder extends MElement{
 		this.vision = 0;
 		this.agility = 0;
 		items = new HashMap<String,Item>();
-		this.dodge = 0;
+		this.precision = 0;
 		this.moneyearned = 0;
 		visionZone = new ArrayList<Block>();
 	}
@@ -45,7 +45,7 @@ public class Intruder extends MElement{
 		int ppV=6;
 		int nbpV=0;
 		Item vp=new Item(null,nbpV,ppV,pV,null);
-		String pR="Dodge Potion";
+		String pR="Precision Potion";
 		int ppR=5;
 		int nbpR=0;
 		Item rp=new Item(null,nbpR,ppR,pR,null);
@@ -70,16 +70,16 @@ public class Intruder extends MElement{
 		moneyearned=0;
 		vision=2;
 		agility=2;
-		dodge=3;
+		precision=3;
 	}
 	
 	public int getDodge() {
-		return dodge;
+		return precision;
 	}
 
 
 	public void setDodge(int dodge) {
-		this.dodge = dodge;
+		this.precision = dodge;
 	}
 
 
@@ -152,12 +152,12 @@ public class Intruder extends MElement{
 		vision-=n;
 	}
 	
-	public void incrementD(int n) {
-		dodge+=n;
+	public void incrementP(int n) {
+		precision+=n;
 	}
 	
-	public void decrementD(int n) {
-		dodge-=n;
+	public void decrementP(int n) {
+		precision-=n;
 	}
 	
 	public void incrementM(int n) {
