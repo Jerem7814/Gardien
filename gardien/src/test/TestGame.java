@@ -1,6 +1,6 @@
 package test;
 
-import gui.MainGUI;
+import gui.OpenGame;
 
 /**
  * Copyright SEDAMOP - Software Engineering
@@ -11,9 +11,6 @@ import gui.MainGUI;
 public class TestGame {
 	public static void main(String[] args) {
 
-		MainGUI gameMainGUI = new MainGUI("Guardian");
-
-		Thread gameThread = new Thread(gameMainGUI);
-		gameThread.start();
+		OpenGame og=new OpenGame();
 	}
 }

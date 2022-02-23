@@ -15,6 +15,8 @@ import model.Intruder;
  *
  */
 public class GameBuilder {
+	
+	public static int nbrI=1;
 
 	public static Map buildMap() {
 		return new Map(GameConfiguration.LINE_COUNT, GameConfiguration.COLUMN_COUNT);
@@ -30,15 +32,24 @@ public class GameBuilder {
 	}
 
 	private static void intializeIntruder(Map map, MobileElementManager manager) {
-		Block block = map.getBlock(GameConfiguration.LINE_COUNT - 1, (GameConfiguration.COLUMN_COUNT - 1) / 2);
-		Intruder intruder = new Intruder(block);
-		Block block2 = map.getBlock(GameConfiguration.LINE_COUNT - 1, ((GameConfiguration.COLUMN_COUNT - 1) / 2)+1);
-		Intruder intruder2 = new Intruder(block2);
-		intruder.inititem();
-		intruder2.inititem();
 		ArrayList<Intruder> intruders=new ArrayList<Intruder>();
-		intruders.add(intruder);
-		intruders.add(intruder2);
+		int m=0;
+		
+		for(int i=0;i<nbrI;i++) {
+			if(i%2==0) {
+				Block block = map.getBlock(GameConfiguration.LINE_COUNT - 1, (((GameConfiguration.COLUMN_COUNT - 1) / 2))-m);
+				Intruder intruder = new Intruder(block);
+				intruder.inititem();
+				intruders.add(intruder);
+				m+=2;
+			}
+			else {
+				Block block = map.getBlock(GameConfiguration.LINE_COUNT - 1, (((GameConfiguration.COLUMN_COUNT - 1) / 2))+m);
+				Intruder intruder = new Intruder(block);
+				intruder.inititem();
+				intruders.add(intruder);
+			}
+		}
 		manager.setIntruders(intruders);
 	}
 	

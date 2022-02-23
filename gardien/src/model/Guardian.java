@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import config.GameConfiguration;
 import map.Block;
 
 public class Guardian extends MElement{
@@ -80,10 +81,18 @@ public class Guardian extends MElement{
 			Block gauche=new Block(line,column-i);
 			Block droite=new Block(line,column+i);
 	
-			visionZone.add(haut);
-			visionZone.add(bas);
-			visionZone.add(gauche);
-			visionZone.add(droite);
+			if(line-i>0) {
+				visionZone.add(haut);
+			}
+			if(line+i<GameConfiguration.LINE_COUNT) {
+				visionZone.add(bas);
+			}
+			if(column-i>0) {
+				visionZone.add(gauche);
+			}
+			if(column+i<GameConfiguration.COLUMN_COUNT) {
+				visionZone.add(droite);
+			}
 		}
 	}
 

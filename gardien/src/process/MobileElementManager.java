@@ -5,6 +5,7 @@ import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
+import sound.Sound;
 import map.Block;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import config.GameConfiguration;
 public class MobileElementManager {
 	private Map map;
 	int round;
+	private boolean iHasmoved=false;
 	private List<Item> items = new ArrayList<Item>();
 	private List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
@@ -63,19 +65,20 @@ public class MobileElementManager {
 
 	public void nextRound() {
 		exitintruders();
-		if(isNumber(40)) {
+		if(isNumber(75)) {
 			generateGuardian();
 		}
-		if(isNumber(22)) {
+		if(isNumber(50)) {
 			generateItem();
 		}
-		if(isNumber(15)) {
+		if(isNumber(25)) {
 			generateMoney();
 		}
 		if(isNumber(2)) {
-			deplaleatoireI();
+			iSEEg();
 		}
 		else {
+		
 			deplaleatoireG();
 		}
 		evolution();
@@ -129,10 +132,17 @@ public class MobileElementManager {
 		rdm.put("0", "Agility Potion");
 		rdm.put("1", "Vision Potion");
 		rdm.put("2", "Precision Potion");
+		rdm.put("6", "Precision Potion");
+		rdm.put("7", "Precision Potion");
+		rdm.put("10", "Precision Potion");
+		rdm.put("11", "Filet");
+		rdm.put("9", "Filet");
 		rdm.put("3", "Filet");
+		rdm.put("12", "Lure");
+		rdm.put("8", "Lure");
 		rdm.put("4", "Lure");
 		rdm.put("5", "Invisibility cloak");
-		int r=getRandomNumber(0,5);
+		int r=getRandomNumber(0,12);
 		String nb=String.valueOf(r);
 		String rt=rdm.get(nb);
 		return rt;
@@ -141,13 +151,6 @@ public class MobileElementManager {
 	public void incrementRound() {
 		round+=1;
 	}
-
-
-
-
-
-
-	
 
 	
 	public void evolution() {
@@ -162,11 +165,14 @@ public class MobileElementManager {
 				for (Item item : items) {
 
 					if (item.getPosition().equals(guardianPosition)) {
+						Sound s=new Sound();
 						System.out.println("Item gagne");
 
 						Item i=item;
 						eliminatedItem.add(item);
 						if(i.getName() == "Filet") {
+							s.setFile(4);
+							s.play();
 							HashMap<String,Item> upgrade=guardian.getItems();
 							Item m=upgrade.get("Filet");
 							if(m.getNbre() <= 3) {
@@ -177,22 +183,32 @@ public class MobileElementManager {
 						}
 						
 						else if(i.getName() == "Agility Potion") {
-							if(guardian.getAgility() <= 10) {
+							s.setFile(1);
+							s.play();
+							if(guardian.getAgility() <= 3) {
 								guardian.incrementA(1);
 							}
 						}
 						
 						else if(i.getName() == "Vision Potion") {
-							if(guardian.getVision() <= 10) {
+							s.setFile(1);
+							s.play();
+							if(guardian.getVision() <= 3) {
 								guardian.incrementV(1);
 								guardian.setVisionzone();
 							}
 						}
 						
 						else if(i.getName() == "Precision Potion") {
-							if(guardian.getPrecision() <= 10) {
+							s.setFile(1);
+							s.play();
+							if(guardian.getPrecision() <= 15) {
 								guardian.incrementP(1);
 							}
+						}
+						else {
+							s.setFile(6);
+							s.play();
 						}
 					}
 					}
@@ -201,30 +217,7 @@ public class MobileElementManager {
 				items.remove(item);
 			}			}
 	
-	public void combat() {
-		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
-		List<Guardian> eliminatedGuardian = new ArrayList<Guardian>();
-		for (Guardian guardian : guardians) {
-			Block guardianPosition = guardian.getPosition();
-			for (Intruder intruder : intruders) {
 
-				if (intruder.getPosition().equals(guardianPosition)) {
-					if(guardian.getPrecision()<intruder.getDodge()) {
-						eliminatedGuardian.add(guardian);
-					}
-					else {
-						eliminatedIntruder.add(intruder);
-					}
-				}
-				}
-			}
-		for(Guardian guardian:eliminatedGuardian) {
-			guardians.remove(guardian);
-		}	
-		for(Intruder intruder:eliminatedIntruder) {
-			intruders.remove(intruder);
-		}
-	}
 	
 	public void evolutionI() {
 		List<Item> eliminatedItem = new ArrayList<Item>();
@@ -232,9 +225,12 @@ public class MobileElementManager {
 			Block intruderPosition = intruder.getPosition();
 			for (Item item : items) {
 				if (item.getPosition().equals(intruderPosition)) {
+					Sound s = new Sound();
 					Item i=item;
 					eliminatedItem.add(item);
 					if(i.getName() == "Invisibility cloak") {
+						s.setFile(4);
+						s.play();
 						HashMap<String,Item> upgrade=intruder.getItems();
 						Item m=upgrade.get("Invisibility cloak");
 						if(m.getNbre() <= 3) {
@@ -245,6 +241,8 @@ public class MobileElementManager {
 					}
 					
 					else if(i.getName() == "Lure") {
+						s.setFile(4);
+						s.play();
 						HashMap<String,Item> upgrade=intruder.getItems();
 						Item m=upgrade.get("Lure");
 						if(m.getNbre() <= 3) {
@@ -256,26 +254,39 @@ public class MobileElementManager {
 					
 					
 					else if(i.getName() == "Money") {
+						s.setFile(0);
+						s.play();
 						intruder.incrementM(100);
 					}
 					
 					else if(i.getName() == "Agility Potion") {
-						if(intruder.getAgility() <= 10) {
+						s.setFile(1);
+						s.play();
+						if(intruder.getAgility() <= 3) {
 							intruder.incrementA(1);
+							intruder.incrementV(1);
 						}
 					}
 					
 					else if(i.getName() == "Vision Potion") {
-						if(intruder.getVision() <= 10) {
+						s.setFile(1);
+						s.play();
+						if(intruder.getVision() <= 3) {
 							intruder.incrementV(1);
 							intruder.setVisionzone();
 						}
 					}
 					
 					else if(i.getName() == "Precision Potion") {
-						if(intruder.getDodge() <= 10) {
+						s.setFile(1);
+						s.play();
+						if(intruder.getDodge() <= 15) {
 							intruder.incrementP(1);
 						}
+					}
+					else {
+						s.setFile(3);
+						s.play();
 					}
 				}
 				}
@@ -287,50 +298,318 @@ public class MobileElementManager {
 	
 
 			
-			
+	public void combat() {
+		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
+		List<Guardian> eliminatedGuardian = new ArrayList<Guardian>();
+		for (Guardian guardian : guardians) {
+			Block guardianPosition = guardian.getPosition();
+			for (Intruder intruder : intruders) {
+
+				if (intruder.getPosition().equals(guardianPosition)) {
+					Sound s=new Sound();
+					if(guardian.getPrecision()<intruder.getDodge()) {
+						s.setFile(3);
+						s.play();
+						intruder.decrementP(1);
+						eliminatedGuardian.add(guardian);
+					}
+					else {
+						s.setFile(2);
+						s.play();
+						guardian.decrementP(1);
+						eliminatedIntruder.add(intruder);
+					}
+				}
+				}
+			}
+		for(Guardian guardian:eliminatedGuardian) {
+			guardians.remove(guardian);
+		}	
+		for(Intruder intruder:eliminatedIntruder) {
+			intruders.remove(intruder);
+		}
+	}	
+	
+	
+	public void iSEEg(){
+		for(Intruder a : intruders) {
+			a.setVisionzone();
+			boolean haverunaway=false;
+			List<Block> ivision=a.getVisionzone();
+			for(Block b:ivision) {
+				for(Guardian g:guardians) {
+					if(g.getPosition().equals(b)) {
+
+						runaway(a,g);
+						haverunaway=true;
+						break;
+					}
+				}
+				if(haverunaway) {
+					break;
+				}
+			}
+			if(!haverunaway) {
+				deplapriorite(a);
+			}
+		}
+		
+	}
+	
+	public void runaway(Intruder i,Guardian g) {
+
+		Block guardianPos=g.getPosition();
+		Block intruderPosition=i.getPosition();
+		int lineG=guardianPos.getLine();
+		int columnG=guardianPos.getColumn();
+		int lineI=intruderPosition.getLine();
+		int columnI=intruderPosition.getColumn();
+		iHasmoved=false;
+		if((lineI==lineG) && (columnG<columnI)) {
+			System.out.println("avant"+intruderPosition);
+
+			deplacement(i,0,i.getAgility());
+			System.out.println("apres qui doit etre avant"+intruderPosition);
+			System.out.println("apres"+i.getPosition());
+			if(!iHasmoved) {
+				deplacement(i,3,i.getAgility());
+			}
+			if(!iHasmoved) {
+				deplacement(i,2,i.getAgility());
+			}
+
+		}
+		else if((lineI==lineG) && (columnG>columnI)) {
+			System.out.println("avant"+intruderPosition);
+
+			deplacement(i,1,i.getAgility());
+			System.out.println("apres qui doit etre avant"+intruderPosition);
+			System.out.println("apres"+i.getPosition());
+
+
+			if(!iHasmoved) {
+				deplacement(i,3,i.getAgility());
+			}
+			if(!iHasmoved) {
+				deplacement(i,2,i.getAgility());
+			}
+
+		}
+		else if((lineI<lineG) && (columnG==columnI)) {
+			System.out.println("avant"+intruderPosition);
+			deplacement(i,3,i.getAgility());
+			System.out.println("apres qui doit etre avant"+intruderPosition);
+			System.out.println("apres"+i.getPosition());
+			if(!iHasmoved) {
+				deplacement(i,1,i.getAgility());
+			}
+			if(!iHasmoved) {
+				deplacement(i,0,i.getAgility());
+			}
+
+		}
+		else if((lineI>lineG) && (columnG==columnI)){
+			System.out.println("avant"+intruderPosition);
+
+			deplacement(i,2,i.getAgility());
+			System.out.println("apres qui doit etre avant"+intruderPosition);
+			System.out.println("apres"+i.getPosition());
+			if(!iHasmoved) {
+				deplacement(i,1,i.getAgility());
+			}
+			if(!iHasmoved) {
+				deplacement(i,0,i.getAgility());
+			}
+
+		}
+	}
+
 	
 
 	
-	public void deplapriorité(Guardian a) {
-		
+	public void deplapriorite(Intruder i) {
+			i.setVisionzone();
+			boolean havesearchitem=false;
+			List<Block> ivision=i.getVisionzone();
+			for(Block b:ivision) {
+				for(Item it:items) {
+					if(it.getPosition().equals(b)) {
+						goitem(i,it);
+						havesearchitem=true;
+						break;
+					}
+				}
+				if(havesearchitem) {
+					break;
+				}
+			}
+			if(!havesearchitem) {
+				deplaleatoireI(i);
+			}
 	}
+	
+	public void goitem(Intruder i,Item g) {
+
+		Block itemPos=g.getPosition();
+		Block intruderPosition=i.getPosition();
+		int lineIt=itemPos.getLine();
+		int columnIt=itemPos.getColumn();
+		int lineI=intruderPosition.getLine();
+		int columnI=intruderPosition.getColumn();
+		if((lineI==lineIt) && (columnIt<columnI)) {
+			if(columnI-columnIt==1) {
+				deplacement(i,1,1);
+			}
+			else {
+				deplacement(i,1,i.getAgility());
+			}			
+		}
+		else if((lineI==lineIt) && (columnIt>columnI)) {
+			if(columnIt-columnI==1) {
+				deplacement(i,0,1);
+			}
+			else {
+				deplacement(i,0,i.getAgility());
+			}
+			
+			
+		}
+		else if((lineI<lineIt) && (columnIt==columnI)) {
+			if(lineIt-lineI==1) {
+				deplacement(i,2,1);
+			}
+			else {
+				deplacement(i,2,i.getAgility());
+			}
+		}
+		else {
+			if(lineI-lineIt==1) {
+				deplacement(i,3,1);
+			}
+			else {
+				deplacement(i,3,i.getAgility());
+			}
+		}
+	}
+
+	public void deplacement(Intruder a,int direction, int deplacement) {
+		
+		
+		
+		if(direction==0&&isOk(a,direction,deplacement)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
+		}
+		else if(direction==1&&isOk(a,direction,deplacement)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()-deplacement);
+		}
+		
+		else if(direction==2&&isOk(a,direction,deplacement)) {
+			a.getPosition().setLine(a.getPosition().getLine()+deplacement);
+		}
+		else if(direction==3&&isOk(a,direction,deplacement)) {
+			a.getPosition().setLine(a.getPosition().getLine()-deplacement);
+		}
+	
+	}
+
+	public void deplacement(Guardian a,int direction) {
+		
+		
+	
+	
+		if(direction==0&&isOk(a,direction)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+		}
+		else if(direction==1&&isOk(a,direction)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+		}
+		
+		else if(direction==2&&isOk(a,direction)) {
+			a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+		}
+		else if(direction==3&&isOk(a,direction)) {
+			a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+		}
+	
+	}
+	
+	public void deplaleatoireI(Intruder a) {
+		boolean hasmoved=false;
+		while(!hasmoved) {
+			int rdm=getRandomNumber(0,3);
+			
+		
+	
+			if(rdm==0&&isOk(a,0,a.getAgility())) {
+				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				hasmoved=true;
+			}
+			else if(rdm==1&&isOk(a,1,a.getAgility())) {
+				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				hasmoved=true;
+			}
+			
+			else if(rdm==2&&isOk(a,2,a.getAgility())) {
+				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				hasmoved=true;
+			}
+			else if(rdm==0&&isOk(a,3,a.getAgility())) {
+				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				hasmoved=true;
+			}
+		}
+
+	
+}
 	
 	
 	public void deplaleatoireG() {
 		
 		for(Guardian a : guardians) {
-			int rdm=getRandomNumber(0,3);
+			iHasmoved=false;
+			while(!iHasmoved) {
+				int rdm=getRandomNumber(0,3);
+				
 			
 		
-	
-			if(rdm==0&&isOk(a,0)) {
-				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				if(rdm==0&&isOk(a,0)) {
+					a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+					iHasmoved=true;
+				}
+				else if(rdm==1&&isOk(a,1)) {
+					a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+					iHasmoved=true;
+				}
+				
+				else if(rdm==2&&isOk(a,2)) {
+					a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+					iHasmoved=true;
+				}
+				else if(rdm==0&&isOk(a,3)) {
+					a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+					iHasmoved=true;
+				}
 			}
-			else if(rdm==1&&isOk(a,1)) {
-				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
-			}
-			
-			else if(rdm==2&&isOk(a,2)) {
-				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
-			}
-			else if(rdm==0&&isOk(a,3)) {
-				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
-			}
+
 		}
 		
 	}
 	
-	public boolean isOk(Intruder i,int mvt){
-		if (mvt==0&&i.getPosition().getColumn()+i.getAgility()<GameConfiguration.COLUMN_COUNT) {
+	public boolean isOk(Intruder i,int mvt, int deplacement){
+		if (mvt==0&&i.getPosition().getColumn()+deplacement<GameConfiguration.COLUMN_COUNT) {
+			iHasmoved=true;
 			return true;
 		}
-		else if (mvt==1&&i.getPosition().getColumn()-i.getAgility()>0) {
+		else if (mvt==1&&i.getPosition().getColumn()-deplacement>-1) {
+			iHasmoved=true;
 			return true;
 		}
-		else if (mvt==2&&i.getPosition().getLine()+i.getAgility()<GameConfiguration.LINE_COUNT) {
+		else if (mvt==2&&i.getPosition().getLine()+deplacement<GameConfiguration.LINE_COUNT) {
+			iHasmoved=true;
 			return true;
 		}
-		else if (mvt==3&&i.getPosition().getLine()-i.getAgility()>0) {
+		else if (mvt==3&&i.getPosition().getLine()-deplacement>-1) {
+			iHasmoved=true;
 			return true;
 		}
 		else {
@@ -344,13 +623,13 @@ public class MobileElementManager {
 		if (mvt==0&&i.getPosition().getColumn()+i.getAgility()<GameConfiguration.COLUMN_COUNT) {
 			return true;
 		}
-		else if (mvt==1&&i.getPosition().getColumn()-i.getAgility()>0) {
+		else if (mvt==1&&i.getPosition().getColumn()-i.getAgility()>-1) {
 			return true;
 		}
 		else if (mvt==2&&i.getPosition().getLine()+i.getAgility()<GameConfiguration.LINE_COUNT) {
 			return true;
 		}
-		else if (mvt==3&&i.getPosition().getLine()-i.getAgility()>0) {
+		else if (mvt==3&&i.getPosition().getLine()-i.getAgility()>-1) {
 			return true;
 		}
 		else {
@@ -359,29 +638,9 @@ public class MobileElementManager {
 		
 	}
 	
-	public void deplaleatoireI() {
-		
-		for(Intruder a : intruders) {
-			int rdm=getRandomNumber(0,3);
-			
-		
+
 	
-			if(rdm==0&&isOk(a,0)) {
-				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
-			}
-			else if(rdm==1&&isOk(a,1)) {
-				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
-			}
-			
-			else if(rdm==2&&isOk(a,2)) {
-				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
-			}
-			else if(rdm==3&&isOk(a,3)) {
-				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
-			}
-		}
-		
-	}
+
 	
 
 	

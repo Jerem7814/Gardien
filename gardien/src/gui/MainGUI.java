@@ -47,6 +47,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
+		
 
 
 		map = GameBuilder.buildMap();
@@ -62,6 +63,8 @@ public class MainGUI extends JFrame implements Runnable {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
+		GameConfiguration.playmusic();
+
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import config.GameConfiguration;
 import map.Block;
 
 public class Intruder extends MElement{
@@ -68,9 +69,10 @@ public class Intruder extends MElement{
 		items.put(pA, ap);
 		items.put(money, dollars);
 		moneyearned=0;
-		vision=2;
+		vision=3;
 		agility=2;
-		precision=3;
+		precision=4;
+		setVisionzone();
 	}
 	
 	public int getDodge() {
@@ -117,6 +119,7 @@ public class Intruder extends MElement{
 	}
 	
 	public void setVisionzone() {
+		visionZone.clear();
 		int line = super.getPosition().getLine();
 		int column = super.getPosition().getColumn();
 		for(int i=1;i<=vision;i++) {
@@ -124,11 +127,19 @@ public class Intruder extends MElement{
 			Block haut=new Block(line-i,column);
 			Block gauche=new Block(line,column-i);
 			Block droite=new Block(line,column+i);
-	
-			visionZone.add(haut);
-			visionZone.add(bas);
-			visionZone.add(gauche);
-			visionZone.add(droite);
+			
+			if(line-i>0) {
+				visionZone.add(haut);
+			}
+			if(line+i<GameConfiguration.LINE_COUNT) {
+				visionZone.add(bas);
+			}
+			if(column-i>0) {
+				visionZone.add(gauche);
+			}
+			if(column+i<GameConfiguration.COLUMN_COUNT) {
+				visionZone.add(droite);
+			}
 		}
 	}
 	
