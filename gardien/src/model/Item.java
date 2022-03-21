@@ -11,7 +11,7 @@ public class Item extends MElement{
 	
 
 
-	public Item(Block position, int nbre, String name, Image image) {
+	public Item(Block position, int nbre, String name) {
 		super(position);
 		this.nbre = nbre;
 		this.name = name;

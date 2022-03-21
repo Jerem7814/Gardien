@@ -9,10 +9,10 @@ import sound.Sound;
  *
  */
 public class GameConfiguration {
-	public static final int WINDOW_WIDTH = 800;
-	public static final int WINDOW_HEIGHT = 800;
+	public static final int WINDOW_WIDTH = 700;
+	public static final int WINDOW_HEIGHT = 700;
 	
-	public static int BLOCK_SIZE=80;
+	public static int BLOCK_SIZE=70;
 	
 
 
@@ -20,7 +20,7 @@ public class GameConfiguration {
 	public static int LINE_COUNT = WINDOW_HEIGHT / BLOCK_SIZE;
 	public static int COLUMN_COUNT = WINDOW_WIDTH / BLOCK_SIZE;
 	
-	public static int GAME_SPEED = 350;
+	public static int GAME_SPEED = 500;
 	
 	public static final void playmusic() {
 		Sound s=new Sound();

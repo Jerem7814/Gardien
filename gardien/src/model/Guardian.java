@@ -49,16 +49,16 @@ public class Guardian extends MElement{
 	public void inititem() {
 		String pA="Agility Potion";
 		int nbpA=0;
-		Item ap=new Item(null,nbpA,pA,null);
+		Item ap=new Item(null,nbpA,pA);
 		String pV="Vision Potion";
 		int nbpV=0;
-		Item vp=new Item(null,nbpV,pV,null);
+		Item vp=new Item(null,nbpV,pV);
 		String pP="Precision Potion";
 		int nbpP=0;
-		Item pp=new Item(null,nbpP,pP,null);
+		Item pp=new Item(null,nbpP,pP);
 		String filet="Filet";
 		int nbF=2;
-		Item fil=new Item(null,nbF,filet,null);
+		Item fil=new Item(null,nbF,filet);
 		items.put(filet, fil);
 		items.put(pP, pp);
 		items.put(pV, vp);

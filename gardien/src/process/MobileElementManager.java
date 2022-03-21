@@ -1,10 +1,13 @@
 package process;
 
 import map.Map;
+
 import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
+import model.MobileItem;
+import model.Obstacle;
 import sound.Sound;
 import map.Block;
 
@@ -29,12 +32,13 @@ public class MobileElementManager {
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
+
 	private boolean iHasmoved=false;
 	private boolean droppeditem=false;
 	private boolean droppedmoney=false;
 	private List<Item> items = new ArrayList<Item>();
-	private Item mlure;
-	private Item mfilet;
+	private MobileItem mlure;
+	private MobileItem mfilet;
 	
 
 	private int countfilet;
@@ -47,24 +51,36 @@ public class MobileElementManager {
 
 
 
+	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 
 	private List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
 	private ExitGate gate;
 	private List<Intruder> freeintruders = new ArrayList<Intruder>();
+	private int totalmoney=0;
+	private int roundmoney=0;
+	private int exitmoney=0;
 
 	
+
+	
+
+
+
+
 
 	public MobileElementManager(Map map) {
 		this.map = map;
 		this.round=0;
-		this.countlure=15;
+		this.countlure=20;
 		this.countfilet=7;
 		incendie=new Sound();
 		incendie.setFile(8);
 		netSound=new Sound();
 		netSound.setFile(9);
+		this.exitmoney=0;
+
 	}
 	
 
@@ -85,6 +101,10 @@ public class MobileElementManager {
 		intruders.add(intruder);
 	}
 	
+	public void add(Obstacle obstacle) {
+		obstacles.add(obstacle);
+	}
+	
 	
 
 
@@ -95,7 +115,7 @@ public class MobileElementManager {
 
 
 	public void nextRound() {
-		exitintruders();
+
 		if(isNumber(100)) {
 			generateGuardian();
 		}
@@ -104,14 +124,17 @@ public class MobileElementManager {
 				generateItem();
 			}
 			droppeditem=false;
+			System.out.println("a");
 		}
-		if(isNumber(10)) {
+		
+		if(isNumber(20)) {
 			while(!droppedmoney) {
 				generateMoney();
 			}
 			droppedmoney=false;
 		}
 		if(isNumber(2)) {
+			goExit();
 			iSEEg();
 		}
 		else {
@@ -122,7 +145,9 @@ public class MobileElementManager {
 				gGOlure();
 			}
 		}
+
 		evolution();
+		moneyearned();
 		combat();
 		incrementRound();
 
@@ -174,6 +199,7 @@ public class MobileElementManager {
 					
 					droppeditem=true;
 				}
+				
 			}
 			if(droppeditem) {
 				String nm=randomItem();
@@ -185,6 +211,9 @@ public class MobileElementManager {
 
 		}
 	
+	
+	
+
 
 	
 	private void generateMoney() {
@@ -195,7 +224,7 @@ public class MobileElementManager {
 			droppedmoney=true;
 			String nm="Money";
 			Item item = new Item(position,nm);
-			System.out.println(round+" "+item.getPosition());
+			item.setNbre(100);
 
 			add(item);
 		}
@@ -217,7 +246,7 @@ public class MobileElementManager {
 				
 				Item item = new Item(position,nm);
 				System.out.println(round+" "+item.getPosition());
-
+				item.setNbre(100);
 				add(item);
 			}
 		}
@@ -262,6 +291,7 @@ public class MobileElementManager {
 				for (Item item : items) {
 
 					if (item.getPosition().equals(guardianPosition)) {
+
 						Sound s=new Sound();
 
 						Item i=item;
@@ -331,6 +361,7 @@ public class MobileElementManager {
 			Block intruderPosition = intruder.getPosition();
 			for (Item item : items) {
 				if (item.getPosition().equals(intruderPosition)) {
+					System.out.println("same");
 					Sound s = new Sound();
 					Item i=item;
 					eliminatedItem.add(item);
@@ -362,7 +393,8 @@ public class MobileElementManager {
 					else if(i.getName() == "Money") {
 						s.setFile(0);
 						s.play();
-						intruder.incrementM(100);
+						intruder.incrementM(i.getNbre());
+						roundmoney+=i.getNbre();
 					}
 					
 					else if(i.getName() == "Agility Potion") {
@@ -406,14 +438,15 @@ public class MobileElementManager {
 		Block intruderPosition = new Block(line,column);
 		HashMap<String,Item> itemsI=intruder.getItems();
 		Item lure=itemsI.get("Lure");
-		if(lure.getNbre()>0) {
+		if(lure.getNbre()>0 ) {
 			lureappareance=true;
 			incendie.play();
+			incendie.loop();
 			lure.decrement(1);
 			itemsI.put("Lure", lure);
 			intruder.setItems(itemsI);
 			Block lureposition=intruderPosition;
-			mlure=new Item(lureposition,"Mobile Lure");
+			mlure=new MobileItem(lureposition,0,"Mobile Lure");
 			
 			
 		}
@@ -422,15 +455,36 @@ public class MobileElementManager {
 	public void stoplure() {
 		incendie.stop();
 		mlure=null;
-		countlure=15;
+		countlure=20;
 		lureappareance=false;
+	}
+	
+	public void usecloak(Intruder intruder, int line, int column) {
+		HashMap<String,Item> itemsI=intruder.getItems();
+		Item cloak=itemsI.get("Invisibility cloak");
+		if(cloak.getNbre()>0 ) {
+			intruder.setTransparent(true);
+			//cloak.play();
+			cloak.decrement(1);
+			itemsI.put("Invisibility cloak", cloak);
+			intruder.setItems(itemsI);
+
+			
+			
+		}
+	}
+	
+	public void stopcloak(Intruder i) {
+		//cloak.stop();
+		i.setTransparentcount(15);
+		i.setTransparent(false);
 	}
 		
 		public void usefilet(Guardian guardian, int line, int column) {
 			Block guardianPosition = new Block(line,column);
 			HashMap<String,Item> itemsG=guardian.getItems();
 			Item filet=itemsG.get("Filet");
-			if(filet.getNbre()>0) {
+			if(filet.getNbre()>0 && filetappareance==false) {
 				Sound s=new Sound();
 				s.setFile(6);
 				s.play();
@@ -440,7 +494,7 @@ public class MobileElementManager {
 				itemsG.put("Filet", filet);
 				guardian.setItems(itemsG);
 				Block filetposition=guardianPosition;
-				mfilet=new Item(filetposition,"Mobile Filet");
+				mfilet=new MobileItem(filetposition,0,"Mobile Filet");
 				
 				
 			}
@@ -460,31 +514,50 @@ public class MobileElementManager {
 		}
 		
 		public void iONfilet(Intruder intruder) {
-			System.out.println("vrai");
 			filettrap=true;	
 		}
 	
 
 			
 	public void combat() {
+		System.out.println("round :"+round+" countlure : "+countlure);
+		if(mlure!=null) {
+			lureappareance=true;
+		}
+		if(lureappareance==true) {
+
+			countlure--;
+			if(countlure==0) {
+				stoplure();
+			}
+		}
 		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
 		List<Guardian> eliminatedGuardian = new ArrayList<Guardian>();
 		for (Guardian guardian : guardians) {
 			Block guardianPosition = guardian.getPosition();
 			for (Intruder intruder : intruders) {
 
-				if (intruder.getPosition().equals(guardianPosition)) {
+				if (intruder.getPosition().equals(guardianPosition) && !intruder.isTransparent()) {
 					Sound s=new Sound();
 					if(guardian.getPrecision()<intruder.getDodge()) {
 						s.setFile(3);
 						s.play();
-						intruder.decrementP(1);
+						intruder.decrementP(2);
 						eliminatedGuardian.add(guardian);
 					}
 					else {
+						if(filetappareance) {
+							stopfilet();
+						}
+						createlure();
 						s.setFile(2);
 						s.play();
+						String nm="Money";
+						Item item = new Item(intruder.getPosition(),nm);
+						item.setNbre(intruder.getMoneyearned());
+						add(item);
 						guardian.decrementP(1);
+						totalmoney-=intruder.moneyearned;
 						eliminatedIntruder.add(intruder);
 					}
 				}
@@ -496,6 +569,11 @@ public class MobileElementManager {
 		for(Intruder intruder:eliminatedIntruder) {
 			intruders.remove(intruder);
 		}
+	}
+	
+	public void createlure() {
+		Intruder i=intruders.get(getRandomNumber(0,intruders.size()-1));
+		uselure(i,i.getPosition().getLine(),i.getPosition().getColumn());
 	}
 	
 	
@@ -697,20 +775,21 @@ public class MobileElementManager {
 				}
 			}
 		}
-		if(mlure!=null) {
-			lureappareance=true;
-		}
-		if(lureappareance==true) {
 
-			countlure--;
-			if(countlure==0) {
-				stoplure();
-			}
-		}
+
+
 		for(Intruder a : intruders) {
 			a.setVisionzone();
 			boolean haverunaway=false;
 			List<Block> ivision=a.getVisionzone();
+			if(a.isTransparent()&& a.getTransparentcount()>0) {
+
+				usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
+				a.decrementIC();
+			}
+			else if(a.getTransparentcount() ==0) {
+				stopcloak(a);
+			}
 			for(Block b:ivision) {
 				for(Guardian g:guardians) {
 					if(mfilet!=null&&a.getPosition().equals(mfilet.getPosition())) {
@@ -718,14 +797,15 @@ public class MobileElementManager {
 						iONfilet(a);
 					}
 
+
+
 					
-					else if(g.getPosition().equals(b)) {
-						if(!lureappareance) {
-							uselure(a,a.getPosition().getLine(),a.getPosition().getColumn());
-						}
+					else if(g.getPosition().equals(b)&& !a.isTransparent()) {
+						usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
 						runaway(a,g);
 						haverunaway=true;
 						break;
+						
 					}
 				}
 				if(haverunaway) {
@@ -837,7 +917,6 @@ public class MobileElementManager {
 			}			
 		}
 		else if((lineI==lineIt) && (columnIt>columnI)) {
-			System.out.println(lineI-lineIt);
 
 			if(columnIt-columnI==1) {
 				deplacement(i,0,1);
@@ -857,7 +936,6 @@ public class MobileElementManager {
 			}
 		}
 		else if((lineI>lineIt) && (columnIt==columnI)){
-			System.out.println(lineI-lineIt);
 			if(lineI-lineIt==1) {
 				deplacement(i,3,1);
 			}
@@ -1009,10 +1087,65 @@ public class MobileElementManager {
 		
 	}
 	
-
+	public boolean intrudervoid() {
+		return intruders.size()==0;
+	}
 	
 
-	
+	public void goExit() {
+		boolean exit=false;
+
+		for(Intruder intruder: intruders) {
+			List<Block> ivision=intruder.getVisionzone();
+			for(Block b:ivision) {
+				if((b.equals(gate.getPosition())&&totalmoney>=1000)||(b.equals(gate.getPosition())&&guardians.size()>3)) {
+					exit=true;
+					Block gateposition=gate.getPosition();
+					int gateline=gateposition.getLine();
+					int gatecolumn=gateposition.getColumn();
+					int intruderline=intruder.getPosition().getLine();
+					int intrudercolumn=intruder.getPosition().getColumn();
+					if(gateline<intruderline) {
+						if(intruderline-gateline==1) {
+							deplacement(intruder,3,1);
+						}
+						else {
+							deplacement(intruder,3,intruder.getAgility());
+						}
+					}
+					else if(gateline>intruderline){
+						if(gateline-intruderline==1) {
+							deplacement(intruder,2,1);
+						}
+						else {
+							deplacement(intruder,2,intruder.getAgility());
+						}			
+					}
+					else if(gatecolumn>intrudercolumn) {
+						if(gatecolumn-intrudercolumn==1) {
+							deplacement(intruder,0,1);
+						}
+						else {
+							deplacement(intruder,0,intruder.getAgility());
+						}
+					}
+					else if(gatecolumn<intrudercolumn){
+						if(intrudercolumn-gatecolumn==1) {
+							deplacement(intruder,1,1);
+						}
+						else {
+							deplacement(intruder,1,intruder.getAgility());
+						}
+					}
+
+				}
+			}
+			
+		}
+		if(exit) {
+			exitintruders();
+		}
+	}
 
 	
 	public void exitintruders() {
@@ -1020,13 +1153,24 @@ public class MobileElementManager {
 		for (Intruder intruder : intruders) {
 			Block intruderPosition = intruder.getPosition();
 			if(gate.getPosition().equals(intruderPosition)) {
+				exitmoney+=intruder.moneyearned;
 				eliminatedintruders.add(intruder);
+
 			}
 		}
 		for(Intruder intruder:eliminatedintruders) {
 			intruders.remove(intruder);
 			freeintruders.add(intruder);
-		}			
+		}
+
+	}
+	
+	public void moneyearned() {
+		totalmoney+=roundmoney;
+		roundmoney=0;
+		System.out.println("totalmoney : "+totalmoney);
+		
+
 	}
 	
 
@@ -1084,7 +1228,7 @@ public class MobileElementManager {
 		this.gate = gate;
 	}
 
-	public Item getMlure() {
+	public MobileItem getMlure() {
 		return mlure;
 	}
 
@@ -1092,10 +1236,10 @@ public class MobileElementManager {
 
 
 
-	public void setMlure(Item mlure) {
+	public void setMlure(MobileItem mlure) {
 		this.mlure = mlure;
 	}
-	public Item getMfilet() {
+	public MobileItem getMfilet() {
 		return mfilet;
 	}
 
@@ -1103,12 +1247,49 @@ public class MobileElementManager {
 
 
 
-	public void setMfilet(Item mfilet) {
+	public void setMfilet(MobileItem mfilet) {
 		this.mfilet = mfilet;
 	}
+	
+	
+	public int getTotalmoney() {
+		return totalmoney;
+	}
+
+
+
+
+
+	public void setTotalmoney(int totalmoney) {
+		this.totalmoney = totalmoney;
+	}
+	
+	
+
+
+	public List<Obstacle> getObstacles() {
+		return obstacles;
+	}
+
+
+
+
+
+	public void setObstacles(List<Obstacle> obstacles) {
+		this.obstacles = obstacles;
+	}
+
+
+
 
 
 	private static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}
+
+
+
+
+
+
 }

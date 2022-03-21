@@ -12,6 +12,8 @@ import map.Block;
 import map.Map;
 import model.Guardian;
 import model.Item;
+import model.MobileItem;
+import model.Obstacle;
 import model.Intruder;
 import process.MobileElementManager;
 
@@ -39,60 +41,48 @@ public class GameDisplay extends JPanel {
 		super.paintComponent(g);
 
 		paintStrategy.paint(map, g);
+		paintStrategy.paintGate(manager.getGate(),g );
+		List<Item> items = manager.getItems();
+		List<Item> itemscopy = new ArrayList<Item>(items); //copies the content
+
+		paintStrategy.paintIt(itemscopy, g);
+		
 
 		List<Guardian> guardians = manager.getGuardians();
-		try {
-			paintStrategy.paintG(guardians, g);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<Guardian> guardianscopy = new ArrayList<Guardian>(guardians); //copies the content
+
+		paintStrategy.paintG(guardianscopy, g);
+		
+
 		
 
 		List<Intruder> intruders = manager.getIntruders();
-		try {
-			paintStrategy.paintI(intruders, g);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			paintStrategy.paintGate(manager.getGate(),g );
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		List<Intruder> intruderscopy = new ArrayList<Intruder>(intruders); //copies the content
+
+		paintStrategy.paintI(intruderscopy, g);
 		
 
-		List<Item> items = manager.getItems();
-		try {
-			paintStrategy.paintIt(items, g);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		List<Obstacle> obstacles = manager.getObstacles();
+		List<Obstacle> obstaclescopy = new ArrayList<Obstacle>(obstacles); //copies the content
+
+		paintStrategy.paintO(obstaclescopy, g);
+		
+
 		
 		
-		Item mobilelure = manager.getMlure();
+		MobileItem mobilelure = manager.getMlure();
 		if(mobilelure!=null) {
-			try {
-				paintStrategy.paintMLure(mobilelure, g);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			paintStrategy.paintMLure(mobilelure, g);
+			
 		}
 		
-		Item mobilenet = manager.getMfilet();
+		MobileItem mobilenet = manager.getMfilet();
 		if(mobilenet!=null) {
-			try {
-				paintStrategy.paintMFilet(mobilenet, g);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			paintStrategy.paintMFilet(mobilenet, g);
+			
 		}
+		
 	}
 
 

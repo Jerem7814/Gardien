@@ -38,9 +38,9 @@ public class TestUnitIntruder {
 	
 	@Test
 	public void testPrecision() {
-		int visioni=intruder.getDodge();
-		int visiong=guardian.getPrecision();
+		int precisioni=intruder.getDodge();
+		int precisiong=guardian.getPrecision();
 
-		assertTrue(visioni<=visiong);
+		assertTrue(precisioni<=precisiong);
 	}
 }

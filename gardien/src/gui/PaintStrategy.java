@@ -2,11 +2,13 @@ package gui;
 
 import java.awt.Color;
 
+
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +18,8 @@ import map.Map;
 import model.ExitGate;
 import model.Guardian;
 import model.Item;
+import model.MobileItem;
+import model.Obstacle;
 import model.Intruder;
 import process.MobileElementManager;
 
@@ -26,6 +30,7 @@ import process.MobileElementManager;
  *
  */
 public class PaintStrategy {
+
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 
@@ -43,23 +48,39 @@ public class PaintStrategy {
 			}
 		}
 	}
+	
+	
 
-	public void paintI(List<Intruder> intruders, Graphics graphics) throws IOException {
+	public void paintI(List<Intruder> intruders, Graphics graphics)  {
 		for(Intruder intruder : intruders) {
 			Block position = intruder.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 	
 			int y = position.getLine();
 			int x = position.getColumn();
+			if(intruder.isTransparent()) {
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/thiefinvisible.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			}
+			else {
 	
-			graphics.drawImage(ImageIO.read(new File("ressources/images/thief.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/thief.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 
 		}
 
 	}
 
-	public void paintG(List<Guardian> guardians, Graphics graphics) throws IOException {
+	public void paintG(List<Guardian> guardians, Graphics graphics)  {
 		for(Guardian guardian : guardians) {
 			Block position = guardian.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -67,11 +88,34 @@ public class PaintStrategy {
 			int y = position.getLine();
 			int x = position.getColumn();
 	
-			graphics.drawImage(ImageIO.read(new File("ressources/images/gardien.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			try {
+				graphics.drawImage(ImageIO.read(new File("ressources/images/gardien.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public void paintGate(ExitGate gate, Graphics graphics) throws IOException {
+	
+	public void paintO(List<Obstacle> obstacles, Graphics graphics)  {
+		for(Obstacle obstacle : obstacles) {
+			Block position = obstacle.getPosition();
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+	
+			int y = position.getLine();
+			int x = position.getColumn();
+	
+			try {
+				graphics.drawImage(ImageIO.read(new File("ressources/images/obstacl.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void paintGate(ExitGate gate, Graphics graphics)  {
 		
 		Block position = gate.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -79,55 +123,103 @@ public class PaintStrategy {
 		int y = position.getLine();
 		int x = position.getColumn();
 	
-		graphics.drawImage(ImageIO.read(new File("ressources/images/gate.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+		try {
+			graphics.drawImage(ImageIO.read(new File("ressources/images/gate.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
-	public void paintIt(List<Item> items, Graphics graphics) throws IOException {
+	public void paintIt(List<Item> items, Graphics graphics)  {
+
 		for(Item item : items) {
 			Block position = item.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
-	
+
 			int y = position.getLine();
 			int x = position.getColumn();
 			if(item.getName() == "Filet") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/net.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/net.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else if(item.getName() == "Lure") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/speaker.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/speaker.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 			else if(item.getName() == "Invisibility cloak") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/cloak.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/cloak.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 			else if(item.getName() == "Agility Potion") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/agility.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/agility.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 			else if(item.getName() == "Vision Potion") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/vision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/vision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else if(item.getName() == "Precision Potion") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/precision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
-			}
-			else if(item.getName() == "Money") {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/money.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/precision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
+			else if(item.getName() == "Money") {
+				try {
+					graphics.drawImage(ImageIO.read(new File("ressources/images/money.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
 
-
+		
 		}
 	}
 	
-	public void paintMLure(Item lure, Graphics graphics) throws IOException {
+	public void paintMLure(MobileItem lure, Graphics graphics)  {
 			Block position = lure.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 	
 			int y = position.getLine();
 			int x = position.getColumn();
 
-			graphics.drawImage(ImageIO.read(new File("ressources/images/mobilelure.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			try {
+				graphics.drawImage(ImageIO.read(new File("ressources/images/mobilelure.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 
 			
@@ -136,14 +228,19 @@ public class PaintStrategy {
 
 		
 	}
-	public void paintMFilet(Item filet, Graphics graphics) throws IOException {
+	public void paintMFilet(MobileItem filet, Graphics graphics)  {
 		Block position = filet.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 
 		int y = position.getLine();
 		int x = position.getColumn();
 
-		graphics.drawImage(ImageIO.read(new File("ressources/images/mobilenet.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+		try {
+			graphics.drawImage(ImageIO.read(new File("ressources/images/mobilenet.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 		

@@ -14,7 +14,8 @@ public class Intruder extends MElement{
 	public int precision;
 	public int moneyearned;
 	private List<Block> visionZone;
-
+	private boolean isTransparent;
+	private int transparentcount;
 
 
 	
@@ -40,22 +41,22 @@ public class Intruder extends MElement{
 	public void inititem() {
 		String pA="Agility Potion";
 		int nbpA=0;
-		Item ap=new Item(null,nbpA,pA,null);
+		Item ap=new Item(null,nbpA,pA);
 		String pV="Vision Potion";
 		int nbpV=0;
-		Item vp=new Item(null,nbpV,pV,null);
+		Item vp=new Item(null,nbpV,pV);
 		String pR="Precision Potion";
 		int nbpR=0;
-		Item rp=new Item(null,nbpR,pR,null);
+		Item rp=new Item(null,nbpR,pR);
 		String iC="Invisibility cloak";
-		int nbiC=0;
-		Item invisible=new Item(null,nbiC,iC,null);
+		int nbiC=1;
+		Item invisible=new Item(null,nbiC,iC);
 		String lure="Lure";
 		int nbl=1;
-		Item l=new Item(null,nbl,lure,null);
+		Item l=new Item(null,nbl,lure);
 		String money="Money";
 		int nbM=0;
-		Item dollars=new Item(null,nbM,money,null);
+		Item dollars=new Item(null,nbM,money);
 		items.put(lure, l);
 		items.put(iC, invisible);
 		items.put(pR, rp);
@@ -66,9 +67,22 @@ public class Intruder extends MElement{
 		vision=3;
 		agility=2;
 		precision=getRandomNumber(3,5);
+		this.isTransparent=false;
+		this.transparentcount=15;
 		setVisionzone();
+		
 	}
 	
+	
+	
+	public boolean isTransparent() {
+		return isTransparent;
+	}
+
+	public void setTransparent(boolean isTransparent) {
+		this.isTransparent = isTransparent;
+	}
+
 	public int getDodge() {
 		return precision;
 	}
@@ -173,6 +187,24 @@ public class Intruder extends MElement{
 		moneyearned-=n;
 	}
 	
+	
+	
+	public int getTransparentcount() {
+		return transparentcount;
+	}
+
+	public void setTransparentcount(int transparentcount) {
+		this.transparentcount = transparentcount;
+	}
+	
+	public void incrementIC() {
+		transparentcount++;
+	}
+	
+	public void decrementIC() {
+		transparentcount--;
+	}
+
 	private static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}

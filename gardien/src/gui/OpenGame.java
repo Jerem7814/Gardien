@@ -36,11 +36,13 @@ public class OpenGame extends JFrame implements ActionListener {
 	private JLabel bienvenue = new JLabel("Définissez vos paramètres pour la simulation");
 	private JLabel taille = new JLabel("Quelle taille de grille voulez-vous ?");
 	private JLabel intrus = new JLabel("Combien d'intrus voulez vous ?");
+	private JLabel experience = new JLabel("Quel type d'experience voulez vous ?");
+
 
 
 	JComboBox taille1 = new JComboBox();
 	JComboBox intrus1 = new JComboBox();
-
+	JComboBox experience1 = new JComboBox();
 
 	private JButton start = new JButton("Start");
 	
@@ -63,15 +65,19 @@ public class OpenGame extends JFrame implements ActionListener {
 			
 		taille1.addActionListener(new ItemAction1());
 		intrus1.addActionListener(new ItemAction2());
+		experience1.addActionListener(new ItemAction3());
 		
 
 		
-		for(int f = 10; f<16; f++) {
+		for(int f = 7; f<16; f++) {
 			taille1.addItem(f);
 		}
 		for(int f = 1; f<6; f++) {
 			intrus1.addItem(f);
 		}
+		experience1.addItem("Simulation");
+		experience1.addItem("Jeu");
+
 
 		
 
@@ -82,6 +88,8 @@ public class OpenGame extends JFrame implements ActionListener {
 		container.add(taille1);
 		container.add(intrus);
 		container.add(intrus1);
+		container.add(experience);
+		container.add(experience1);
 
 		container.setBackground(Color.PINK);
 		
@@ -114,11 +122,20 @@ public class OpenGame extends JFrame implements ActionListener {
 				GameConfiguration.LINE_COUNT = GameConfiguration.WINDOW_HEIGHT / GameConfiguration.BLOCK_SIZE;
 				GameConfiguration.COLUMN_COUNT = GameConfiguration.WINDOW_WIDTH / GameConfiguration.BLOCK_SIZE;
 				GameBuilder.nbrI=(int) intrus1.getSelectedItem();
-				MainGUI gameMainGUI = new MainGUI("Guardian");
+				if(experience1.getSelectedItem()=="Simulation") {
+					MainGUI gameMainGUI = new MainGUI("Guardian");
+	
+					Thread gameThread = new Thread(gameMainGUI);
+					gameThread.start();
+				}
+				else {
+					MainGUIgame gameMainGUI = new MainGUIgame("Guardian");
 
-				Thread gameThread = new Thread(gameMainGUI);
-				gameThread.start();
+					Thread gameThread = new Thread(gameMainGUI);
+					gameThread.start();
+				}
 				dispose();
+
 
 			
 		}
