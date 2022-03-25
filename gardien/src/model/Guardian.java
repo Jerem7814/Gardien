@@ -8,10 +8,10 @@ import config.GameConfiguration;
 import map.Block;
 
 public class Guardian extends MElement{
-	private int vision;
-	private int agility;
+	private static int vision;
+	private static int agility;
 	private HashMap<String, Item> items;
-	private int precision;
+	private static int precision;
 	private List<Block> visionZone;
 	
 
@@ -95,7 +95,7 @@ public class Guardian extends MElement{
 		}
 	}
 
-	public int getVision() {
+	public static int getVision() {
 		return vision;
 	}
 
@@ -105,7 +105,7 @@ public class Guardian extends MElement{
 	}
 
 
-	public int getAgility() {
+	public static int getAgility() {
 		return agility;
 	}
 
@@ -130,7 +130,7 @@ public class Guardian extends MElement{
 		return visionZone;
 	}
 
-	public int getPrecision() {
+	public static int getPrecision() {
 		return precision;
 	}
 

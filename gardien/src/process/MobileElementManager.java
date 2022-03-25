@@ -28,15 +28,15 @@ import config.GameConfiguration;
  */
 public class MobileElementManager {
 	private Map map;
-	public int round;
+	public static int round;
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
 
 	private boolean iHasmoved=false;
-	private boolean droppeditem=false;
+	private static boolean droppeditem=false;
 	private boolean droppedmoney=false;
-	private List<Item> items = new ArrayList<Item>();
+	private static List<Item> items = new ArrayList<Item>();
 	private MobileItem mlure;
 	private MobileItem mfilet;
 	
@@ -54,11 +54,11 @@ public class MobileElementManager {
 	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 
-	private List<Guardian> guardians = new ArrayList<Guardian>();
+	private static List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
-	private ExitGate gate;
+	private static ExitGate gate;
 	private List<Intruder> freeintruders = new ArrayList<Intruder>();
-	private int totalmoney=0;
+	private static int totalmoney=0;
 	private int roundmoney=0;
 	private int exitmoney=0;
 
@@ -72,7 +72,7 @@ public class MobileElementManager {
 
 	public MobileElementManager(Map map) {
 		this.map = map;
-		this.round=0;
+		MobileElementManager.round=0;
 		this.countlure=20;
 		this.countfilet=7;
 		incendie=new Sound();
@@ -87,13 +87,13 @@ public class MobileElementManager {
 	
 	
 
-	public void add(Item item) {
+	public static void add(Item item) {
 		items.add(item);
 	}
 	
 
 
-	public void add(Guardian guardian) {
+	public static void add(Guardian guardian) {
 		guardians.add(guardian);
 	}
 
@@ -166,7 +166,7 @@ public class MobileElementManager {
 	
 	
 
-	private void generateGuardian() {
+	public static void generateGuardian() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		Block position = new Block(0, randomColumn);
 		Guardian guardian = new Guardian(position);
@@ -175,7 +175,7 @@ public class MobileElementManager {
 	}
 	
 	
-	private void generateItem() {
+	public static void generateItem() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		int lineColumn = getRandomNumber(0, GameConfiguration.LINE_COUNT - 1);
 		Block position = new Block(lineColumn, randomColumn);
@@ -253,7 +253,7 @@ public class MobileElementManager {
 		
 		}
 	
-	public String randomItem() {
+	public static String randomItem() {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
 		rdm.put("1", "Vision Potion");
@@ -949,17 +949,25 @@ public class MobileElementManager {
 		
 		
 		if(direction==0&&isOk(a,direction,deplacement)) {
-			a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
+			//a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
+			a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()+deplacement));
 		}
 		else if(direction==1&&isOk(a,direction,deplacement)) {
-			a.getPosition().setColumn(a.getPosition().getColumn()-deplacement);
+			//a.getPosition().setColumn(a.getPosition().getColumn()-deplacement);
+			a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()-deplacement));
+
 		}
 		
 		else if(direction==2&&isOk(a,direction,deplacement)) {
-			a.getPosition().setLine(a.getPosition().getLine()+deplacement);
+			//a.getPosition().setLine(a.getPosition().getLine()+deplacement);
+			a.setPosition(new Block(a.getPosition().getLine()+deplacement,a.getPosition().getColumn()));
+
+			
 		}
 		else if(direction==3&&isOk(a,direction,deplacement)) {
-			a.getPosition().setLine(a.getPosition().getLine()-deplacement);
+			//a.getPosition().setLine(a.getPosition().getLine()-deplacement);
+			a.setPosition(new Block(a.getPosition().getLine()-deplacement,a.getPosition().getColumn()));
+
 		}
 	
 	}
@@ -993,20 +1001,28 @@ public class MobileElementManager {
 		
 	
 			if(rdm==0&&isOk(a,0,a.getAgility())) {
-				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				//a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()+a.getAgility()));
 				hasmoved=true;
 			}
 			else if(rdm==1&&isOk(a,1,a.getAgility())) {
-				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				//a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()-a.getAgility()));
+
 				hasmoved=true;
 			}
 			
 			else if(rdm==2&&isOk(a,2,a.getAgility())) {
-				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				//a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()+a.getAgility(),a.getPosition().getColumn()));
+
 				hasmoved=true;
 			}
 			else if(rdm==3&&isOk(a,3,a.getAgility())) {
-				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				
+				//a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()-a.getAgility(),a.getPosition().getColumn()));
+
 				hasmoved=true;
 			}
 		}
@@ -1024,20 +1040,28 @@ public class MobileElementManager {
 		
 	
 			if(rdm==0&&isOk(a,0,a.getAgility())) {
-				a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				//a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()+a.getAgility()));
+
 				hasmoved=true;
 			}
 			else if(rdm==1&&isOk(a,1,a.getAgility())) {
-				a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				//a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()-a.getAgility()));
+
 				hasmoved=true;
 			}
 			
 			else if(rdm==2&&isOk(a,2,a.getAgility())) {
-				a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				//a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()+a.getAgility(),a.getPosition().getColumn()));
+
 				hasmoved=true;
 			}
 			else if(rdm==3&&isOk(a,3,a.getAgility())) {
-				a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				//a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()-a.getAgility(),a.getPosition().getColumn()));
+
 				hasmoved=true;
 			}
 		}
@@ -1188,7 +1212,7 @@ public class MobileElementManager {
 		this.map = map;
 	}
 
-	public List<Item> getItems() {
+	public static List<Item> getItems() {
 		return items;
 	}
 
@@ -1196,7 +1220,7 @@ public class MobileElementManager {
 		this.items = items;
 	}
 
-	public List<Guardian> getGuardians() {
+	public static List<Guardian> getGuardians() {
 		return guardians;
 	}
 
@@ -1247,12 +1271,28 @@ public class MobileElementManager {
 
 
 
+	public static int getRound() {
+		return round;
+	}
+
+
+
+
+
+	public void setRound(int round) {
+		this.round = round;
+	}
+
+
+
+
+
 	public void setMfilet(MobileItem mfilet) {
 		this.mfilet = mfilet;
 	}
 	
 	
-	public int getTotalmoney() {
+	public static int getTotalmoney() {
 		return totalmoney;
 	}
 

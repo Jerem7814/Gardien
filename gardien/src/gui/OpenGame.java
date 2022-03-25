@@ -68,15 +68,21 @@ public class OpenGame extends JFrame implements ActionListener {
 		experience1.addActionListener(new ItemAction3());
 		
 
-		
+		experience1.addItem("Simulation");
+		experience1.addItem("Jeu");	
+		if(experience1.getSelectedItem()=="Simulation") {
+			for(int f = 1; f<6; f++) {
+				intrus1.addItem(f);
+			}
+		}
+		else {
+			intrus1.addItem(1);
+		}
 		for(int f = 7; f<16; f++) {
 			taille1.addItem(f);
 		}
-		for(int f = 1; f<6; f++) {
-			intrus1.addItem(f);
-		}
-		experience1.addItem("Simulation");
-		experience1.addItem("Jeu");
+
+
 
 
 		
@@ -84,12 +90,13 @@ public class OpenGame extends JFrame implements ActionListener {
 		
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(5,2));
+		container.add(experience);
+		container.add(experience1);
 		container.add(taille);
 		container.add(taille1);
 		container.add(intrus);
 		container.add(intrus1);
-		container.add(experience);
-		container.add(experience1);
+
 
 		container.setBackground(Color.PINK);
 		
@@ -116,7 +123,7 @@ public class OpenGame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object Button = e.getSource();
 		if (Button == start) {
-//			System.out.println("Start");
+  //			System.out.println("Start");
 
 				GameConfiguration.BLOCK_SIZE = (GameConfiguration.WINDOW_HEIGHT)/((int) taille1.getSelectedItem());
 				GameConfiguration.LINE_COUNT = GameConfiguration.WINDOW_HEIGHT / GameConfiguration.BLOCK_SIZE;
@@ -129,6 +136,7 @@ public class OpenGame extends JFrame implements ActionListener {
 					gameThread.start();
 				}
 				else {
+					GameConfiguration.GAME_SPEED=0;
 					MainGUIgame gameMainGUI = new MainGUIgame("Guardian");
 
 					Thread gameThread = new Thread(gameMainGUI);

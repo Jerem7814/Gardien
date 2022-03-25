@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -29,6 +31,8 @@ import process.MobileElementManagerGame;
  */
 public class MainGUIgame extends JFrame implements Runnable {
 	private boolean deplace=false;
+	
+	private MainGUIgame instance=this;
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,12 +74,17 @@ public class MainGUIgame extends JFrame implements Runnable {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
+		GameConfiguration.playmusic();
+
 	}
 
 	@Override
 	public void run() {
 		while (true) {
-			if(!manager.intrudervoid()) {
+			if(!manager.intrudervoid()&&deplace) {
+				System.out.println(deplace);
+
+				System.out.println("testettt");
 
 				try {
 					Thread.sleep(GameConfiguration.GAME_SPEED);
@@ -84,8 +93,8 @@ public class MainGUIgame extends JFrame implements Runnable {
 				}
 
 				manager.nextRound();
-
 				dashboard.repaint();
+				
 				deplace=false;
 			}
 			else {
@@ -127,20 +136,43 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if(!manager.intrudervoid()) {
+				int x = e.getX();
+				int y = e.getY();
+	
+				Block deplacement = dashboard.getIntruderPosition(x, y);
+				List<Block> vision=manager.getIntruders().getVisionzone();
+				Block block1=new Block(manager.getIntruders().getPosition().getLine()-manager.getIntruders().getVision(),manager.getIntruders().getPosition().getColumn());
+				System.out.println("block4"+block1);
 
-			int x = e.getX();
-			int y = e.getY();
+				Block block2=new Block(manager.getIntruders().getPosition().getLine()+manager.getIntruders().getVision(),manager.getIntruders().getPosition().getColumn());
+				System.out.println("block4"+block2);
 
-			Block deplacement = dashboard.getIntruderPosition(x, y);
-			System.out.println("de"+deplacement);
-			for(Block ivision:manager.getIntruders().getVisionzone()) {
-				System.out.println("tr"+ivision);
-				if(ivision.equals(deplacement)) {
-					manager.deplacement(deplacement);
-					deplace=true;
+				Block block3=new Block(manager.getIntruders().getPosition().getLine(),manager.getIntruders().getPosition().getColumn()-manager.getIntruders().getVision());
+				System.out.println("block4"+block3);
+
+				Block block4=new Block(manager.getIntruders().getPosition().getLine(),manager.getIntruders().getPosition().getColumn()+manager.getIntruders().getVision());
+				System.out.println("block4"+block4);
+				List<Block> deplacementblock=new ArrayList<Block>();
+
+				for(Block blo:vision) {
+					if(!blo.equals(block4)&&!blo.equals(block3)&&!blo.equals(block2)&&!blo.equals(block1)) {
+						deplacementblock.add(blo);
+					}
+
+					
 				}
-			}
-			manager.getIntruders().setVisionzone();
+
+				for(Block ivision:deplacementblock) {
+					if(ivision.equals(deplacement)) {
+						manager.deplacement(deplacement);
+						deplace=true;
+						Thread chronoThread = new Thread(instance);
+						chronoThread.start();
+					}
+				}
+				manager.getIntruders().setVisionzone();
+				}
 		}
 
 		@Override
@@ -161,6 +193,15 @@ public class MainGUIgame extends JFrame implements Runnable {
 		@Override
 		public void mouseExited(MouseEvent e) {
 
+		}
+		
+		public boolean isIn(List<Block> vision, Block block) {
+			for(Block blok:vision) {
+				if(blok.equals(block)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 

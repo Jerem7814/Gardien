@@ -30,7 +30,7 @@ public class GameDisplayGame extends JPanel {
 
 	private Map map;
 	private MobileElementManagerGame manager;
-	private PaintStrategy paintStrategy = new PaintStrategy();
+	private PaintStrategyGame paintStrategy = new PaintStrategyGame();
 
 	public GameDisplayGame(Map map, MobileElementManagerGame manager) {
 		this.map = map;
@@ -40,23 +40,20 @@ public class GameDisplayGame extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		paintStrategy.paint(map, g);
+		
+
+
+		
+		
 		paintStrategy.paintGate(manager.getGate(),g );
+		
+		
 		List<Item> items = manager.getItems();
 		List<Item> itemscopy = new ArrayList<Item>(items); //copies the content
 
 		paintStrategy.paintIt(itemscopy, g);
 		
-
-		List<Guardian> guardians = manager.getGuardians();
-		List<Guardian> guardianscopy = new ArrayList<Guardian>(guardians); //copies the content
-
-		paintStrategy.paintG(guardianscopy, g);
-		
-
-		
-
 		Intruder intruders = manager.getIntruders();
 		List<Intruder> intruderscopy = new ArrayList<Intruder>(); //copies the content
 		if(intruders!=null) {
@@ -65,6 +62,15 @@ public class GameDisplayGame extends JPanel {
 		
 		
 		paintStrategy.paintI(intruderscopy, g);
+		List<Guardian> guardians = manager.getGuardians();
+		List<Guardian> guardianscopy = new ArrayList<Guardian>(guardians); //copies the content
+
+		paintStrategy.paintG(guardianscopy, g);
+		
+
+		
+
+
 		
 
 
@@ -87,6 +93,12 @@ public class GameDisplayGame extends JPanel {
 			paintStrategy.paintMFilet(mobilenet, g);
 			
 		}
+		if(!manager.intrudervoid()) {
+			List <Block> vision = manager.getIntruders().getVisionzone();
+			List<Block> visioncopy = new ArrayList<Block>(vision); //copies the content	
+			paintStrategy.paintblack(manager.getIntruders(),visioncopy,map, g);
+		}
+
 		
 	}
 	public Block getIntruderPosition(int x, int y) {

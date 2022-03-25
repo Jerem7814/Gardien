@@ -103,34 +103,31 @@ public class MobileElementManagerGame {
 
 	public void nextRound() {
 		if(intruder!=null) {
-			if(isNumber(20)) {
+			if(isNumber(15)) {
 				generateGuardian();
 			}
-			if(isNumber(30)) {
+			if(isNumber(20)) {
 				while(!droppeditem) {
 					generateItem();
 				}
 				droppeditem=false;
 			}
 			
-			if(isNumber(20)) {
+			if(isNumber(10)) {
 				while(!droppedmoney) {
 					generateMoney();
 				}
 				droppedmoney=false;
 			}
-			if(isNumber(2)) {
-				exitintruders();
+			
+			if(!lureappareance) {
+				gSEEi();
 			}
 			else {
-				if(!lureappareance) {
-					gSEEi();
-				}
-				else {
-					gGOlure();
-				}
+				gGOlure();
 			}
-	
+			
+			exitintruders();
 			evolution();
 			moneyearned();
 			combat();
@@ -520,7 +517,7 @@ public class MobileElementManagerGame {
 			Block guardianPosition = guardian.getPosition();
 			
 
-				if (intruder.getPosition().equals(guardianPosition) && !intruder.isTransparent()) {
+				if (!intrudervoid() && intruder.getPosition().equals(guardianPosition) && !intruder.isTransparent()) {
 					Sound s=new Sound();
 					if(guardian.getPrecision()<intruder.getDodge()) {
 						s.setFile(3);
@@ -741,6 +738,7 @@ public class MobileElementManagerGame {
 	
 	
 	public void deplacement(Block deplacement) {
+
 		intruder.setPosition(deplacement);
 	}
 
@@ -962,7 +960,14 @@ public class MobileElementManagerGame {
 	}
 
 
-
+	public boolean isIn(List<Block> vision, Block block) {
+		for(Block blok:vision) {
+			if(blok.equals(block)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	
 

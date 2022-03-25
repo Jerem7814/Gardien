@@ -30,6 +30,7 @@ public class GameDisplay extends JPanel {
 	private Map map;
 	private MobileElementManager manager;
 	private PaintStrategy paintStrategy = new PaintStrategy();
+	public static boolean stop = true;
 
 	public GameDisplay(Map map, MobileElementManager manager) {
 		this.map = map;
