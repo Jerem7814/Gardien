@@ -339,80 +339,83 @@ public class MobileElementManagerGame {
 
 	
 	public void evolutionI() {
-		List<Item> eliminatedItem = new ArrayList<Item>();
-			Block intruderPosition = intruder.getPosition();
-			for (Item item : items) {
-				if (item.getPosition().equals(intruderPosition)) {
-					Sound s = new Sound();
-					Item i=item;
-					eliminatedItem.add(item);
-					if(i.getName() == "Invisibility cloak") {
-						s.setFile(4);
-						s.play();
-						HashMap<String,Item> upgrade=intruder.getItems();
-						Item m=upgrade.get("Invisibility cloak");
-						if(m.getNbre() <= 3) {
-							m.increment(1);
+		if(!intrudervoid()) {
+			List<Item> eliminatedItem = new ArrayList<Item>();
+				Block intruderPosition = intruder.getPosition();
+				for (Item item : items) {
+					if (item.getPosition().equals(intruderPosition)) {
+						Sound s = new Sound();
+						Item i=item;
+						eliminatedItem.add(item);
+						if(i.getName() == "Invisibility cloak") {
+							s.setFile(4);
+							s.play();
+							HashMap<String,Item> upgrade=intruder.getItems();
+							Item m=upgrade.get("Invisibility cloak");
+							if(m.getNbre() <= 3) {
+								m.increment(1);
+							}
+							upgrade.put("Invisibility cloak", m);
+							intruder.setItems(upgrade);
 						}
-						upgrade.put("Invisibility cloak", m);
-						intruder.setItems(upgrade);
-					}
-					
-					else if(i.getName() == "Lure") {
-						s.setFile(4);
-						s.play();
-						HashMap<String,Item> upgrade=intruder.getItems();
-						Item m=upgrade.get("Lure");
-						if(m.getNbre() <= 3) {
-							m.increment(1);
+						
+						else if(i.getName() == "Lure") {
+							s.setFile(4);
+							s.play();
+							HashMap<String,Item> upgrade=intruder.getItems();
+							Item m=upgrade.get("Lure");
+							if(m.getNbre() <= 3) {
+								m.increment(1);
+							}
+							upgrade.put("Lure", m);
+							intruder.setItems(upgrade);
 						}
-						upgrade.put("Lure", m);
-						intruder.setItems(upgrade);
-					}
-					
-					
-					else if(i.getName() == "Money") {
-						s.setFile(0);
-						s.play();
-						intruder.incrementM(i.getNbre());
-						roundmoney+=i.getNbre();
-					}
-					
-					else if(i.getName() == "Agility Potion") {
-						s.setFile(1);
-						s.play();
-						if(intruder.getAgility() <= 3) {
-							intruder.incrementA(1);
-							intruder.incrementV(1);
+						
+						
+						else if(i.getName() == "Money") {
+							s.setFile(0);
+							s.play();
+							intruder.incrementM(i.getNbre());
+							roundmoney+=i.getNbre();
+						}
+						
+						else if(i.getName() == "Agility Potion") {
+							s.setFile(1);
+							s.play();
+							if(intruder.getAgility() <= 3) {
+								intruder.incrementA(1);
+								intruder.incrementV(1);
+							}
+						}
+						
+						else if(i.getName() == "Vision Potion") {
+							s.setFile(1);
+							s.play();
+							if(intruder.getVision() <= 4) {
+								intruder.incrementV(1);
+								intruder.setVisionzone();
+							}
+						}
+						
+						else if(i.getName() == "Precision Potion") {
+							s.setFile(1);
+							s.play();
+							if(intruder.getDodge() <= 15) {
+								intruder.incrementP(1);
+							}
+						}
+						else {
+							s.setFile(3);
+							s.play();
 						}
 					}
 					
-					else if(i.getName() == "Vision Potion") {
-						s.setFile(1);
-						s.play();
-						if(intruder.getVision() <= 4) {
-							intruder.incrementV(1);
-							intruder.setVisionzone();
-						}
-					}
-					
-					else if(i.getName() == "Precision Potion") {
-						s.setFile(1);
-						s.play();
-						if(intruder.getDodge() <= 15) {
-							intruder.incrementP(1);
-						}
-					}
-					else {
-						s.setFile(3);
-						s.play();
-					}
 				}
+				
+			for(Item item:eliminatedItem) {
+				items.remove(item);
 			}
-			
-		for(Item item:eliminatedItem) {
-			items.remove(item);
-		}	
+		}
 		}
 	
 	public void uselure() {
@@ -941,6 +944,22 @@ public class MobileElementManagerGame {
 
 	public List<Obstacle> getObstacles() {
 		return obstacles;
+	}
+
+
+
+
+
+	public int getRound() {
+		return round;
+	}
+
+
+
+
+
+	public void setRound(int round) {
+		this.round = round;
 	}
 
 

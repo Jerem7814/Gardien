@@ -305,11 +305,11 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		}
 		
 		if (Button==gardP) {
-			MobileElementManager.generateGuardian();
+			manager.generateGuardian();
 		}
 		
 		if (Button==itemP) {
-			MobileElementManager.generateItem();
+			manager.generateItem();
 		}
 	}
 
@@ -323,17 +323,16 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					} catch (InterruptedException e) {
 						System.out.println(e.getMessage());
 					}
-					for(int i=0; i<10000; i++ ) {
-						iT.setText(String.valueOf(MobileElementManager.getRound()));
-						iG.setText(String.valueOf(MobileElementManager.getGuardians().size()));
-						iA.setText(String.valueOf(MobileElementManager.getTotalmoney()));
-						iI.setText(String.valueOf(MobileElementManager.getItems().size()));
+					iT.setText(String.valueOf(manager.getRound()));
+					iG.setText(String.valueOf(manager.getGuardians().size()));
+					iA.setText(String.valueOf(manager.getTotalmoney()));
+					iI.setText(String.valueOf(manager.getItems().size()));
 						
-						foGV.setText(String.valueOf(Guardian.getVision()));
-						foGA.setText(String.valueOf(Guardian.getAgility()));
-						foGP.setText(String.valueOf(Guardian.getPrecision()));
+					//foGV.setText(String.valueOf(Guardian.getVision()));
+					//foGA.setText(String.valueOf(Guardian.getAgility()));
+					//foGP.setText(String.valueOf(Guardian.getPrecision()));
 						
-					}
+					
 					manager.nextRound();
 					dashboard.repaint();
 					}

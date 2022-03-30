@@ -28,6 +28,8 @@ import model.Intruder;
  */
 public class PaintStrategyGame {
 	
+	public File Gimage=new File("ressources/images/thiefinvisible.png");
+	
 	
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -86,7 +88,7 @@ public class PaintStrategyGame {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}			}
+			}			}
 			else {
 	
 				try {

@@ -98,7 +98,7 @@ public class OpenGame extends JFrame implements ActionListener {
 		container.add(intrus1);
 
 
-		container.setBackground(Color.PINK);
+		container.setBackground(new Color(230, 230, 250));
 		
 		JPanel squette = new JPanel();
 		squette.setLayout(new GridLayout(2,1));
@@ -107,10 +107,10 @@ public class OpenGame extends JFrame implements ActionListener {
 		
 		JPanel titre = new JPanel();
 		titre.add(bienvenue);
-		titre.setBackground(Color.pink);
+		titre.setBackground(new Color(230, 230, 250));
 		pan.add(titre, BorderLayout.NORTH);
 		
-		panCenter.setBackground(Color.pink) ;
+		panCenter.setBackground(new Color(230, 230, 250)) ;
 		panCenter.setSize(1200,700);
 		panCenter.add(squette);
 		pan.add(panCenter, BorderLayout.CENTER);
@@ -136,7 +136,7 @@ public class OpenGame extends JFrame implements ActionListener {
 					gameThread.start();
 				}
 				else {
-					GameConfiguration.GAME_SPEED=0;
+					GameConfiguration.GAME_SPEED=5;
 					MainGUIgame gameMainGUI = new MainGUIgame("Guardian");
 
 					Thread gameThread = new Thread(gameMainGUI);

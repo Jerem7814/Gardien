@@ -1,20 +1,31 @@
 package gui;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 import config.GameConfiguration;
+import gui.MainGUIgame.KeyControls;
+import gui.MainGUIgame.MouseControls;
 import map.Block;
 import map.Map;
 import process.GameBuilder;
@@ -43,6 +54,61 @@ public class MainGUIgame extends JFrame implements Runnable {
 	private MobileElementManagerGame manager;
 
 	private GameDisplayGame dashboard;
+	
+	private JPanel panEst = new JPanel();
+	private JPanel panOuest = new JPanel();
+	
+	
+	
+	public static JLabel buttonzone= new JLabel("Zone de commande :");
+	public static JLabel vide= new JLabel("");
+	public static JLabel vide1= new JLabel("");
+	public static JLabel vide2= new JLabel("");
+	public static JLabel vide3= new JLabel("");
+	public static JLabel vide4= new JLabel("");
+	public static JLabel vide5= new JLabel("");
+	public static JLabel vide6= new JLabel("");
+	public static JLabel vide7= new JLabel("");
+	
+	public static JLabel infozone= new JLabel("Zone d'Info :");
+	public static JLabel empty= new JLabel("");
+	public static JLabel empty1= new JLabel("");
+	public static JLabel empty2= new JLabel("");
+	public static JLabel empty3= new JLabel("");
+	public static JLabel empty4= new JLabel("");
+	public static JLabel empty5= new JLabel("");
+	
+	public static JLabel infoStat= new JLabel("Zone d'Info :");
+	
+	public static JLabel empty6= new JLabel("");
+	public static JLabel empty7= new JLabel("");
+	public static JLabel empty8= new JLabel("");
+	public static JLabel empty9= new JLabel("");
+	public static JLabel empty10= new JLabel("");
+	public static JLabel empty11= new JLabel("");
+	
+	public static JLabel infoT= new JLabel("Tour actuel :");
+	public static JLabel infoG= new JLabel("Nb Gardien :");
+	public static JLabel infoA= new JLabel("Argent r�colt�:");
+	public static JLabel infoI= new JLabel("Nombre d'Item :");
+	
+	public static JLabel infoGV= new JLabel("Vision :");
+	public static JLabel infoGA= new JLabel("Agilite :");
+	public static JLabel infoGP= new JLabel("Precision :");
+	
+	public static JLabel foGV= new JLabel("Vision :");
+	public static JLabel foGA= new JLabel("Agilite :");
+	public static JLabel foGP= new JLabel("Precision :");
+	
+	public static JLabel iT = new JLabel();
+	public static JLabel iG = new JLabel();
+	public static JLabel iA = new JLabel();
+	public static JLabel iI = new JLabel();
+	
+	
+
+	
+
 
 	public MainGUIgame(String title) {
 		super(title);
@@ -50,9 +116,81 @@ public class MainGUIgame extends JFrame implements Runnable {
 	}
 
 	private void init() {
+		iT = new JLabel();
+		
+		
+		iG = new JLabel();
+		
+		
+		iA = new JLabel();
+		
+		
+		iI = new JLabel();
+		
+		
+		
 
+		foGV = new JLabel();
+		
+		foGA = new JLabel();
+		
+		foGP = new JLabel();
+		
+		
+		
+		
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
+		
+		panOuest.setLayout(new GridLayout(9,3));
+		panOuest.setPreferredSize(new Dimension(270,300));
+		panOuest.setBackground(new Color(230, 230, 250));
+		panOuest.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
+		
+		
+		
+		panOuest.add(empty);
+		empty.setBackground(new Color(102, 102, 153));
+		
+		panOuest.add(infozone);
+		infozone.setBackground(new Color(102, 102, 153));
+		
+		panOuest.add(empty1);
+		
+		panOuest.add(infoT);
+		panOuest.add(empty2);
+		panOuest.add(iT);
+		
+		panOuest.add(infoG);
+		panOuest.add(empty3);
+		panOuest.add(iG);
+		
+		
+		panOuest.add(infoA);
+		panOuest.add(empty4);
+		panOuest.add(iA);
+		
+		panOuest.add(infoI);
+		panOuest.add(empty5);
+		panOuest.add(iI);
+		
+		panOuest.add(empty6);
+		panOuest.add(infoStat);
+		panOuest.add(empty7);
+		
+		panOuest.add(infoGV);
+		panOuest.add(empty8);
+		panOuest.add(foGV);
+		
+		panOuest.add(infoGA);
+		panOuest.add(empty9);
+		panOuest.add(foGA);
+		
+		panOuest.add(infoGP);
+		panOuest.add(empty10);
+		panOuest.add(foGP);
+		
+		
 
 		KeyControls keyControls = new KeyControls();
 		JTextField textField = new JTextField();
@@ -66,8 +204,13 @@ public class MainGUIgame extends JFrame implements Runnable {
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
 
+
 		dashboard.setPreferredSize(preferredSize);
+		dashboard.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
+		contentPane.add(panOuest, BorderLayout.WEST);
 		contentPane.add(dashboard, BorderLayout.CENTER);
+		contentPane.add(panEst, BorderLayout.EAST);
+		
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
@@ -75,7 +218,6 @@ public class MainGUIgame extends JFrame implements Runnable {
 		setPreferredSize(preferredSize);
 		setResizable(false);
 		GameConfiguration.playmusic();
-
 	}
 
 	@Override
@@ -91,6 +233,14 @@ public class MainGUIgame extends JFrame implements Runnable {
 				} catch (InterruptedException e) {
 					System.out.println(e.getMessage());
 				}
+				iT.setText(String.valueOf(manager.getRound()));
+				iG.setText(String.valueOf(manager.getGuardians().size()));
+				iA.setText(String.valueOf(manager.getTotalmoney()));
+				iI.setText(String.valueOf(manager.getItems().size()));
+				
+				foGV.setText(String.valueOf(manager.getIntruders().getVision()));
+				foGA.setText(String.valueOf(manager.getIntruders().getAgility()));
+				foGP.setText(String.valueOf(manager.getIntruders().getDodge()));
 
 				manager.nextRound();
 				dashboard.repaint();
@@ -103,7 +253,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		}
 	}
 
-	private class KeyControls implements KeyListener {
+	public class KeyControls implements KeyListener {
 
 		@Override
 		public void keyPressed(KeyEvent event) {
@@ -132,7 +282,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		}
 	}
 
-	private class MouseControls implements MouseListener {
+	public class MouseControls implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -193,15 +343,6 @@ public class MainGUIgame extends JFrame implements Runnable {
 		@Override
 		public void mouseExited(MouseEvent e) {
 
-		}
-		
-		public boolean isIn(List<Block> vision, Block block) {
-			for(Block blok:vision) {
-				if(blok.equals(block)) {
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 

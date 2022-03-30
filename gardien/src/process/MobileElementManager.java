@@ -28,15 +28,15 @@ import config.GameConfiguration;
  */
 public class MobileElementManager {
 	private Map map;
-	public static int round;
+	public int round;
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
 
 	private boolean iHasmoved=false;
-	private static boolean droppeditem=false;
+	private boolean droppeditem=false;
 	private boolean droppedmoney=false;
-	private static List<Item> items = new ArrayList<Item>();
+	private List<Item> items = new ArrayList<Item>();
 	private MobileItem mlure;
 	private MobileItem mfilet;
 	
@@ -54,11 +54,11 @@ public class MobileElementManager {
 	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 
-	private static List<Guardian> guardians = new ArrayList<Guardian>();
+	private List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
-	private static ExitGate gate;
+	private ExitGate gate;
 	private List<Intruder> freeintruders = new ArrayList<Intruder>();
-	private static int totalmoney=0;
+	private int totalmoney=0;
 	private int roundmoney=0;
 	private int exitmoney=0;
 
@@ -72,7 +72,7 @@ public class MobileElementManager {
 
 	public MobileElementManager(Map map) {
 		this.map = map;
-		MobileElementManager.round=0;
+		this.round=0;
 		this.countlure=20;
 		this.countfilet=7;
 		incendie=new Sound();
@@ -87,13 +87,13 @@ public class MobileElementManager {
 	
 	
 
-	public static void add(Item item) {
+	public void add(Item item) {
 		items.add(item);
 	}
 	
 
 
-	public static void add(Guardian guardian) {
+	public void add(Guardian guardian) {
 		guardians.add(guardian);
 	}
 
@@ -166,7 +166,7 @@ public class MobileElementManager {
 	
 	
 
-	public static void generateGuardian() {
+	public void generateGuardian() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		Block position = new Block(0, randomColumn);
 		Guardian guardian = new Guardian(position);
@@ -175,7 +175,7 @@ public class MobileElementManager {
 	}
 	
 	
-	public static void generateItem() {
+	public void generateItem() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		int lineColumn = getRandomNumber(0, GameConfiguration.LINE_COUNT - 1);
 		Block position = new Block(lineColumn, randomColumn);
@@ -253,7 +253,7 @@ public class MobileElementManager {
 		
 		}
 	
-	public static String randomItem() {
+	public String randomItem() {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
 		rdm.put("1", "Vision Potion");
@@ -800,8 +800,10 @@ public class MobileElementManager {
 
 
 					
-					else if(g.getPosition().equals(b)&& !a.isTransparent()) {
-						usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
+					else if(g.getPosition().equals(b) && !a.isTransparent()) {
+						if(guardians.size()>1) {
+							usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
+						}
 						runaway(a,g);
 						haverunaway=true;
 						break;
@@ -1212,7 +1214,7 @@ public class MobileElementManager {
 		this.map = map;
 	}
 
-	public static List<Item> getItems() {
+	public List<Item> getItems() {
 		return items;
 	}
 
@@ -1220,7 +1222,7 @@ public class MobileElementManager {
 		this.items = items;
 	}
 
-	public static List<Guardian> getGuardians() {
+	public List<Guardian> getGuardians() {
 		return guardians;
 	}
 
@@ -1271,7 +1273,7 @@ public class MobileElementManager {
 
 
 
-	public static int getRound() {
+	public int getRound() {
 		return round;
 	}
 
@@ -1292,7 +1294,7 @@ public class MobileElementManager {
 	}
 	
 	
-	public static int getTotalmoney() {
+	public int getTotalmoney() {
 		return totalmoney;
 	}
 
@@ -1323,7 +1325,7 @@ public class MobileElementManager {
 
 
 
-	private static int getRandomNumber(int min, int max) {
+	private int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}
 
