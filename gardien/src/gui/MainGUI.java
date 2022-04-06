@@ -360,15 +360,15 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 			etoiles = 4;
 			star = new ImageIcon("ressources/images/4star.png");
 		}
-			else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
-				etoiles = 3;
-				star = new ImageIcon("ressources/images/3star.png");
-			}
-			else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
-				etoiles = 2;
-				star = new ImageIcon("ressources/images/2star.png");
-			}
-			else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+		else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
+			etoiles = 3;
+			star = new ImageIcon("ressources/images/3star.png");
+		}
+		else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+			etoiles = 2;
+			star = new ImageIcon("ressources/images/2star.png");
+		}
+		else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
 			etoiles = 1;
 			star = new ImageIcon("ressources/images/1star.png");
 			

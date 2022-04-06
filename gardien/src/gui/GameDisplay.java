@@ -55,7 +55,11 @@ public class GameDisplay extends JPanel {
 		paintStrategy.paintG(guardianscopy, g);
 		
 
-		
+		Item mobilenet = manager.getMfilet();
+		if(mobilenet!=null) {
+			paintStrategy.paintMFilet(mobilenet, g);
+			
+		}
 
 		List<Intruder> intruders = manager.getIntruders();
 		List<Intruder> intruderscopy = new ArrayList<Intruder>(intruders); //copies the content

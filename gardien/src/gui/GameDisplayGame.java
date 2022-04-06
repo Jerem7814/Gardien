@@ -88,11 +88,7 @@ public class GameDisplayGame extends JPanel {
 			
 		}
 		
-		Item mobilenet = manager.getMfilet();
-		if(mobilenet!=null) {
-			paintStrategy.paintMFilet(mobilenet, g);
-			
-		}
+
 		if(!manager.intrudervoid()) {
 			List <Block> vision = manager.getIntruders().getVisionzone();
 			List<Block> visioncopy = new ArrayList<Block>(vision); //copies the content	

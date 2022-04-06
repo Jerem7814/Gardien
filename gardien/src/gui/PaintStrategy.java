@@ -220,14 +220,28 @@ public class PaintStrategy {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-
-			
-			
-
-
-		
 	}
+		public void paintMFilet(Item filet, Graphics graphics)  {
+			Block position = filet.getPosition();
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+
+			int y = position.getLine();
+			int x = position.getColumn();
+
+			try {
+				graphics.drawImage(ImageIO.read(new File("ressources/images/mobilenet.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+
+
+			
+			
+
+		}
+		
+	
 
 
 
