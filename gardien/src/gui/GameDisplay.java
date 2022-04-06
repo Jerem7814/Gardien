@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Graphics;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import map.Block;
 import map.Map;
 import model.Guardian;
 import model.Item;
-import model.MobileItem;
 import model.Obstacle;
 import model.Intruder;
 import process.MobileElementManager;
@@ -72,17 +72,12 @@ public class GameDisplay extends JPanel {
 
 		
 		
-		MobileItem mobilelure = manager.getMlure();
+		Item mobilelure = manager.getMlure();
 		if(mobilelure!=null) {
 			paintStrategy.paintMLure(mobilelure, g);
 			
 		}
-		
-		MobileItem mobilenet = manager.getMfilet();
-		if(mobilenet!=null) {
-			paintStrategy.paintMFilet(mobilenet, g);
-			
-		}
+
 		
 	}
 

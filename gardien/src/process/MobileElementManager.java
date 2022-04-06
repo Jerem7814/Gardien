@@ -2,11 +2,11 @@ package process;
 
 import map.Map;
 
+
 import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import model.MobileItem;
 import model.Obstacle;
 import sound.Sound;
 import map.Block;
@@ -32,17 +32,20 @@ public class MobileElementManager {
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
+	private boolean siffletappareance=false;
 
 	private boolean iHasmoved=false;
 	private boolean droppeditem=false;
 	private boolean droppedmoney=false;
 	private List<Item> items = new ArrayList<Item>();
-	private MobileItem mlure;
-	private MobileItem mfilet;
-	
+	private Item mlure;
+	private Item mfilet;
+	private Item msifflet;
 
+	private int countsifflet;
 	private int countfilet;
 	private int countlure;
+	private Sound siffletsound;
 	private Sound incendie;
 	private Sound netSound;
 
@@ -75,8 +78,11 @@ public class MobileElementManager {
 		this.round=0;
 		this.countlure=20;
 		this.countfilet=7;
+		this.countsifflet=3;
 		incendie=new Sound();
 		incendie.setFile(8);
+		siffletsound=new Sound();
+		siffletsound.setFile(10);
 		netSound=new Sound();
 		netSound.setFile(9);
 		this.exitmoney=0;
@@ -138,17 +144,21 @@ public class MobileElementManager {
 			iSEEg();
 		}
 		else {
-			if(!lureappareance) {
+			if(!lureappareance&&!siffletappareance) {
 				gSEEi();
 			}
-			else {
+			else if(lureappareance){
 				gGOlure();
+			}
+			else if(siffletappareance) {
+				focusintruder();
 			}
 		}
 
 		evolution();
-		moneyearned();
 		combat();
+		moneyearned();
+
 		incrementRound();
 
 
@@ -256,6 +266,10 @@ public class MobileElementManager {
 	public String randomItem() {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
+		rdm.put("13", "Agility Potion");
+		rdm.put("14", "Agility Potion");
+		rdm.put("15", "Agility Potion");
+
 		rdm.put("1", "Vision Potion");
 		rdm.put("2", "Precision Potion");
 		rdm.put("6", "Precision Potion");
@@ -446,10 +460,33 @@ public class MobileElementManager {
 			itemsI.put("Lure", lure);
 			intruder.setItems(itemsI);
 			Block lureposition=intruderPosition;
-			mlure=new MobileItem(lureposition,0,"Mobile Lure");
+			mlure=new Item(lureposition,0,"Mobile Lure");
 			
 			
 		}
+	}
+	public void usesifflet(Guardian guardian, int line, int column) {
+		Block guardianPosition = new Block(line,column);
+		HashMap<String,Item> itemsG=guardian.getItems();
+		Item sifflet=itemsG.get("Sifflet");
+		if(sifflet.getNbre()>0 && sifflet!=null) {
+			siffletappareance=true;
+			siffletsound.play();
+			sifflet.decrement(1);
+			itemsG.put("Sifflet", sifflet);
+			guardian.setItems(itemsG);
+			Block siffletposition=guardianPosition;
+			msifflet=new Item(siffletposition,0,"Sifflet");
+			
+			
+		}
+	}
+	
+	public void stopsifflet() {
+		siffletsound.stop();
+		msifflet=null;
+		countsifflet=3;
+		siffletappareance=false;
 	}
 	
 	public void stoplure() {
@@ -494,7 +531,7 @@ public class MobileElementManager {
 				itemsG.put("Filet", filet);
 				guardian.setItems(itemsG);
 				Block filetposition=guardianPosition;
-				mfilet=new MobileItem(filetposition,0,"Mobile Filet");
+				mfilet=new Item(filetposition,0,"Mobile Filet");
 				
 				
 			}
@@ -531,6 +568,7 @@ public class MobileElementManager {
 				stoplure();
 			}
 		}
+
 		List<Intruder> eliminatedIntruder = new ArrayList<Intruder>();
 		List<Guardian> eliminatedGuardian = new ArrayList<Guardian>();
 		for (Guardian guardian : guardians) {
@@ -576,6 +614,86 @@ public class MobileElementManager {
 		uselure(i,i.getPosition().getLine(),i.getPosition().getColumn());
 	}
 	
+
+	
+	public void focusintruder() {
+		if(msifflet!=null) {
+			siffletappareance=true;
+		}
+		if(siffletappareance==true) {
+			System.out.println(countsifflet);
+			countsifflet--;
+			if(countsifflet==0) {
+				stopsifflet();
+			}
+		}
+		if(msifflet!=null) {
+			for(Guardian a:guardians) {
+				
+				a.setVisionzone();
+				List<Block> gvision=a.getVisionzone();
+				for(Block b:gvision) {
+					for(Intruder i:intruders) {
+						if(i.getPosition().equals(b)) {
+							gointruder(a,i);
+							break;
+						}
+						else {
+	
+	 
+							Block iposition=msifflet.getPosition();
+							int iline=iposition.getLine();
+							int icolumn=iposition.getColumn();
+							int guardianline=a.getPosition().getLine();
+							int guardiancolumn=a.getPosition().getColumn();
+							if(iline<guardianline) {
+								if(guardianline-iline==1) {
+									deplacement(a,3,1);
+								}
+								else {
+									deplacement(a,3,a.getAgility());
+								}
+							}
+							else if(iline>guardianline){
+								if(iline-guardianline==1) {
+									deplacement(a,2,1);
+								}
+								else {
+									deplacement(a,2,a.getAgility());
+								}			
+							}
+							else if(icolumn>guardiancolumn) {
+								if(icolumn-guardiancolumn==1) {
+									deplacement(a,0,1);
+								}
+								else {
+									deplacement(a,0,a.getAgility());
+								}
+							}
+							else if(icolumn<guardiancolumn){
+								if(guardiancolumn-icolumn==1) {
+									deplacement(a,1,1);
+								}
+								else {
+									deplacement(a,1,a.getAgility());
+								}
+							}
+	
+					}
+					break;
+						
+				}
+				break;
+					
+			}
+		}
+	}
+			
+				
+		
+	}
+	
+	
 	
 	public void gGOlure(){
 		for(Guardian a : guardians) {
@@ -584,6 +702,7 @@ public class MobileElementManager {
 			int lurecolumn=lureposition.getColumn();
 			int guardianline=a.getPosition().getLine();
 			int guardiancolumn=a.getPosition().getColumn();
+			
 			if(lureline<guardianline) {
 				if(guardianline-lureline==1) {
 					deplacement(a,3,1);
@@ -622,14 +741,18 @@ public class MobileElementManager {
 	
 	
 	public void gSEEi(){
+
 		for(Guardian a : guardians) {
 			a.setVisionzone();
 			boolean havefocus=false;
 			List<Block> gvision=a.getVisionzone();
 			for(Block b:gvision) {
 				for(Intruder i:intruders) {
-					if(i.getPosition().equals(b)) {
+					if(i.getPosition().equals(b)&&!i.isTransparent()) {
 						gointruder(a,i);
+						if(guardians.size()>1&&!i.isTransparent()) {
+							usesifflet(a,a.getPosition().getLine(),a.getPosition().getColumn());
+						}
 						havefocus=true;
 						break;
 					}
@@ -1195,6 +1318,8 @@ public class MobileElementManager {
 		totalmoney+=roundmoney;
 		roundmoney=0;
 		System.out.println("totalmoney : "+totalmoney);
+		System.out.println("exitmoney : "+exitmoney);
+
 		
 
 	}
@@ -1254,7 +1379,7 @@ public class MobileElementManager {
 		this.gate = gate;
 	}
 
-	public MobileItem getMlure() {
+	public Item getMlure() {
 		return mlure;
 	}
 
@@ -1262,10 +1387,10 @@ public class MobileElementManager {
 
 
 
-	public void setMlure(MobileItem mlure) {
+	public void setMlure(Item mlure) {
 		this.mlure = mlure;
 	}
-	public MobileItem getMfilet() {
+	public Item getMfilet() {
 		return mfilet;
 	}
 
@@ -1289,7 +1414,7 @@ public class MobileElementManager {
 
 
 
-	public void setMfilet(MobileItem mfilet) {
+	public void setMfilet(Item mfilet) {
 		this.mfilet = mfilet;
 	}
 	
@@ -1319,6 +1444,22 @@ public class MobileElementManager {
 
 	public void setObstacles(List<Obstacle> obstacles) {
 		this.obstacles = obstacles;
+	}
+
+
+
+
+
+	public Item getSiflet() {
+		return msifflet;
+	}
+
+
+
+
+
+	public void setSiflet(Item msiflet) {
+		this.msifflet = msiflet;
 	}
 
 

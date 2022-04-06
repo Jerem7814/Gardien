@@ -1,6 +1,7 @@
 package process;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import model.MobileItem;
 import model.Obstacle;
 import sound.Sound;
 
@@ -27,15 +27,14 @@ public class MobileElementManagerGame {
 	private boolean droppeditem=false;
 	private boolean droppedmoney=false;
 	private List<Item> items = new ArrayList<Item>();
-	private MobileItem mlure;
-	private MobileItem mfilet;
+	private Item mlure;
+	private Item mfilet;
 	
-
+	private int countcloak;
 	private int countfilet;
 	private int countlure;
-	private Sound incendie;
 	private Sound netSound;
-
+	private Sound incendie;
 
 
 
@@ -69,6 +68,7 @@ public class MobileElementManagerGame {
 		netSound=new Sound();
 		netSound.setFile(9);
 		this.exitmoney=0;
+		this.countcloak=20;
 
 	}
 	
@@ -103,7 +103,7 @@ public class MobileElementManagerGame {
 
 	public void nextRound() {
 		if(intruder!=null) {
-			if(isNumber(15)) {
+			if(isNumber(50)) {
 				generateGuardian();
 			}
 			if(isNumber(20)) {
@@ -424,21 +424,22 @@ public class MobileElementManagerGame {
 		Item lure=itemsI.get("Lure");
 		if(lure.getNbre()>0 ) {
 			lureappareance=true;
+
 			incendie.play();
 			incendie.loop();
 			lure.decrement(1);
 			itemsI.put("Lure", lure);
 			intruder.setItems(itemsI);
 			Block lureposition=intruderPosition;
-			mlure=new MobileItem(lureposition,0,"Mobile Lure");
+			mlure=new Item(lureposition,0,"Mobile Lure");
 			
 			
 		}
 	}
 	
 	public void stoplure() {
-		incendie.stop();
 		mlure=null;
+		incendie.stop();
 		countlure=20;
 		lureappareance=false;
 	}
@@ -459,8 +460,7 @@ public class MobileElementManagerGame {
 	}
 	
 	public void stopcloak(Intruder i) {
-		//cloak.stop();
-		i.setTransparentcount(15);
+		countcloak=20;;
 		i.setTransparent(false);
 	}
 		
@@ -478,7 +478,7 @@ public class MobileElementManagerGame {
 				itemsG.put("Filet", filet);
 				guardian.setItems(itemsG);
 				Block filetposition=guardianPosition;
-				mfilet=new MobileItem(filetposition,0,"Mobile Filet");
+				mfilet=new Item(filetposition,0,"Mobile Filet");
 				
 				
 			}
@@ -741,8 +741,31 @@ public class MobileElementManagerGame {
 	
 	
 	public void deplacement(Block deplacement) {
+		if(mfilet!=null) {
+			filetappareance=true;
+		}
+		if(filetappareance) {
+			if(filettrap) {
+				countfilet--;
+				if(countfilet==0) {
+					stopfilet();
+				}
+			}
+		}
+		if(intruder.isTransparent()) {
 
-		intruder.setPosition(deplacement);
+			countcloak--;
+			if(countcloak==0) {
+				intruder.setTransparent(false);
+			}
+			
+		}
+		if(mfilet!=null&&intruder.getPosition().equals(mfilet.getPosition())) {
+			iONfilet(intruder);
+		}
+		if(!filettrap) {
+			intruder.setPosition(deplacement);
+		}
 	}
 
 	public void deplacement(Guardian a,int direction, int deplacement) {
@@ -903,7 +926,7 @@ public class MobileElementManagerGame {
 		this.gate = gate;
 	}
 
-	public MobileItem getMlure() {
+	public Item getMlure() {
 		return mlure;
 	}
 
@@ -911,10 +934,42 @@ public class MobileElementManagerGame {
 
 
 
-	public void setMlure(MobileItem mlure) {
+	public int getCountcloak() {
+		return countcloak;
+	}
+
+
+
+
+
+	public void setCountcloak(int countcloak) {
+		this.countcloak = countcloak;
+	}
+
+
+
+
+
+	public int getCountlure() {
+		return countlure;
+	}
+
+
+
+
+
+	public void setCountlure(int countlure) {
+		this.countlure = countlure;
+	}
+
+
+
+
+
+	public void setMlure(Item mlure) {
 		this.mlure = mlure;
 	}
-	public MobileItem getMfilet() {
+	public Item getMfilet() {
 		return mfilet;
 	}
 
@@ -922,7 +977,7 @@ public class MobileElementManagerGame {
 
 
 
-	public void setMfilet(MobileItem mfilet) {
+	public void setMfilet(Item mfilet) {
 		this.mfilet = mfilet;
 	}
 	

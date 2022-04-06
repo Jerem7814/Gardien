@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -37,12 +38,14 @@ public class OpenGame extends JFrame implements ActionListener {
 	private JLabel taille = new JLabel("Quelle taille de grille voulez-vous ?");
 	private JLabel intrus = new JLabel("Combien d'intrus voulez vous ?");
 	private JLabel experience = new JLabel("Quel type d'experience voulez vous ?");
+	private JLabel error = new JLabel("");
 
+	private ImageIcon icone = new ImageIcon("ressources/images/logo2.png");
+	private JLabel logo = new JLabel(icone);
 
-
-	JComboBox taille1 = new JComboBox();
-	JComboBox intrus1 = new JComboBox();
-	JComboBox experience1 = new JComboBox();
+	private JComboBox taille1 = new JComboBox();
+	private JComboBox intrus1 = new JComboBox();
+	private JComboBox experience1 = new JComboBox();
 
 	private JButton start = new JButton("Start");
 	
@@ -55,7 +58,7 @@ public class OpenGame extends JFrame implements ActionListener {
 		
 		this.setTitle("Welcome");
 		setDefaultCloseOperation(EXIT_ON_CLOSE) ; 
-		this.setSize(600, 300);
+		this.setSize(700, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
@@ -89,26 +92,27 @@ public class OpenGame extends JFrame implements ActionListener {
 
 		
 		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(5,2));
+		container.setLayout(new GridLayout(4,2));
 		container.add(experience);
 		container.add(experience1);
 		container.add(taille);
 		container.add(taille1);
 		container.add(intrus);
 		container.add(intrus1);
+		container.add(error);
+		
 
 
 		container.setBackground(new Color(230, 230, 250));
 		
 		JPanel squette = new JPanel();
-		squette.setLayout(new GridLayout(2,1));
+		squette.setLayout(new GridLayout(3,1));
+		squette.setBackground(new Color(230, 230, 250));
+		squette.add(logo);
 		squette.add(container);
 		squette.add(start);
 		
-		JPanel titre = new JPanel();
-		titre.add(bienvenue);
-		titre.setBackground(new Color(230, 230, 250));
-		pan.add(titre, BorderLayout.NORTH);
+		
 		
 		panCenter.setBackground(new Color(230, 230, 250)) ;
 		panCenter.setSize(1200,700);
@@ -123,26 +127,44 @@ public class OpenGame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object Button = e.getSource();
 		if (Button == start) {
-  //			System.out.println("Start");
-
-				GameConfiguration.BLOCK_SIZE = (GameConfiguration.WINDOW_HEIGHT)/((int) taille1.getSelectedItem());
-				GameConfiguration.LINE_COUNT = GameConfiguration.WINDOW_HEIGHT / GameConfiguration.BLOCK_SIZE;
-				GameConfiguration.COLUMN_COUNT = GameConfiguration.WINDOW_WIDTH / GameConfiguration.BLOCK_SIZE;
-				GameBuilder.nbrI=(int) intrus1.getSelectedItem();
-				if(experience1.getSelectedItem()=="Simulation") {
-					MainGUI gameMainGUI = new MainGUI("Guardian");
+			System.out.println((int) taille1.getSelectedItem()/2 +" "+ (int)intrus1.getSelectedItem());
+			if((int) taille1.getSelectedItem()/2 >= (int)intrus1.getSelectedItem()) {
+				if((experience1.getSelectedItem()=="Jeu"&&(int)intrus1.getSelectedItem()==1)||experience1.getSelectedItem()=="Simulation") {
+					GameConfiguration.BLOCK_SIZE = (GameConfiguration.WINDOW_HEIGHT)/((int) taille1.getSelectedItem());
+					GameConfiguration.LINE_COUNT = GameConfiguration.WINDOW_HEIGHT / GameConfiguration.BLOCK_SIZE;
+					GameConfiguration.COLUMN_COUNT = GameConfiguration.WINDOW_WIDTH / GameConfiguration.BLOCK_SIZE;
+					GameBuilder.nbrI=(int) intrus1.getSelectedItem();
+					if(experience1.getSelectedItem()=="Simulation") {
+						MainGUI gameMainGUI = new MainGUI("Guardian");
+		
+						Thread gameThread = new Thread(gameMainGUI);
+						gameThread.start();
+					}
+					else {
+						GameConfiguration.GAME_SPEED=5;
+						MainGUIgame gameMainGUI = new MainGUIgame("Guardian");
 	
-					Thread gameThread = new Thread(gameMainGUI);
-					gameThread.start();
+						Thread gameThread = new Thread(gameMainGUI);
+						gameThread.start();
+					}
+					dispose();
 				}
-				else {
-					GameConfiguration.GAME_SPEED=5;
-					MainGUIgame gameMainGUI = new MainGUIgame("Guardian");
 
-					Thread gameThread = new Thread(gameMainGUI);
-					gameThread.start();
-				}
-				dispose();
+			}
+			if(experience1.getSelectedItem()=="Jeu"&&(int)intrus1.getSelectedItem()>1) {
+				error.setFont(new Font("Serif", Font.BOLD, 15));
+				error.setForeground(Color.RED);
+				error.setText("Le mode 'Jeu' n'est jouable qu'à un intrus");
+			}
+			
+			else {
+			
+				error.setFont(new Font("Serif", Font.BOLD, 15));
+				error.setForeground(Color.RED);
+				error.setText("Trop d'intrus séléctionnés pour la taille de grille");
+				
+				
+			}
 
 
 			

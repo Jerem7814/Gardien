@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 
 
+
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import map.Map;
 import model.ExitGate;
 import model.Guardian;
 import model.Item;
-import model.MobileItem;
 import model.Obstacle;
 import model.Intruder;
 
@@ -231,7 +231,7 @@ public class PaintStrategyGame {
 		}
 	}
 	
-	public void paintMLure(MobileItem lure, Graphics graphics)  {
+	public void paintMLure(Item lure, Graphics graphics)  {
 			Block position = lure.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 	
@@ -252,7 +252,7 @@ public class PaintStrategyGame {
 
 		
 	}
-	public void paintMFilet(MobileItem filet, Graphics graphics)  {
+	public void paintMFilet(Item filet, Graphics graphics)  {
 		Block position = filet.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 

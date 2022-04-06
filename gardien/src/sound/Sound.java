@@ -21,6 +21,7 @@ public class Sound {
 		soundURL[7]=getClass().getResource("/sound/open.wav");
 		soundURL[8]=getClass().getResource("/sound/incendie.wav");
 		soundURL[9]=getClass().getResource("/sound/netcapture.wav");
+		soundURL[10]=getClass().getResource("/sound/sifflet.wav");
 
 
 

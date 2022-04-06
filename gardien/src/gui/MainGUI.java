@@ -50,7 +50,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 	private Map map;
 
-	private final static Dimension preferredSize = new Dimension(2600, GameConfiguration.WINDOW_HEIGHT);
+	private final static Dimension preferredSize = new Dimension(700, GameConfiguration.WINDOW_HEIGHT);
 
 	private MobileElementManager manager;
 
@@ -340,7 +340,10 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					System.out.println("Ok");
 				}
 			}
+			System.out.println("Fin de partie");
+			break;
 		}
+
 	}
 	
 	

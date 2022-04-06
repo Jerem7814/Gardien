@@ -49,7 +49,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 	private Map map;
 
-	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
+	private final static Dimension preferredSize = new Dimension(700, GameConfiguration.WINDOW_HEIGHT);
 
 	private MobileElementManagerGame manager;
 
@@ -61,7 +61,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 	
 	
 	public static JLabel buttonzone= new JLabel("Zone de commande :");
-	public static JLabel vide= new JLabel("");
+	public JLabel vide= new JLabel("");
 	public static JLabel vide1= new JLabel("");
 	public static JLabel vide2= new JLabel("");
 	public static JLabel vide3= new JLabel("");
@@ -92,6 +92,13 @@ public class MainGUIgame extends JFrame implements Runnable {
 	public static JLabel infoA= new JLabel("Argent r�colt�:");
 	public static JLabel infoI= new JLabel("Nombre d'Item :");
 	
+	public static JLabel infoT2= new JLabel("Leurres disponibles :");
+	public static JLabel infoG2= new JLabel("Capes disponibles :");
+	public static JLabel infoA2= new JLabel("Tours leurres :");
+	public static JLabel infoI2= new JLabel("Tours cape :");
+
+
+	
 	public static JLabel infoGV= new JLabel("Vision :");
 	public static JLabel infoGA= new JLabel("Agilite :");
 	public static JLabel infoGP= new JLabel("Precision :");
@@ -104,6 +111,11 @@ public class MainGUIgame extends JFrame implements Runnable {
 	public static JLabel iG = new JLabel();
 	public static JLabel iA = new JLabel();
 	public static JLabel iI = new JLabel();
+	
+	public static JLabel iT2 = new JLabel();
+	public static JLabel iG2 = new JLabel();
+	public static JLabel iA2 = new JLabel();
+	public static JLabel iI2 = new JLabel();
 	
 	
 
@@ -127,6 +139,16 @@ public class MainGUIgame extends JFrame implements Runnable {
 		
 		iI = new JLabel();
 		
+		iT2 = new JLabel();
+		
+		
+		iG2 = new JLabel();
+		
+		
+		iA2 = new JLabel();
+		
+		
+		iI2 = new JLabel();
 		
 		
 
@@ -190,6 +212,34 @@ public class MainGUIgame extends JFrame implements Runnable {
 		panOuest.add(empty10);
 		panOuest.add(foGP);
 		
+		panEst.setLayout(new GridLayout(4,2));
+		panEst.setPreferredSize(new Dimension(270,300));
+		panEst.setBackground(new Color(230, 230, 250));
+		panEst.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
+		 
+		panEst.add(infoT2);
+		panEst.add(vide1);
+		panEst.add(iT2);
+		
+		panEst.add(infoG2);
+		panEst.add(vide2);
+		panEst.add(iG2);
+		
+		panEst.add(infoA2);
+		panEst.add(vide3);
+		panEst.add(iA2);
+		
+		
+		panEst.add(infoI2);
+		panEst.add(vide4);
+		panEst.add(iI2);
+		
+		
+
+		
+
+		
+		
 		
 
 		KeyControls keyControls = new KeyControls();
@@ -200,6 +250,9 @@ public class MainGUIgame extends JFrame implements Runnable {
 		map = GameBuilder.buildMap();
 		manager = GameBuilderGame.buildInitMobile(map);
 		dashboard = new GameDisplayGame(map, manager);
+		
+
+		
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
@@ -222,35 +275,46 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
 			if(!manager.intrudervoid()&&deplace) {
-				System.out.println(deplace);
 
-				System.out.println("testettt");
 
-				try {
-					Thread.sleep(GameConfiguration.GAME_SPEED);
-				} catch (InterruptedException e) {
-					System.out.println(e.getMessage());
-				}
 				iT.setText(String.valueOf(manager.getRound()));
 				iG.setText(String.valueOf(manager.getGuardians().size()));
 				iA.setText(String.valueOf(manager.getTotalmoney()));
 				iI.setText(String.valueOf(manager.getItems().size()));
 				
+				iT2.setText(String.valueOf(manager.getIntruders().getItems().get("Lure").getNbre()));
+				iG2.setText(String.valueOf(manager.getIntruders().getItems().get("Invisibility cloak").getNbre()));
+				if(manager.getMlure()!=null) {
+					iA2.setText(String.valueOf(manager.getCountlure()));
+				}
+				else {
+					iA2.setText("");
+				}
+				if(manager.getIntruders().isTransparent()) {
+					iI2.setText(String.valueOf(manager.getCountcloak()));
+				}
+				else {
+					iI2.setText("");
+				}
+
+				
 				foGV.setText(String.valueOf(manager.getIntruders().getVision()));
 				foGA.setText(String.valueOf(manager.getIntruders().getAgility()));
 				foGP.setText(String.valueOf(manager.getIntruders().getDodge()));
-
+				
+				
 				manager.nextRound();
+
 				dashboard.repaint();
+
 				
 				deplace=false;
 			}
 			else {
 				//nouvelle fenetre 
 			}
-		}
+		
 	}
 
 	public class KeyControls implements KeyListener {

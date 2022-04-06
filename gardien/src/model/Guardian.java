@@ -13,7 +13,7 @@ public class Guardian extends MElement{
 	private HashMap<String, Item> items;
 	private int precision;
 	private List<Block> visionZone;
-	
+
 
 	
 	
@@ -59,13 +59,18 @@ public class Guardian extends MElement{
 		String filet="Filet";
 		int nbF=2;
 		Item fil=new Item(null,nbF,filet);
+		String sifflet="Sifflet";
+		int nbS=2;
+		Item sif=new Item(null,nbS,sifflet);
 		items.put(filet, fil);
 		items.put(pP, pp);
 		items.put(pV, vp);
 		items.put(pA, ap);	
+		items.put(sifflet, sif);
 		vision=1;
 		agility=1;
 		precision=5; 
+
 		setVisionzone();
 	}
 
@@ -162,6 +167,9 @@ public class Guardian extends MElement{
 	public void decrementP(int n) {
 		precision-=n;
 	}
+
+
+
 	
 
 
