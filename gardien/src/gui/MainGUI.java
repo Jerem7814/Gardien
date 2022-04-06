@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -58,7 +61,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	
 	private JPanel panEst = new JPanel();
 	private JPanel panOuest = new JPanel();
-	
+	private JFrame frame;
 	
 	
 	public static JLabel buttonzone= new JLabel("Zone de commande :");
@@ -122,6 +125,9 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JButton demi;
 	private JButton gardP;
 	private JButton itemP;
+	public JButton Reset;
+	private int etoiles;
+	public ImageIcon star;
 	
 	public MainGUI(String title) {
 		super(title);
@@ -340,11 +346,83 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					System.out.println("Ok");
 				}
 			}
+			manager.getIncendie().stop();
+			GameConfiguration.stopmusic();
+            initend();
+    		frame.setVisible(true);
 			System.out.println("Fin de partie");
 			break;
 		}
 
 	}
+	private void initend() {
+		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
+			etoiles = 4;
+			star = new ImageIcon("ressources/images/4star.png");
+		}
+			else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
+				etoiles = 3;
+				star = new ImageIcon("ressources/images/3star.png");
+			}
+			else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+				etoiles = 2;
+				star = new ImageIcon("ressources/images/2star.png");
+			}
+			else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+			etoiles = 1;
+			star = new ImageIcon("ressources/images/1star.png");
+			
+		}
+		else {
+			etoiles = 0;
+			star = new ImageIcon("ressources/images/0star.png");
+
+
+		}
+		JPanel panel = new JPanel();
+		frame = new JFrame();
+		frame.setBounds(100, 100, 751, 699);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		JLabel Title = new JLabel("Bravo ! Vous avez obtenu " + etoiles + " étoiles !");
+		Title.setHorizontalAlignment(SwingConstants.CENTER);
+		Title.setBounds(200, 27, 356, 52);
+		Title.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		panel.add(Title);
+		
+		JLabel nbEtoile = new JLabel (star);
+		nbEtoile.setBounds(0, 74, 723, 241);
+		panel.add(nbEtoile);
+		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel Or = new JLabel("Or amassé : "+ manager.getExitmoney());
+		Or.setBounds(269, 307, 168, 26);
+		panel.add(Or);
+
+		
+		JLabel lblArrestations = new JLabel("Arrestations :" + manager.getArrestations() );
+		lblArrestations.setBounds(269, 355, 223, 26);
+		panel.add(lblArrestations);
+		
+		JLabel lblDuelsRemports = new JLabel("Duels remportés par l'intrus : " + manager.getDuels());
+		lblDuelsRemports.setBounds(269, 404, 223, 26);
+		panel.add(lblDuelsRemports);
+		
+		Reset = new JButton("Reset");
+		Reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				dispose();
+				GameConfiguration.GAME_SPEED=700;
+				OpenGame og = new OpenGame();
+			}
+		});
+		Reset.setBounds(253, 496, 251, 46);
+		panel.add(Reset);
+	}
+	
+	
 	
 	
 }

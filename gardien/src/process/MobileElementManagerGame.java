@@ -30,6 +30,8 @@ public class MobileElementManagerGame {
 	private Item mlure;
 	private Item mfilet;
 	
+	private int duels;
+	private int arrestations;
 	private int countcloak;
 	private int countfilet;
 	private int countlure;
@@ -69,6 +71,8 @@ public class MobileElementManagerGame {
 		netSound.setFile(9);
 		this.exitmoney=0;
 		this.countcloak=20;
+		this.arrestations=0;
+		this.duels=0;
 
 	}
 	
@@ -240,18 +244,20 @@ public class MobileElementManagerGame {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
 		rdm.put("1", "Vision Potion");
+		rdm.put("13", "Precision Potion");
+		rdm.put("14", "Precision Potion");
 		rdm.put("2", "Precision Potion");
 		rdm.put("6", "Precision Potion");
 		rdm.put("7", "Precision Potion");
 		rdm.put("10", "Precision Potion");
-		rdm.put("11", "Filet");
+		rdm.put("11", "Precision Potion");
 		rdm.put("9", "Filet");
 		rdm.put("3", "Filet");
-		rdm.put("12", "Lure");
+		rdm.put("12", "Precision Potion");
 		rdm.put("8", "Lure");
 		rdm.put("4", "Lure");
 		rdm.put("5", "Invisibility cloak");
-		int r=getRandomNumber(0,12);
+		int r=getRandomNumber(0,14);
 		String nb=String.valueOf(r);
 		String rt=rdm.get(nb);
 		return rt;
@@ -527,6 +533,7 @@ public class MobileElementManagerGame {
 						s.play();
 						intruder.decrementP(2);
 						eliminatedGuardian.add(guardian);
+						duels+=1;
 					}
 					else {
 						if(filetappareance) {
@@ -541,6 +548,7 @@ public class MobileElementManagerGame {
 						guardian.decrementP(1);
 						totalmoney-=intruder.moneyearned;
 						intruder=null;
+						arrestations+=1;
 					}
 				}
 				
@@ -1023,6 +1031,71 @@ public class MobileElementManagerGame {
 
 	public void setObstacles(List<Obstacle> obstacles) {
 		this.obstacles = obstacles;
+	}
+
+
+
+
+
+	public int getDuels() {
+		return duels;
+	}
+
+
+
+
+
+	public void setDuels(int duels) {
+		this.duels = duels;
+	}
+
+
+
+
+
+	public int getArrestations() {
+		return arrestations;
+	}
+
+
+
+
+
+	public void setArrestations(int arrestations) {
+		this.arrestations = arrestations;
+	}
+
+
+
+
+
+	public int getExitmoney() {
+		return exitmoney;
+	}
+
+
+
+
+
+	public void setExitmoney(int exitmoney) {
+		this.exitmoney = exitmoney;
+	}
+
+	
+
+
+
+
+	public Sound getIncendie() {
+		return incendie;
+	}
+
+
+
+
+
+	public void setIncendie(Sound incendie) {
+		this.incendie = incendie;
 	}
 
 

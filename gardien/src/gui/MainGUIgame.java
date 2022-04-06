@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,11 +18,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -57,6 +63,8 @@ public class MainGUIgame extends JFrame implements Runnable {
 	
 	private JPanel panEst = new JPanel();
 	private JPanel panOuest = new JPanel();
+	private JFrame frame;
+
 	
 	
 	
@@ -87,13 +95,13 @@ public class MainGUIgame extends JFrame implements Runnable {
 	public static JLabel empty10= new JLabel("");
 	public static JLabel empty11= new JLabel("");
 	
-	public static JLabel infoT= new JLabel("Tour actuel :");
-	public static JLabel infoG= new JLabel("Nb Gardien :");
-	public static JLabel infoA= new JLabel("Argent r�colt�:");
-	public static JLabel infoI= new JLabel("Nombre d'Item :");
+	public static JLabel infoT= new JLabel("Tour  :");
+	public static JLabel infoG= new JLabel("Gardiens :");
+	public static JLabel infoA= new JLabel("Argent actuel/sortis:");
+	public static JLabel infoI= new JLabel("Items :");
 	
-	public static JLabel infoT2= new JLabel("Leurres disponibles :");
-	public static JLabel infoG2= new JLabel("Capes disponibles :");
+	public static JLabel infoT2= new JLabel("Leurres dispo :");
+	public static JLabel infoG2= new JLabel("Capes dispo :");
 	public static JLabel infoA2= new JLabel("Tours leurres :");
 	public static JLabel infoI2= new JLabel("Tours cape :");
 
@@ -117,6 +125,9 @@ public class MainGUIgame extends JFrame implements Runnable {
 	public static JLabel iA2 = new JLabel();
 	public static JLabel iI2 = new JLabel();
 	
+	public JButton Reset;
+	private int etoiles;
+	public ImageIcon star;
 	
 
 	
@@ -280,7 +291,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 				iT.setText(String.valueOf(manager.getRound()));
 				iG.setText(String.valueOf(manager.getGuardians().size()));
-				iA.setText(String.valueOf(manager.getTotalmoney()));
+				iA.setText(String.valueOf(manager.getTotalmoney()+"/"+manager.getExitmoney()));
 				iI.setText(String.valueOf(manager.getItems().size()));
 				
 				iT2.setText(String.valueOf(manager.getIntruders().getItems().get("Lure").getNbre()));
@@ -307,14 +318,84 @@ public class MainGUIgame extends JFrame implements Runnable {
 				manager.nextRound();
 
 				dashboard.repaint();
+				if(manager.intrudervoid()) {
+					initend();
+		    		frame.setVisible(true);
+					manager.getIncendie().stop();
+					GameConfiguration.stopmusic();
+
+				}
 
 				
 				deplace=false;
 			}
-			else {
-				//nouvelle fenetre 
-			}
+			 
 		
+	}
+	private void initend() {
+		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getDuels())>=0) {
+			etoiles = 4;
+			star = new ImageIcon("ressources/images/4star.png");
+		}
+			else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0) {
+				etoiles = 3;
+				star = new ImageIcon("ressources/images/3star.png");
+			}
+			else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0) {
+				etoiles = 2;
+				star = new ImageIcon("ressources/images/2star.png");
+			}
+			else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0) {
+			etoiles = 1;
+			star = new ImageIcon("ressources/images/1star.png");
+		}
+		else {
+			etoiles = 0;
+			star = new ImageIcon("ressources/images/0star.png");
+
+
+		}
+		JPanel panel = new JPanel();
+		frame = new JFrame();
+		frame.setBounds(100, 100, 751, 699);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		JLabel Title = new JLabel("Bravo ! Vous avez obtenu " + etoiles + " étoiles !");
+		Title.setHorizontalAlignment(SwingConstants.CENTER);
+		Title.setBounds(200, 27, 356, 52);
+		Title.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		panel.add(Title);
+		
+		JLabel nbEtoile = new JLabel (star);
+		nbEtoile.setBounds(0, 74, 723, 241);
+		panel.add(nbEtoile);
+		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel Or = new JLabel("Or amassé : "+ manager.getExitmoney());
+		Or.setBounds(269, 307, 168, 26);
+		panel.add(Or);
+
+		
+		JLabel lblArrestations = new JLabel("Arrestations :" + manager.getArrestations() );
+		lblArrestations.setBounds(269, 355, 223, 26);
+		panel.add(lblArrestations);
+		
+		JLabel lblDuelsRemports = new JLabel("Duels remportés par l'intrus : " + manager.getDuels());
+		lblDuelsRemports.setBounds(269, 404, 223, 26);
+		panel.add(lblDuelsRemports);
+		
+		Reset = new JButton("Reset");
+		Reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				dispose();
+				GameConfiguration.GAME_SPEED=700;
+				OpenGame og = new OpenGame();
+			}
+		});
+		Reset.setBounds(253, 496, 251, 46);
+		panel.add(Reset);
 	}
 
 	public class KeyControls implements KeyListener {
@@ -383,9 +464,11 @@ public class MainGUIgame extends JFrame implements Runnable {
 						deplace=true;
 						Thread chronoThread = new Thread(instance);
 						chronoThread.start();
+
 					}
 				}
 				manager.getIntruders().setVisionzone();
+
 				}
 		}
 

@@ -14,19 +14,22 @@ public class GameConfiguration {
 	
 	public static int BLOCK_SIZE=70;
 	
+	private static Sound s=new Sound();
 
 
 
 	public static int LINE_COUNT = WINDOW_HEIGHT / BLOCK_SIZE;
 	public static int COLUMN_COUNT = WINDOW_WIDTH / BLOCK_SIZE;
 	
-	public static int GAME_SPEED = 500;
+	public static int GAME_SPEED = 700;
 	
 	public static final void playmusic() {
-		Sound s=new Sound();
 		s.setFile(5);
 		s.play();
 		s.loop();
+	}
+	public static final void stopmusic() {
+		s.stop();
 	}
 	
 
