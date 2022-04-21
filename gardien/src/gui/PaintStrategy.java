@@ -4,12 +4,11 @@ import java.awt.Color;
 
 
 
+
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -19,9 +18,7 @@ import map.Map;
 import model.ExitGate;
 import model.Guardian;
 import model.Item;
-import model.Obstacle;
 import model.Intruder;
-import process.MobileElementManager;
 
 /**
  * Copyright SEDAMOP - Software Engineering
@@ -98,22 +95,7 @@ public class PaintStrategy {
 	}
 	
 	
-	public void paintO(List<Obstacle> obstacles, Graphics graphics)  {
-		for(Obstacle obstacle : obstacles) {
-			Block position = obstacle.getPosition();
-			int blockSize = GameConfiguration.BLOCK_SIZE;
-	
-			int y = position.getLine();
-			int x = position.getColumn();
-	
-			try {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/obstacl.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+
 	
 	public void paintGate(ExitGate gate, Graphics graphics)  {
 		

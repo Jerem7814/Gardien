@@ -2,6 +2,7 @@ package process;
 
 import java.util.ArrayList;
 
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,18 +13,24 @@ import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import model.Obstacle;
 import sound.Sound;
 
+
+/**
+* this class contains essentially the same methods as MobileElementManager but we separate them to distinguish them well. It allows the mobility of our data in the game
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class MobileElementManagerGame {
 	Intruder intruder;
 	private Map map;
-	public int round;
+	private int round;
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
 
-	private boolean iHasmoved=false;
 	private boolean droppeditem=false;
 	private boolean droppedmoney=false;
 	private List<Item> items = new ArrayList<Item>();
@@ -42,7 +49,6 @@ public class MobileElementManagerGame {
 
 
 
-	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 
 	private List<Guardian> guardians = new ArrayList<Guardian>();
@@ -91,10 +97,6 @@ public class MobileElementManagerGame {
 	}
 
 
-	
-	public void add(Obstacle obstacle) {
-		obstacles.add(obstacle);
-	}
 	
 	
 
@@ -612,7 +614,7 @@ public class MobileElementManagerGame {
 			boolean havefocus=false;
 			List<Block> gvision=a.getVisionzone();
 			for(Block b:gvision) {
-					if(intruder.getPosition().equals(b)) {
+					if(intruder.getPosition().equals(b)&&!intruder.isTransparent()) {
 						gointruder(a,intruder);
 						havefocus=true;
 						break;
@@ -1005,9 +1007,7 @@ public class MobileElementManagerGame {
 	
 
 
-	public List<Obstacle> getObstacles() {
-		return obstacles;
-	}
+
 
 
 
@@ -1029,9 +1029,7 @@ public class MobileElementManagerGame {
 
 
 
-	public void setObstacles(List<Obstacle> obstacles) {
-		this.obstacles = obstacles;
-	}
+
 
 
 
@@ -1102,19 +1100,43 @@ public class MobileElementManagerGame {
 
 
 
+	public boolean isFilettrap() {
+		return filettrap;
+	}
+
+
+
+
+
+	public void setFilettrap(boolean filettrap) {
+		this.filettrap = filettrap;
+	}
+
+
+
+
+
+	public int getCountfilet() {
+		return countfilet;
+	}
+
+
+
+
+
+	public void setCountfilet(int countfilet) {
+		this.countfilet = countfilet;
+	}
+
+
+
+
+
 	private static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}
 
 
-	public boolean isIn(List<Block> vision, Block block) {
-		for(Block blok:vision) {
-			if(blok.equals(block)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	
 

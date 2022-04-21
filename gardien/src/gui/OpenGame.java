@@ -1,30 +1,25 @@
 package gui;
 
-/**
- * Cette classe represente la cr�ation de la fen�tre d'ouverture du jeu
- * O� l'utilisateur pourra entrer les param�tres choisit
- * @author cerini.enzo@gmail.com avishka2007@gmail.com rayane.dendoune@gmail.com 
- */
 
 import java.awt.BorderLayout;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 import config.GameConfiguration;
 import process.GameBuilder;
@@ -34,7 +29,6 @@ public class OpenGame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -541698616292452515L;
 	private JPanel pan  = new JPanel();
 	private JPanel panCenter = new JPanel();
-	private JLabel bienvenue = new JLabel("Définissez vos paramètres pour la simulation");
 	private JLabel taille = new JLabel("Quelle taille de grille voulez-vous ?");
 	private JLabel intrus = new JLabel("Combien d'intrus voulez vous ?");
 	private JLabel experience = new JLabel("Quel type d'experience voulez vous ?");
@@ -43,25 +37,24 @@ public class OpenGame extends JFrame implements ActionListener {
 	private ImageIcon icone = new ImageIcon("ressources/images/logo2.png");
 	private JLabel logo = new JLabel(icone);
 
-	private JComboBox taille1 = new JComboBox();
-	private JComboBox intrus1 = new JComboBox();
-	private JComboBox experience1 = new JComboBox();
+	private JComboBox<Integer> taille1 = new JComboBox<Integer>();
+	private JComboBox<Integer> intrus1 = new JComboBox<Integer>();
+	private JComboBox<String> experience1 = new JComboBox<String>();
 
 	private JButton start = new JButton("Start");
+	private JButton règles = new JButton("Règles du jeu");
+	private URI uris;
+
 	
-	public OpenGame() {
-		build();
-	}
 	
-	
-	private void build() {
+	public void build(){
+		
 		
 		this.setTitle("Welcome");
 		setDefaultCloseOperation(EXIT_ON_CLOSE) ; 
 		this.setSize(700, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		
 		pan.setLayout(new BorderLayout());
 		
 		start.addActionListener(this);
@@ -92,6 +85,8 @@ public class OpenGame extends JFrame implements ActionListener {
 
 		
 		JPanel container = new JPanel();
+		JPanel container2 = new JPanel();
+		
 		container.setLayout(new GridLayout(4,2));
 		container.add(experience);
 		container.add(experience1);
@@ -101,26 +96,44 @@ public class OpenGame extends JFrame implements ActionListener {
 		container.add(intrus1);
 		container.add(error);
 		
-
-
+		container2.setLayout(new GridLayout(1,2));
+		container2.add(règles);
+		container2.add(start);
 		container.setBackground(new Color(230, 230, 250));
+		container2.setBackground(new Color(230, 230, 250));
+
 		
 		JPanel squette = new JPanel();
 		squette.setLayout(new GridLayout(3,1));
-		squette.setBackground(new Color(230, 230, 250));
 		squette.add(logo);
 		squette.add(container);
-		squette.add(start);
-		
+		squette.add(container2);
+		squette.setBackground(new Color(230, 230, 250));
+
+
 		
 		
 		panCenter.setBackground(new Color(230, 230, 250)) ;
 		panCenter.setSize(1200,700);
 		panCenter.add(squette);
 		pan.add(panCenter, BorderLayout.CENTER);
-		
+		try {
+			uris = new URI("https://gardien.alwaysdata.net/index.php");
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		règles.addActionListener(e-> {
+			try {
+				Desktop.getDesktop().browse(uris); 
+			} catch (IOException e1) {
+			}
+		});
+
 		this.setContentPane(pan);
 		setVisible(true) ;
+		GameConfiguration.playmusicOpen();
+
 	}
 	
 	
@@ -147,6 +160,7 @@ public class OpenGame extends JFrame implements ActionListener {
 						Thread gameThread = new Thread(gameMainGUI);
 						gameThread.start();
 					}
+					GameConfiguration.stopmusicOpen();
 					dispose();
 				}
 

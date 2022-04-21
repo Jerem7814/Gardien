@@ -1,10 +1,10 @@
 package test.unit;
 
 import java.util.HashMap;
+
 import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +13,15 @@ import map.Block;
 import model.Guardian;
 import model.Item;
 
+
+/**
+ * Unit test of guardian initialization. Checks if the guardian's initial number of nets is 2
+ * 
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ */
 public class TestUnitGuardian {
 	private Guardian guardian;
 	

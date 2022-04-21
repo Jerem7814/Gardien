@@ -3,11 +3,11 @@ package process;
 import map.Map;
 
 
+
 import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import model.Obstacle;
 import sound.Sound;
 import map.Block;
 
@@ -21,14 +21,16 @@ import config.GameConfiguration;
 
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
- */
+* allows the mobility of our data in the simulation
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
+
 public class MobileElementManager {
 	private Map map;
-	public int round;
+	private int round;
 	private boolean lureappareance=false;
 	private boolean filettrap=false;
 	private boolean filetappareance=false;
@@ -57,13 +59,11 @@ public class MobileElementManager {
 
 
 
-	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 
 	private List<Guardian> guardians = new ArrayList<Guardian>();
 	private List<Intruder> intruders = new ArrayList<Intruder>();
 	private ExitGate gate;
-	private List<Intruder> freeintruders = new ArrayList<Intruder>();
 	private int totalmoney=0;
 	private int roundmoney=0;
 	private int exitmoney=0;
@@ -97,24 +97,33 @@ public class MobileElementManager {
 
 	
 	
-
+	/**
+	 * add an item in our list
+	 * @param item The item we want to add
+	 */
 	public void add(Item item) {
 		items.add(item);
 	}
 	
 
-
+	/**
+	 * add a guardian in our list
+	 * @param guardian The guardian we want to add
+	 */
 	public void add(Guardian guardian) {
 		guardians.add(guardian);
 	}
 
+	/**
+	 * add an intruder in our list
+	 * @param intruder The intruder we want to add
+	 */
 	public void add(Intruder intruder) {
 		intruders.add(intruder);
 	}
 	
-	public void add(Obstacle obstacle) {
-		obstacles.add(obstacle);
-	}
+	
+
 	
 	
 
@@ -124,7 +133,9 @@ public class MobileElementManager {
 
 
 
-
+	/**
+	 * this method is called to perform the actions to be done each round
+	 */
 	public void nextRound() {
 
 		if(isNumber(100)) {
@@ -170,6 +181,11 @@ public class MobileElementManager {
 
 	}
 	
+	/**
+	 * verify if the actual round is a multiple of i
+	 * @param i The number we want to verify
+	 * @return boolean true or false 
+	 */
 	public boolean isNumber(int i) {
 		if(round%i==0) {
 			return true;
@@ -180,7 +196,9 @@ public class MobileElementManager {
 	}
 	
 	
-
+	/**
+	 * generate a guardian and place it randomly on one of the blocks located at the top of the map
+	 */
 	public void generateGuardian() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		Block position = new Block(0, randomColumn);
@@ -189,7 +207,9 @@ public class MobileElementManager {
 		add(guardian);
 	}
 	
-	
+	/**
+	 * generate an item and place it randomly on one of the blocks of the map. An item cannot appear above another
+	 */
 	public void generateItem() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		int lineColumn = getRandomNumber(0, GameConfiguration.LINE_COUNT - 1);
@@ -230,7 +250,9 @@ public class MobileElementManager {
 	
 
 
-	
+	/**
+	 * generate a bag of money and place it randomly on one of the blocks of the map. A bag cannot appear above another
+	 */
 	private void generateMoney() {
 		int randomColumn = getRandomNumber(0, GameConfiguration.COLUMN_COUNT - 1);
 		int lineColumn = getRandomNumber(0, GameConfiguration.LINE_COUNT - 1);
@@ -268,6 +290,10 @@ public class MobileElementManager {
 		
 		}
 	
+	/**
+	 * Choose an item at random. each item has a different spawn percentage depending on their effectiveness
+	 * @return the name of the item randomly drawn 
+	 */
 	public String randomItem() {
 		HashMap<String,String> rdm = new HashMap<String,String>();
 		rdm.put("0", "Agility Potion");
@@ -291,16 +317,25 @@ public class MobileElementManager {
 		return rt;
 	}
 	
+	
+	/**
+	 * increment the value of the attribut round 
+	 */
 	public void incrementRound() {
 		round+=1;
 	}
 
-	
+	/**
+	 * calls the 2 evolution methods (for guardian and intruder)
+	 */
 	public void evolution() {
 		evolutionI();
 		evolutionG();
 	}
 	
+	/**
+	 * allows you to improve the abilities of the guardian (vision,net,etc) if he is on the same block as an item
+	 */
 	public void evolutionG() {
 			List<Item> eliminatedItem = new ArrayList<Item>();
 			for (Guardian guardian : guardians) {
@@ -371,7 +406,9 @@ public class MobileElementManager {
 			}			}
 	
 
-	
+	/**
+	 * allows you to improve the abilities of the intruder (vision,lure,etc) if he is on the same block as an item
+	 */
 	public void evolutionI() {
 		List<Item> eliminatedItem = new ArrayList<Item>();
 		for (Intruder intruder : intruders) {
@@ -451,6 +488,13 @@ public class MobileElementManager {
 		}	
 		}
 	
+	
+	/**
+	 * make the lure active 
+	 * @param intruder The intruder who use the lure
+	 * @param line Line where the lure is created 
+	 * @param column Column where the lure is created 
+	 */
 	public void uselure(Intruder intruder, int line, int column) {
 		Block intruderPosition = new Block(line,column);
 		HashMap<String,Item> itemsI=intruder.getItems();
@@ -468,8 +512,16 @@ public class MobileElementManager {
 			
 		}
 	}
+	
+	
+	/**
+	 * make the whistle active 
+	 * @param guardian The guardian who use the whistle
+	 * @param line Line where the whistle is created 
+	 * @param column Column where the whistle is created 
+	 */
 	public void usesifflet(Guardian guardian, int line, int column) {
-		Block guardianPosition = new Block(line,column);
+		Block intruderPosition = new Block(line,column);
 		HashMap<String,Item> itemsG=guardian.getItems();
 		Item sifflet=itemsG.get("Sifflet");
 		if(sifflet.getNbre()>0 && sifflet!=null) {
@@ -478,13 +530,16 @@ public class MobileElementManager {
 			sifflet.decrement(1);
 			itemsG.put("Sifflet", sifflet);
 			guardian.setItems(itemsG);
-			Block siffletposition=guardianPosition;
+			Block siffletposition=intruderPosition;
 			msifflet=new Item(siffletposition,0,"Sifflet");
 			
 			
 		}
 	}
 	
+	/**
+	 * deactivate the whistle 
+	 */
 	public void stopsifflet() {
 		siffletsound.stop();
 		msifflet=null;
@@ -492,6 +547,9 @@ public class MobileElementManager {
 		siffletappareance=false;
 	}
 	
+	/**
+	 * deactivate the lure 
+	 */
 	public void stoplure() {
 		incendie.stop();
 		mlure=null;
@@ -499,7 +557,11 @@ public class MobileElementManager {
 		lureappareance=false;
 	}
 	
-	public void usecloak(Intruder intruder, int line, int column) {
+	/**
+	 * make the cloak of the intruder active 
+	 * @param intruder The intruder who use the lure
+	 */
+	public void usecloak(Intruder intruder) {
 		HashMap<String,Item> itemsI=intruder.getItems();
 		Item cloak=itemsI.get("Invisibility cloak");
 		if(cloak.getNbre()>0 ) {
@@ -514,12 +576,23 @@ public class MobileElementManager {
 		}
 	}
 	
+	/**
+	 * deactivate the cloak 
+	 * @param i The intruder whose ability is removed
+	 */
 	public void stopcloak(Intruder i) {
 		//cloak.stop();
 		i.setTransparentcount(15);
 		i.setTransparent(false);
 	}
 		
+	
+	/**
+	 * make the net of the guardian active 
+	 * @param guardian The guardian who use the net
+	 * @param line Line where the net is created 
+	 * @param column Column where the lure is net 
+	 */
 		public void usefilet(Guardian guardian, int line, int column) {
 			Block guardianPosition = new Block(line,column);
 			HashMap<String,Item> itemsG=guardian.getItems();
@@ -545,6 +618,10 @@ public class MobileElementManager {
 	
 		}
 		
+		
+		/**
+		 * deactivate the filet 
+		 */
 		public void stopfilet() {
 			netSound.stop();
 			mfilet=null;
@@ -553,12 +630,18 @@ public class MobileElementManager {
 			filetappareance=false;
 		}
 		
-		public void iONfilet(Intruder intruder) {
+		
+		/**
+		 * sends a signal that an intruder has been captured
+		 */
+		public void iONfilet() {
 			filettrap=true;	
 		}
 	
 
-			
+	/**
+	 * if an intruder and a guardian are on the same block, remove the person with the least precision(guardian attribute name)/dodge(intruder attribute name)
+	 */	
 	public void combat() {
 		System.out.println("round :"+round+" countlure : "+countlure);
 		if(mlure!=null) {
@@ -614,19 +697,23 @@ public class MobileElementManager {
 		}
 	}
 	
+	/**
+	 * pick an intruder in those present and create a lure on his position
+	 */
 	public void createlure() {
 		Intruder i=intruders.get(getRandomNumber(0,intruders.size()-1));
 		uselure(i,i.getPosition().getLine(),i.getPosition().getColumn());
 	}
 	
 
-	
+	/**
+	 * if the whistle is active, warned guardians focus the intruder seen
+	 */
 	public void focusintruder() {
 		if(msifflet!=null) {
 			siffletappareance=true;
 		}
 		if(siffletappareance==true) {
-			System.out.println(countsifflet);
 			countsifflet--;
 			if(countsifflet==0) {
 				stopsifflet();
@@ -699,7 +786,9 @@ public class MobileElementManager {
 	}
 	
 	
-	
+	/**
+	 * when a lure is active, guardians will move towards the lure
+	 */
 	public void gGOlure(){
 		for(Guardian a : guardians) {
 			Block lureposition=mlure.getPosition();
@@ -744,7 +833,9 @@ public class MobileElementManager {
 		
 	}
 	
-	
+	/**
+	 * first priority of the guardians. they will check if there is an intruder in their field of view
+	 */
 	public void gSEEi(){
 
 		for(Guardian a : guardians) {
@@ -755,8 +846,8 @@ public class MobileElementManager {
 				for(Intruder i:intruders) {
 					if(i.getPosition().equals(b)&&!i.isTransparent()) {
 						gointruder(a,i);
-						if(guardians.size()>1&&!i.isTransparent()) {
-							usesifflet(a,a.getPosition().getLine(),a.getPosition().getColumn());
+						if(guardians.size()>1&&!i.isTransparent()&&a.getVision()>1&&isInGVision(a)) {
+							usesifflet(a,i.getPosition().getLine(),i.getPosition().getColumn());
 						}
 						havefocus=true;
 						break;
@@ -773,6 +864,11 @@ public class MobileElementManager {
 		
 	}
 	
+	/**
+	 * if an intruder is in the field of vision of one of the guardians then the guardian moves towards this one
+	 * @param gu The guardian who move 
+	 * @param in The intruder who is targeted
+	 */
 	public void gointruder(Guardian gu,Intruder in) {
 
 		Block intruderPos=in.getPosition();
@@ -822,7 +918,10 @@ public class MobileElementManager {
 
 	
 
-	
+	/**
+	 * second priority of the guardians. they will check if there is an item in their field of view
+	 * @param i A guardian
+	 */
 	public void deplapriorite(Guardian i) {
 			i.setVisionzone();
 			boolean havesearchitem=false;
@@ -844,6 +943,11 @@ public class MobileElementManager {
 			}
 	}
 	
+	/**
+	 * if an item is in the field of vision of one of the guardians then the guardian moves towards this one
+	 * @param i The guardian who move
+	 * @param g The item that will be taken
+	 */
 	public void goitem(Guardian i,Item g) {
 
 			Block itemPos=g.getPosition();
@@ -889,8 +993,104 @@ public class MobileElementManager {
 		
 	}
 	
+	/**
+	 * third priority of the guardians. move to a random block
+	 * @param a The guardian who move
+	 */
+	public void deplaleatoireG(Guardian a) {
+		
+		boolean hasmoved=false;
+		while(!hasmoved) {
+			int rdm=getRandomNumber(0,3);
+			
+		
+	
+			if(rdm==0&&isOk(a,0,a.getAgility())) {
+				//a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()+a.getAgility()));
+
+				hasmoved=true;
+			}
+			else if(rdm==1&&isOk(a,1,a.getAgility())) {
+				//a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()-a.getAgility()));
+
+				hasmoved=true;
+			}
+			
+			else if(rdm==2&&isOk(a,2,a.getAgility())) {
+				//a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()+a.getAgility(),a.getPosition().getColumn()));
+
+				hasmoved=true;
+			}
+			else if(rdm==3&&isOk(a,3,a.getAgility())) {
+				//a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
+				a.setPosition(new Block(a.getPosition().getLine()-a.getAgility(),a.getPosition().getColumn()));
+
+				hasmoved=true;
+			}
+		}
+		
+	}
+	
+	/**
+	 * method who move the guardian on the map thanks to a direction
+	 * @param a The guardian who move 
+	 * @param direction The direction he will take
+	 * @param deplacement The number of case we want to move 
+	 */
+	public void deplacement(Guardian a,int direction, int deplacement) {
+		
+		
+		
+		
+		if(direction==0&&isOk(a,direction,deplacement)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
+		}
+		else if(direction==1&&isOk(a,direction,deplacement)) {
+			a.getPosition().setColumn(a.getPosition().getColumn()-deplacement);
+		}
+		
+		else if(direction==2&&isOk(a,direction,deplacement)) {
+			a.getPosition().setLine(a.getPosition().getLine()+deplacement);
+		}
+		else if(direction==3&&isOk(a,direction,deplacement)) {
+			a.getPosition().setLine(a.getPosition().getLine()-deplacement);
+		}
+	
+	}
 	
 	
+	/**
+	 * check if the to move case is accessible
+	 * @param i The guardian who move 
+	 * @param mvt The direction he will take
+	 * @param deplacement The number of case we want to move 
+	 * @return true if the case is accessible, false else
+	 */
+	public boolean isOk(Guardian i,int mvt,int deplacement){
+		if (mvt==0&&i.getPosition().getColumn()+deplacement<GameConfiguration.COLUMN_COUNT) {
+			return true;
+		}
+		else if (mvt==1&&i.getPosition().getColumn()-deplacement>-1) {
+			return true;
+		}
+		else if (mvt==2&&i.getPosition().getLine()+deplacement<GameConfiguration.LINE_COUNT) {
+			return true;
+		}
+		else if (mvt==3&&i.getPosition().getLine()-deplacement>-1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * first priority of the intruder. they will check if there is a guardian in their field of view
+	 */
 	public void iSEEg(){
 		if(mfilet!=null) {
 			filetappareance=true;
@@ -912,7 +1112,7 @@ public class MobileElementManager {
 			List<Block> ivision=a.getVisionzone();
 			if(a.isTransparent()&& a.getTransparentcount()>0) {
 
-				usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
+				usecloak(a);
 				a.decrementIC();
 			}
 			else if(a.getTransparentcount() ==0) {
@@ -922,7 +1122,7 @@ public class MobileElementManager {
 				for(Guardian g:guardians) {
 					if(mfilet!=null&&a.getPosition().equals(mfilet.getPosition())) {
 						haverunaway=true;
-						iONfilet(a);
+						iONfilet();
 					}
 
 
@@ -930,7 +1130,7 @@ public class MobileElementManager {
 					
 					else if(g.getPosition().equals(b) && !a.isTransparent()) {
 						if(guardians.size()>1) {
-							usecloak(a, a.getPosition().getLine(), a.getPosition().getColumn());
+							usecloak(a);
 						}
 						runaway(a,g);
 						haverunaway=true;
@@ -949,6 +1149,13 @@ public class MobileElementManager {
 		
 	}
 	
+	
+	
+	/**
+	 * runaway from the guardian seen
+	 * @param i The intruder who move 
+	 * @param g The guardian that the intruder wants to escape
+	 */
 	public void runaway(Intruder i,Guardian g) {
 
 		Block guardianPos=g.getPosition();
@@ -1007,7 +1214,10 @@ public class MobileElementManager {
 	}
 
 	
-
+	/**
+	 * second priority of the intruders. they will check if there is an item in their field of view
+	 * @param i An intruder
+	 */
 	
 	public void deplapriorite(Intruder i) {
 			i.setVisionzone();
@@ -1030,6 +1240,12 @@ public class MobileElementManager {
 			}
 	}
 	
+	
+	/**
+	 * if an item is in the field of vision of one of the intruders then the intruders moves towards this one
+	 * @param i The intruder who move
+	 * @param g The item that will be taken
+	 */
 	public void goitem(Intruder i,Item g) {
 
 		Block itemPos=g.getPosition();
@@ -1074,6 +1290,13 @@ public class MobileElementManager {
 			}
 		}
 	}
+	
+	/**
+	 * method who move the intruder on the map thanks to a direction
+	 * @param a The intruder who move 
+	 * @param direction The direction he will take
+	 * @param deplacement The number of case we want to move 
+	 */
 	public void deplacement(Intruder a,int direction, int deplacement) {
 		
 		
@@ -1102,27 +1325,11 @@ public class MobileElementManager {
 	
 	}
 
-	public void deplacement(Guardian a,int direction, int deplacement) {
-		
-		
-	
-	
-		if(direction==0&&isOk(a,direction,deplacement)) {
-			a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
-		}
-		else if(direction==1&&isOk(a,direction,deplacement)) {
-			a.getPosition().setColumn(a.getPosition().getColumn()-deplacement);
-		}
-		
-		else if(direction==2&&isOk(a,direction,deplacement)) {
-			a.getPosition().setLine(a.getPosition().getLine()+deplacement);
-		}
-		else if(direction==3&&isOk(a,direction,deplacement)) {
-			a.getPosition().setLine(a.getPosition().getLine()-deplacement);
-		}
-	
-	}
-	
+
+	/**
+	 * third priority of the intruders. move to a random block
+	 * @param a The intruder who move
+	 */
 	public void deplaleatoireI(Intruder a) {
 		boolean hasmoved=false;
 		while(!hasmoved) {
@@ -1161,43 +1368,14 @@ public class MobileElementManager {
 }
 	
 	
-	public void deplaleatoireG(Guardian a) {
-		
-		boolean hasmoved=false;
-		while(!hasmoved) {
-			int rdm=getRandomNumber(0,3);
-			
-		
-	
-			if(rdm==0&&isOk(a,0,a.getAgility())) {
-				//a.getPosition().setColumn(a.getPosition().getColumn()+a.getAgility());
-				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()+a.getAgility()));
 
-				hasmoved=true;
-			}
-			else if(rdm==1&&isOk(a,1,a.getAgility())) {
-				//a.getPosition().setColumn(a.getPosition().getColumn()-a.getAgility());
-				a.setPosition(new Block(a.getPosition().getLine(),a.getPosition().getColumn()-a.getAgility()));
-
-				hasmoved=true;
-			}
-			
-			else if(rdm==2&&isOk(a,2,a.getAgility())) {
-				//a.getPosition().setLine(a.getPosition().getLine()+a.getAgility());
-				a.setPosition(new Block(a.getPosition().getLine()+a.getAgility(),a.getPosition().getColumn()));
-
-				hasmoved=true;
-			}
-			else if(rdm==3&&isOk(a,3,a.getAgility())) {
-				//a.getPosition().setLine(a.getPosition().getLine()-a.getAgility());
-				a.setPosition(new Block(a.getPosition().getLine()-a.getAgility(),a.getPosition().getColumn()));
-
-				hasmoved=true;
-			}
-		}
-		
-	}
-	
+	/**
+	 * check if the move to a block is accessible
+	 * @param i The intruder who move 
+	 * @param mvt The direction he will take
+	 * @param deplacement The number of case we want to move 
+	 * @return true if the block is accessible, false else 
+	 */	
 	public boolean isOk(Intruder i,int mvt, int deplacement){
 		if (mvt==0&&i.getPosition().getColumn()+deplacement<GameConfiguration.COLUMN_COUNT) {
 			iHasmoved=true;
@@ -1222,30 +1400,18 @@ public class MobileElementManager {
 	}
 	
 	
-	public boolean isOk(Guardian i,int mvt,int deplacement){
-		if (mvt==0&&i.getPosition().getColumn()+deplacement<GameConfiguration.COLUMN_COUNT) {
-			return true;
-		}
-		else if (mvt==1&&i.getPosition().getColumn()-deplacement>-1) {
-			return true;
-		}
-		else if (mvt==2&&i.getPosition().getLine()+deplacement<GameConfiguration.LINE_COUNT) {
-			return true;
-		}
-		else if (mvt==3&&i.getPosition().getLine()-deplacement>-1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
-	}
-	
+
+	/**
+	 * check if there is intruders on the map
+	 * @return true if there aren't intruders on the map, false else
+	 */	
 	public boolean intrudervoid() {
 		return intruders.size()==0;
 	}
 	
-
+	/**
+	 * check if intruder can exit thanks to conditions. Move on the exit gate if it's possible 
+	 */	
 	public void goExit() {
 		boolean exit=false;
 
@@ -1301,7 +1467,9 @@ public class MobileElementManager {
 		}
 	}
 
-	
+	/**
+	 * exit intruders on the exit gate if the required conditions are fulfilled
+	 */	
 	public void exitintruders() {
 		List<Intruder> eliminatedintruders = new ArrayList<Intruder>();
 		for (Intruder intruder : intruders) {
@@ -1314,11 +1482,13 @@ public class MobileElementManager {
 		}
 		for(Intruder intruder:eliminatedintruders) {
 			intruders.remove(intruder);
-			freeintruders.add(intruder);
 		}
 
 	}
 	
+	/**
+	 * increment the value total money every round
+	 */	
 	public void moneyearned() {
 		totalmoney+=roundmoney;
 		roundmoney=0;
@@ -1329,61 +1499,115 @@ public class MobileElementManager {
 
 	}
 	
+	/**
+	 * check if a guardian is in the guardianzone of the Guardian a
+	 * @param a a Guardian
+	 * @return true if there is a guardian in the visionzone of a, false else.
+	 */
+	public boolean isInGVision(Guardian a) {
+		for(Block b:a.getVisionzone()) {
+			for(Guardian g: guardians) {
+				if(b.equals(g.getPosition())) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
+	}
+	
 
 
 
 	
 
 
-
+	 /**
+	 * get the map
+	 * @return a map
+	 */
 	public Map getMap() {
 		return map;
 	}
 
+	
+	 /**
+	 * set the map
+	 * @param map map 
+	 */
 	public void setMap(Map map) {
 		this.map = map;
 	}
 
+	 /**
+	 * get a list of items
+	 * @return a list of items
+	 */
 	public List<Item> getItems() {
 		return items;
 	}
 
+	 /**
+	 * set a list of items
+	 * @param items list of items
+	 */
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
 
+	 /**
+	 * get a list of guardians
+	 * @return a list of guardians
+	 */
 	public List<Guardian> getGuardians() {
 		return guardians;
 	}
 
+	 /**
+	 * set a list of guardians
+	 * @param guardians list of guardians
+	 */
 	public void setGuardians(List<Guardian> guardians) {
 		this.guardians = guardians;
 	}
 
+	 /**
+	 * get a list of intruders
+	 * @return a list of intruders
+	 */
 	public List<Intruder> getIntruders() {
 		return intruders;
 	}
 
+	 /**
+	 * set a list of intruders
+	 * @param intruders list of intruders
+	 */
 	public void setIntruders(List<Intruder> intruders) {
 		this.intruders = intruders;
 	}
 	
-	public List<Intruder> getFreeintruders() {
-		return freeintruders;
-	}
 
-	public void setFreeintruders(List<Intruder> freeintruders) {
-		this.freeintruders = freeintruders;
-	}
-	
+	 /**
+	 * get the exit gate
+	 * @return the exit gate
+	 */
 	public ExitGate getGate() {
 		return gate;
 	}
 
+	 /**
+	 * set an exit gate
+	 * @param gate a gate
+	 */
 	public void setGate(ExitGate gate) {
 		this.gate = gate;
 	}
 
+	 /**
+	 * get the lure dropped by the intruder
+	 * @return the lure dropped by the intruder
+	 */
 	public Item getMlure() {
 		return mlure;
 	}
@@ -1391,10 +1615,18 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set a lure dropped by the intruder
+	 * @param mlure a lure dropped by the intruder
+	 */
 	public void setMlure(Item mlure) {
 		this.mlure = mlure;
 	}
+	
+	 /**
+	 * get the net dropped by the guardian
+	 * @return the net dropped by the guardian
+	 */
 	public Item getMfilet() {
 		return mfilet;
 	}
@@ -1402,7 +1634,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * get the number of actual round
+	 * @return the number of actual round
+	 */
 	public int getRound() {
 		return round;
 	}
@@ -1410,7 +1645,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the number of the actual round
+	 * @param round the number of the actual round 
+	 */
 	public void setRound(int round) {
 		this.round = round;
 	}
@@ -1418,12 +1656,18 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set a net dropped by the guardian
+	 * @param mfilet a net dropped by the guardian
+	 */
 	public void setMfilet(Item mfilet) {
 		this.mfilet = mfilet;
 	}
 	
-	
+	 /**
+	 * get the value of actual total money
+	 * @return the value of actual total money
+	 */
 	public int getTotalmoney() {
 		return totalmoney;
 	}
@@ -1431,7 +1675,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the value of the actual total money
+	 * @param totalmoney the value of the actual total money
+	 */
 	public void setTotalmoney(int totalmoney) {
 		this.totalmoney = totalmoney;
 	}
@@ -1439,22 +1686,14 @@ public class MobileElementManager {
 	
 
 
-	public List<Obstacle> getObstacles() {
-		return obstacles;
-	}
 
 
 
 
-
-	public void setObstacles(List<Obstacle> obstacles) {
-		this.obstacles = obstacles;
-	}
-
-
-
-
-
+	 /**
+	 * get the whistle of the guardian
+	 * @return the whistle of the guardian
+	 */
 	public Item getSiflet() {
 		return msifflet;
 	}
@@ -1462,7 +1701,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the whistle of the guardian
+	 * @param msiflet the whistle of the guardian
+	 */
 	public void setSiflet(Item msiflet) {
 		this.msifflet = msiflet;
 	}
@@ -1470,7 +1712,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * get the value of the money taken out by the intruders
+	 * @return the money taken out by the intruders
+	 */
 	public int getExitmoney() {
 		return exitmoney;
 	}
@@ -1478,7 +1723,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the value of the money taken out by the intruders
+	 * @param exitmoney the money taken out by the intruders
+	 */
 	public void setExitmoney(int exitmoney) {
 		this.exitmoney = exitmoney;
 	}
@@ -1486,7 +1734,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * get the number of duel
+	 * @return the number of duel
+	 */
 	public int getDuels() {
 		return duels;
 	}
@@ -1494,7 +1745,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the number of duel
+	 * @param duels the number of duel
+	 */
 	public void setDuels(int duels) {
 		this.duels = duels;
 	}
@@ -1502,7 +1756,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * get the number of arrest
+	 * @return the number of arrest
+	 */
 	public int getArrestations() {
 		return arrestations;
 	}
@@ -1510,7 +1767,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set the number of arrest
+	 * @param arrestations the number of arrest
+	 */
 	public void setArrestations(int arrestations) {
 		this.arrestations = arrestations;
 	}
@@ -1518,7 +1778,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * get fire alarm sound
+	 * @return the fire alarm sound
+	 */
 	public Sound getIncendie() {
 		return incendie;
 	}
@@ -1526,7 +1789,10 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * set fire alarm sound
+	 * @param incendie the fire alarm sound
+	 */
 	public void setIncendie(Sound incendie) {
 		this.incendie = incendie;
 	}
@@ -1534,7 +1800,12 @@ public class MobileElementManager {
 
 
 
-
+	 /**
+	 * pick a random number between a min and a max
+	 * @param min The lower bound
+	 * @param max The upper bound
+	 * @return a random number
+	 */
 	private int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}

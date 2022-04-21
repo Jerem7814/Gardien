@@ -8,12 +8,16 @@ import map.Block;
 import model.Intruder;
 
 /**
- * This utility class allows the creation of tree node of any concrete type. The class uses simple factory design pattern with static utility methods.
+ * This utility class allows the creation of intruders position. The class uses simple factory design pattern with static utility methods.
  * 
- * The creation of the tree nodes is recorded by Log4j.
- * 
- * @author Tianxiao.Liu@u-cergy.fr
+ * The creation of the intruders position is recorded by Log4j.
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
  */
+
+
 public class IntruderPositionFactory {
 
 	/**
@@ -26,10 +30,10 @@ public class IntruderPositionFactory {
 
 
 	/**
-	 * Creates a Constant node.
+	 * Creates an intruder.
 	 * 
-	 * @param value the constant integer value
-	 * @return the constructed node
+	 * @param block the position of the initialized intruder
+	 * @return the intruder with his position
 	 */
 	public static Intruder createIntruder(Block block) {
 		logger.info("Intruder creation with values : " + block);

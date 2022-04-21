@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Container;
@@ -8,32 +9,22 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import config.GameConfiguration;
 
-import map.Block;
 import map.Map;
-import model.Guardian;
-import model.Item;
-import model.Intruder;
+
 import process.GameBuilder;
 import process.MobileElementManager;
 
@@ -64,60 +55,46 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JFrame frame;
 	
 	
-	public static JLabel buttonzone= new JLabel("Zone de commande :");
-	public static JLabel vide= new JLabel("");
-	public static JLabel vide1= new JLabel("");
-	public static JLabel vide2= new JLabel("");
-	public static JLabel vide3= new JLabel("");
-	public static JLabel vide4= new JLabel("");
-	public static JLabel vide5= new JLabel("");
-	public static JLabel vide6= new JLabel("");
-	public static JLabel vide7= new JLabel("");
+	private JLabel buttonzone= new JLabel("Zone de commande :");
+	private JLabel vide= new JLabel("");
+	private JLabel vide1= new JLabel("");
+	private JLabel vide2= new JLabel("");
+	private JLabel vide3= new JLabel("");
+	private JLabel vide4= new JLabel("");
+	private JLabel vide5= new JLabel("");
+	private JLabel vide6= new JLabel("");
+	private JLabel vide7= new JLabel("");
 	
-	public static JLabel infozone= new JLabel("Zone d'Info :");
-	public static JLabel empty= new JLabel("");
-	public static JLabel empty1= new JLabel("");
-	public static JLabel empty2= new JLabel("");
-	public static JLabel empty3= new JLabel("");
-	public static JLabel empty4= new JLabel("");
-	public static JLabel empty5= new JLabel("");
+	private JLabel infozone= new JLabel("Zone d'Info :");
+	private JLabel empty= new JLabel("");
+	private JLabel empty1= new JLabel("");
+	private JLabel empty2= new JLabel("");
+	private JLabel empty3= new JLabel("");
+	private JLabel empty4= new JLabel("");
+	private JLabel empty5= new JLabel("");
 	
-	public static JLabel infoStat= new JLabel("Zone d'Info :");
+
 	
-	public static JLabel empty6= new JLabel("");
-	public static JLabel empty7= new JLabel("");
-	public static JLabel empty8= new JLabel("");
-	public static JLabel empty9= new JLabel("");
-	public static JLabel empty10= new JLabel("");
-	public static JLabel empty11= new JLabel("");
-	
-	public static JLabel infoT= new JLabel("Tour actuel :");
-	public static JLabel infoG= new JLabel("Nb Gardien :");
-	public static JLabel infoA= new JLabel("Argent r�colt�:");
-	public static JLabel infoI= new JLabel("Nombre d'Item :");
-	
-	public static JLabel infoGV= new JLabel("Vision :");
-	public static JLabel infoGA= new JLabel("Agilite :");
-	public static JLabel infoGP= new JLabel("Precision :");
-	
-	public static JLabel foGV= new JLabel("Vision :");
-	public static JLabel foGA= new JLabel("Agilite :");
-	public static JLabel foGP= new JLabel("Precision :");
-	
-	public static JLabel iT = new JLabel();
-	public static JLabel iG = new JLabel();
-	public static JLabel iA = new JLabel();
-	public static JLabel iI = new JLabel();
+	private JLabel infoT= new JLabel("Tour actuel :");
+	private JLabel infoG= new JLabel("Nb Gardiens :");
+	private JLabel infoA= new JLabel("Argent récolté:");
+	private JLabel infoI= new JLabel("Nb Items :");
 	
 	
-	public static JLabel buttonC= new JLabel(" Reprendre le jeu :");
-	public static JLabel buttonS= new JLabel(" Bouton pour stop :");
+	private JLabel iT = new JLabel();
+	private JLabel iG = new JLabel();
+	private JLabel iA = new JLabel();
+	private JLabel iI = new JLabel();
 	
-	public static JLabel buttondou= new JLabel(" Double la vitesse :");
-	public static JLabel buttondemi= new JLabel(" Divise la vitesse par 2 :");
 	
-	public static JLabel buttonG= new JLabel(" Ajouter un Gardien :");
-	public static JLabel itemG= new JLabel("Ajouter un item :");
+	private JLabel buttonC= new JLabel(" Reprendre le jeu :");
+	private JLabel buttonS= new JLabel(" Bouton pour stop :");
+	
+	private JLabel buttondou= new JLabel(" Double la vitesse :");
+	private JLabel buttondemi= new JLabel(" Divise la vitesse par 2 :");
+	
+	private JLabel buttonG= new JLabel(" Ajouter un Gardien :");
+	private JLabel itemG= new JLabel("Ajouter un item :");
 	
 	private JButton stopG;
 	private JButton startG;
@@ -125,9 +102,9 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JButton demi;
 	private JButton gardP;
 	private JButton itemP;
-	public JButton Reset;
+	private JButton Reset;
 	private int etoiles;
-	public ImageIcon star;
+	private ImageIcon star;
 	
 	public MainGUI(String title) {
 		super(title);
@@ -168,11 +145,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		
 		
 
-		foGV = new JLabel();
-		
-		foGA = new JLabel();
-		
-		foGP = new JLabel();
+
 		
 		
 		
@@ -180,7 +153,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 		
-		panOuest.setLayout(new GridLayout(9,3));
+		panOuest.setLayout(new GridLayout(5,3));
 		panOuest.setPreferredSize(new Dimension(270,300));
 		panOuest.setBackground(new Color(230, 230, 250));
 		panOuest.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
@@ -212,21 +185,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		panOuest.add(empty5);
 		panOuest.add(iI);
 		
-		panOuest.add(empty6);
-		panOuest.add(infoStat);
-		panOuest.add(empty7);
-		
-		panOuest.add(infoGV);
-		panOuest.add(empty8);
-		panOuest.add(foGV);
-		
-		panOuest.add(infoGA);
-		panOuest.add(empty9);
-		panOuest.add(foGA);
-		
-		panOuest.add(infoGP);
-		panOuest.add(empty10);
-		panOuest.add(foGP);
+
 		
 		
 		panEst.setLayout(new GridLayout(7,3));
@@ -334,9 +293,6 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					iA.setText(String.valueOf(manager.getTotalmoney()));
 					iI.setText(String.valueOf(manager.getItems().size()));
 						
-					//foGV.setText(String.valueOf(Guardian.getVision()));
-					//foGA.setText(String.valueOf(Guardian.getAgility()));
-					//foGP.setText(String.valueOf(Guardian.getPrecision()));
 						
 					
 					manager.nextRound();
@@ -356,19 +312,19 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 	}
 	private void initend() {
-		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
+		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI/2) {
 			etoiles = 4;
 			star = new ImageIcon("ressources/images/4star.png");
 		}
-		else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=3) {
+		else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI/2) {
 			etoiles = 3;
 			star = new ImageIcon("ressources/images/3star.png");
 		}
-		else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+		else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI-1) {
 			etoiles = 2;
 			star = new ImageIcon("ressources/images/2star.png");
 		}
-		else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0 && Integer.valueOf(manager.getArrestations())<=4) {
+		else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI-1) {
 			etoiles = 1;
 			star = new ImageIcon("ressources/images/1star.png");
 			
@@ -416,6 +372,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 				dispose();
 				GameConfiguration.GAME_SPEED=700;
 				OpenGame og = new OpenGame();
+				og.build();
 			}
 		});
 		Reset.setBounds(253, 496, 251, 46);

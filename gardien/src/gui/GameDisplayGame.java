@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.Graphics;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +13,7 @@ import map.Block;
 import map.Map;
 import model.Guardian;
 import model.Item;
-import model.Obstacle;
 import model.Intruder;
-import process.MobileElementManager;
 import process.MobileElementManagerGame;
 
 /**
@@ -74,10 +72,7 @@ public class GameDisplayGame extends JPanel {
 		
 
 
-		List<Obstacle> obstacles = manager.getObstacles();
-		List<Obstacle> obstaclescopy = new ArrayList<Obstacle>(obstacles); //copies the content
 
-		paintStrategy.paintO(obstaclescopy, g);
 		
 
 		

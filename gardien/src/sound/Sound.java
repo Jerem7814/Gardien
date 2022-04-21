@@ -6,10 +6,20 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+/**
+* this class manage the sound of our program. if there is a javax.Sound error, you have to configure BuildPath of the project. BuildPath -} configure BuildPath -} source -} add folder -} tick ressources -} valid  
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class Sound {
 	Clip clip;
 	URL soundURL[]=new URL[15];
 	
+	 /**
+	 * initialize the sounds in the URL[]
+	 */ 
 	public Sound(){
 		soundURL[0]=getClass().getResource("/sound/coin.wav");
 		soundURL[1]=getClass().getResource("/sound/potion.wav");
@@ -27,6 +37,10 @@ public class Sound {
 
 	}
 	
+	/**
+	 * set the music selected 
+	 * @param i The index of the sound selected in the URL[]
+	 */
 	public void setFile(int i) {
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
@@ -38,13 +52,23 @@ public class Sound {
 			}
 	}
 	
+	/**
+	 * play the music
+	 */
 	public void play() {
 		clip.start();
 	}
 	
+	/**
+	 * loop the music selected 
+	 */
 	public void loop() {
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
+	
+	/**
+	 * stop the music selected 
+	 */
 	public void stop() {
 		clip.stop();
 	}

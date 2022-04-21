@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,10 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,13 +28,11 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import config.GameConfiguration;
-import gui.MainGUIgame.KeyControls;
-import gui.MainGUIgame.MouseControls;
+
 import map.Block;
 import map.Map;
 import process.GameBuilder;
 import process.GameBuilderGame;
-import process.MobileElementManager;
 import process.MobileElementManagerGame;
 
 
@@ -68,66 +64,61 @@ public class MainGUIgame extends JFrame implements Runnable {
 	
 	
 	
-	public static JLabel buttonzone= new JLabel("Zone de commande :");
-	public JLabel vide= new JLabel("");
-	public static JLabel vide1= new JLabel("");
-	public static JLabel vide2= new JLabel("");
-	public static JLabel vide3= new JLabel("");
-	public static JLabel vide4= new JLabel("");
-	public static JLabel vide5= new JLabel("");
-	public static JLabel vide6= new JLabel("");
-	public static JLabel vide7= new JLabel("");
+	private JLabel vide1= new JLabel("");
+	private JLabel vide2= new JLabel("");
+	private JLabel vide3= new JLabel("");
+	private JLabel vide4= new JLabel("");
+
 	
-	public static JLabel infozone= new JLabel("Zone d'Info :");
-	public static JLabel empty= new JLabel("");
-	public static JLabel empty1= new JLabel("");
-	public static JLabel empty2= new JLabel("");
-	public static JLabel empty3= new JLabel("");
-	public static JLabel empty4= new JLabel("");
-	public static JLabel empty5= new JLabel("");
+	private JLabel infozone= new JLabel("Zone d'Info :");
+	private JLabel empty= new JLabel("");
+	private JLabel empty1= new JLabel("");
+	private JLabel empty2= new JLabel("");
+	private JLabel empty3= new JLabel("");
+	private JLabel empty4= new JLabel("");
+	private JLabel empty5= new JLabel("");
 	
-	public static JLabel infoStat= new JLabel("Zone d'Info :");
+	private JLabel infoStat= new JLabel("Zone d'Info :");
 	
-	public static JLabel empty6= new JLabel("");
-	public static JLabel empty7= new JLabel("");
-	public static JLabel empty8= new JLabel("");
-	public static JLabel empty9= new JLabel("");
-	public static JLabel empty10= new JLabel("");
-	public static JLabel empty11= new JLabel("");
+	private JLabel empty6= new JLabel("");
+	private JLabel empty7= new JLabel("");
+	private JLabel empty8= new JLabel("");
+	private JLabel empty9= new JLabel("");
+	private JLabel empty10= new JLabel("");
 	
-	public static JLabel infoT= new JLabel("Tour  :");
-	public static JLabel infoG= new JLabel("Gardiens :");
-	public static JLabel infoA= new JLabel("Argent actuel/sortis:");
-	public static JLabel infoI= new JLabel("Items :");
+	private JLabel infoT= new JLabel("Tour  :");
+	private JLabel infoG= new JLabel("Gardiens :");
+	private JLabel infoA= new JLabel("Argent actuel/sortis:");
+	private JLabel infoI= new JLabel("Items :");
 	
-	public static JLabel infoT2= new JLabel("Leurres dispo :");
-	public static JLabel infoG2= new JLabel("Capes dispo :");
-	public static JLabel infoA2= new JLabel("Tours leurres :");
-	public static JLabel infoI2= new JLabel("Tours cape :");
+	private JLabel infoT2= new JLabel("Leurres dispo :");
+	private JLabel infoG2= new JLabel("Capes dispo :");
+	private JLabel infoA2= new JLabel("Tours leurres :");
+	private JLabel infoI2= new JLabel("Tours cape :");
 
 
 	
-	public static JLabel infoGV= new JLabel("Vision :");
-	public static JLabel infoGA= new JLabel("Agilite :");
-	public static JLabel infoGP= new JLabel("Precision :");
+	private JLabel infoGV= new JLabel("Vision :");
+	private JLabel infoGA= new JLabel("Agilite :");
+	private JLabel infoGP= new JLabel("Precision :");
 	
-	public static JLabel foGV= new JLabel("Vision :");
-	public static JLabel foGA= new JLabel("Agilite :");
-	public static JLabel foGP= new JLabel("Precision :");
+	private JLabel foGV= new JLabel("Vision :");
+	private JLabel foGA= new JLabel("Agilite :");
+	private JLabel foGP= new JLabel("Precision :");
 	
-	public static JLabel iT = new JLabel();
-	public static JLabel iG = new JLabel();
-	public static JLabel iA = new JLabel();
-	public static JLabel iI = new JLabel();
+	private JLabel iT = new JLabel();
+	private JLabel iG = new JLabel();
+	private JLabel iA = new JLabel();
+	private JLabel iI = new JLabel();
 	
-	public static JLabel iT2 = new JLabel();
-	public static JLabel iG2 = new JLabel();
-	public static JLabel iA2 = new JLabel();
-	public static JLabel iI2 = new JLabel();
+	private JLabel iT2 = new JLabel();
+	private JLabel iG2 = new JLabel();
+	private JLabel iA2 = new JLabel();
+	private JLabel iI2 = new JLabel();
 	
-	public JButton Reset;
+	private JButton Reset;
 	private int etoiles;
-	public ImageIcon star;
+	private ImageIcon star;
 	
 
 	
@@ -291,7 +282,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 				iT.setText(String.valueOf(manager.getRound()));
 				iG.setText(String.valueOf(manager.getGuardians().size()));
-				iA.setText(String.valueOf(manager.getTotalmoney()+"/"+manager.getExitmoney()));
+				iA.setText(String.valueOf(manager.getTotalmoney()));
 				iI.setText(String.valueOf(manager.getItems().size()));
 				
 				iT2.setText(String.valueOf(manager.getIntruders().getItems().get("Lure").getNbre()));
@@ -307,6 +298,11 @@ public class MainGUIgame extends JFrame implements Runnable {
 				}
 				else {
 					iI2.setText("");
+				}
+				
+				if(manager.isFilettrap() && manager.getCountfilet()==7) {
+					TrapPannel tp=new TrapPannel();
+					tp.setVisible(true);
 				}
 
 				
@@ -333,19 +329,19 @@ public class MainGUIgame extends JFrame implements Runnable {
 		
 	}
 	private void initend() {
-		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getDuels())>=0) {
+		if (Integer.valueOf(manager.getExitmoney())>=1500 ) {
 			etoiles = 4;
 			star = new ImageIcon("ressources/images/4star.png");
 		}
-			else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getDuels())>=0) {
+			else if (Integer.valueOf(manager.getExitmoney())>=800) {
 				etoiles = 3;
 				star = new ImageIcon("ressources/images/3star.png");
 			}
-			else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getDuels())>=0) {
+			else if (Integer.valueOf(manager.getExitmoney())>=400) {
 				etoiles = 2;
 				star = new ImageIcon("ressources/images/2star.png");
 			}
-			else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getDuels())>=0) {
+			else if (Integer.valueOf(manager.getExitmoney())>100 || Integer.valueOf(manager.getDuels())>=1 || Integer.valueOf(manager.getTotalmoney())>=1000) {
 			etoiles = 1;
 			star = new ImageIcon("ressources/images/1star.png");
 		}
@@ -392,6 +388,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 				dispose();
 				GameConfiguration.GAME_SPEED=700;
 				OpenGame og = new OpenGame();
+				og.build();
 			}
 		});
 		Reset.setBounds(253, 496, 251, 46);

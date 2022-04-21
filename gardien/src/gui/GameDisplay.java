@@ -2,18 +2,16 @@ package gui;
 
 import java.awt.Graphics;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import config.GameConfiguration;
-import map.Block;
+
 import map.Map;
 import model.Guardian;
 import model.Item;
-import model.Obstacle;
 import model.Intruder;
 import process.MobileElementManager;
 
@@ -68,10 +66,7 @@ public class GameDisplay extends JPanel {
 		
 
 
-		List<Obstacle> obstacles = manager.getObstacles();
-		List<Obstacle> obstaclescopy = new ArrayList<Obstacle>(obstacles); //copies the content
 
-		paintStrategy.paintO(obstaclescopy, g);
 		
 
 		

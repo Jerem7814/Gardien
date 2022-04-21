@@ -1,22 +1,23 @@
 package test.unit;
 
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import config.GameConfiguration;
 import map.Block;
-import map.Map;
 import model.Guardian;
 import model.Intruder;
-import model.Item;
-import process.GameBuilder;
-import process.MobileElementManager;
-
+/**
+ * Unit test of intruder and guardian initialization. Checks if the guardian's initial precision is greater or equal than the intruder's dodge
+ * 
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ */
 public class TestUnitIntruder {
 	private Intruder intruder;
 	private Guardian guardian;
@@ -38,9 +39,9 @@ public class TestUnitIntruder {
 	
 	@Test
 	public void testPrecision() {
-		int visioni=intruder.getDodge();
-		int visiong=guardian.getPrecision();
+		int dodgei=intruder.getDodge();
+		int precisiong=guardian.getPrecision();
 
-		assertTrue(visioni<=visiong);
+		assertTrue(dodgei<=precisiong);
 	}
 }
