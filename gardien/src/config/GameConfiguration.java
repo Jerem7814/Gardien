@@ -16,8 +16,6 @@ public class GameConfiguration {
 	public static int BLOCK_SIZE=70;
 	
 	private static Sound s=new Sound();
-	private static Sound s2=new Sound();
-
 
 
 
@@ -38,21 +36,6 @@ public class GameConfiguration {
 	 */
 	public static final void stopmusic() {
 		s.stop();
-	}
-	
-	/**
-	 * starts the open theme music of the simulation/game
-	 */
-	public static final void playmusicOpen() {
-		s2.setFile(7);
-		s2.play();
-		s2.loop();
-	}
-	/**
-	 * stop the main open music of the simulation/game
-	 */
-	public static final void stopmusicOpen() {
-		s2.stop();
 	}
 	
 

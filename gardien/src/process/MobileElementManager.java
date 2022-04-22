@@ -521,7 +521,7 @@ public class MobileElementManager {
 	 * @param column Column where the whistle is created 
 	 */
 	public void usesifflet(Guardian guardian, int line, int column) {
-		Block intruderPosition = new Block(line,column);
+		Block guardianPosition = new Block(line,column);
 		HashMap<String,Item> itemsG=guardian.getItems();
 		Item sifflet=itemsG.get("Sifflet");
 		if(sifflet.getNbre()>0 && sifflet!=null) {
@@ -530,7 +530,7 @@ public class MobileElementManager {
 			sifflet.decrement(1);
 			itemsG.put("Sifflet", sifflet);
 			guardian.setItems(itemsG);
-			Block siffletposition=intruderPosition;
+			Block siffletposition=guardianPosition;
 			msifflet=new Item(siffletposition,0,"Sifflet");
 			
 			
@@ -714,6 +714,7 @@ public class MobileElementManager {
 			siffletappareance=true;
 		}
 		if(siffletappareance==true) {
+			System.out.println(countsifflet);
 			countsifflet--;
 			if(countsifflet==0) {
 				stopsifflet();
@@ -846,8 +847,8 @@ public class MobileElementManager {
 				for(Intruder i:intruders) {
 					if(i.getPosition().equals(b)&&!i.isTransparent()) {
 						gointruder(a,i);
-						if(guardians.size()>1&&!i.isTransparent()&&a.getVision()>1&&isInGVision(a)) {
-							usesifflet(a,i.getPosition().getLine(),i.getPosition().getColumn());
+						if(guardians.size()>1&&!i.isTransparent()) {
+							usesifflet(a,a.getPosition().getLine(),a.getPosition().getColumn());
 						}
 						havefocus=true;
 						break;
@@ -1497,23 +1498,6 @@ public class MobileElementManager {
 
 		
 
-	}
-	
-	/**
-	 * check if a guardian is in the guardianzone of the Guardian a
-	 * @param a a Guardian
-	 * @return true if there is a guardian in the visionzone of a, false else.
-	 */
-	public boolean isInGVision(Guardian a) {
-		for(Block b:a.getVisionzone()) {
-			for(Guardian g: guardians) {
-				if(b.equals(g.getPosition())) {
-					return true;
-				}
-			}
-		}
-		return false;
-		
 	}
 	
 

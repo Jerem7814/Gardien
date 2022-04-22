@@ -17,11 +17,12 @@ import model.Intruder;
 import process.MobileElementManagerGame;
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
- */
+* initialize the manual dashbaord playable
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class GameDisplayGame extends JPanel {
 
 	private static final long serialVersionUID = 1L;

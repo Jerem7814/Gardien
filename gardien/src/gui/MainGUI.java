@@ -2,10 +2,17 @@ package gui;
 
 import java.awt.BorderLayout;
 
+
+import javax.swing.JFrame; 
+import javax.swing.JLabel; 
+import javax.swing.SwingConstants;
 import java.awt.Font;
+
+
 import java.awt.Color;
-import java.awt.Container;
+
 import java.awt.Dimension;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +20,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+
+
 import javax.swing.JPanel;
 
-import javax.swing.SwingConstants;
+
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -33,11 +40,12 @@ import process.MobileElementManager;
 
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
- */
+* initialize the window with panels that allows us to see informations, the dashboard running and to make some change on the game running
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -52,10 +60,16 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	
 	private JPanel panEst = new JPanel();
 	private JPanel panOuest = new JPanel();
+	private JPanel buttonSA = new JPanel();
+	private JPanel buttonCA = new JPanel();
+	private JPanel buttonDA = new JPanel();
+	private JPanel buttonFA = new JPanel();
+	private JPanel buttonGA = new JPanel();
+	private JPanel buttonHA = new JPanel();
 	private JFrame frame;
 	
 	
-	private JLabel buttonzone= new JLabel("Zone de commande :");
+	private JLabel buttonzone= new JLabel("<html><body><font color='#DABDE0' size='5'>Zone de commande :</body></html>");
 	private JLabel vide= new JLabel("");
 	private JLabel vide1= new JLabel("");
 	private JLabel vide2= new JLabel("");
@@ -65,7 +79,21 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JLabel vide6= new JLabel("");
 	private JLabel vide7= new JLabel("");
 	
-	private JLabel infozone= new JLabel("Zone d'Info :");
+	private JLabel videA= new JLabel("");
+	private JLabel videA1= new JLabel("");
+	private JLabel videA2= new JLabel("");
+	private JLabel videA3= new JLabel("");
+	private JLabel videA4= new JLabel("");
+	private JLabel videA5= new JLabel("");
+	private JLabel videA6= new JLabel("");
+	private JLabel videA7= new JLabel("");
+	private JLabel videA8= new JLabel("");
+	private JLabel videA9= new JLabel("");
+	private JLabel videA10= new JLabel("");
+	
+	
+	
+	private JLabel infozone= new JLabel("<html><body><font color='yellow' size='5'>Zone d'Info :</body></html>");
 	private JLabel empty= new JLabel("");
 	private JLabel empty1= new JLabel("");
 	private JLabel empty2= new JLabel("");
@@ -73,28 +101,53 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JLabel empty4= new JLabel("");
 	private JLabel empty5= new JLabel("");
 	
-
+	//private JLabel infoStat= new JLabel("<html><body><font color='white' size='5'>Zone Stat:</body></html>");
 	
-	private JLabel infoT= new JLabel("Tour actuel :");
-	private JLabel infoG= new JLabel("Nb Gardiens :");
-	private JLabel infoA= new JLabel("Argent récolté:");
-	private JLabel infoI= new JLabel("Nb Items :");
+	private JLabel empty6= new JLabel("");
+	private JLabel empty7= new JLabel("");
+	private JLabel empty8= new JLabel("");
+	private JLabel empty9= new JLabel("");
+	private JLabel empty10= new JLabel("");
+	private JLabel empty11= new JLabel("");
+	private JLabel empty12= new JLabel("");
+	private JLabel empty13= new JLabel("");
+	private JLabel empty14= new JLabel("");
+	private JLabel empty15= new JLabel("");
+	private JLabel empty16= new JLabel("");
 	
 	
+	
+	
+	
+	private JLabel infoT= new JLabel("<html><body><font color='yellow' size='4'>Tour actuel :</body></html>");
+	
+	private JLabel infoG= new JLabel("<html><body><font color='yellow' size='4'>Nombre Gardien :</body></html>");
+	
+	private JLabel infoA= new JLabel("<html><body><font color='yellow' size='4'>Argent r&eacute;colt&eacute; :</body></html>");
+	private JLabel infoI= new JLabel("<html><body><font color='yellow' size='4'>Nombre d'Item :</body></html>");
+	
+	/*private JLabel infoGV= new JLabel("<html><body><font color='white'>Vision :</body></html>");
+	private JLabel infoGA= new JLabel("<html><body><font color='white'>Agilite :</body></html>");
+	private JLabel infoGP= new JLabel("<html><body><font color='white'>Precision :</body></html>");
+	
+	private JLabel foGV= new JLabel("Vision :");
+	private JLabel foGA= new JLabel("Agilite :");
+	private JLabel foGP= new JLabel("Precision :");
+	*/
 	private JLabel iT = new JLabel();
 	private JLabel iG = new JLabel();
 	private JLabel iA = new JLabel();
 	private JLabel iI = new JLabel();
 	
 	
-	private JLabel buttonC= new JLabel(" Reprendre le jeu :");
-	private JLabel buttonS= new JLabel(" Bouton pour stop :");
+	private JLabel buttonC= new JLabel("<html><body><font color='#DABDE0' size='4'>Reprendre le jeu :</body></html>");
+	private JLabel buttonS= new JLabel("<html><body><font color='#DABDE0' size='4'>Bouton pour stop :</body></html>");
 	
-	private JLabel buttondou= new JLabel(" Double la vitesse :");
-	private JLabel buttondemi= new JLabel(" Divise la vitesse par 2 :");
+	private JLabel buttondou= new JLabel("<html><body><font color='#DABDE0' size='4'>Double la vitesse :</body></html>");
+	private JLabel buttondemi= new JLabel("<html><body><font color='#DABDE0' size='4'>Divise la vitesse par 2 :</body></html>");
 	
-	private JLabel buttonG= new JLabel(" Ajouter un Gardien :");
-	private JLabel itemG= new JLabel("Ajouter un item :");
+	private JLabel buttonG= new JLabel("<html><body><font color='#DABDE0' size='4'>Ajouter un Gardien :</body></html>");
+	private JLabel itemG= new JLabel("<html><body><font color='#DABDE0' size='4'>Ajouter un item :</body></html>");
 	
 	private JButton stopG;
 	private JButton startG;
@@ -106,11 +159,19 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private int etoiles;
 	private ImageIcon star;
 	
+	/**
+	 * initialize the game with a title
+	 * @param title the name of the window
+	 */
 	public MainGUI(String title) {
 		super(title);
 		init();
 	}
 
+		
+	/**
+	 * Initialize a window with the dashboard and panels
+	 */
 	private void init() {
 		
 		stopG  = new JButton ("Stop");
@@ -145,17 +206,26 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		
 		
 
-
+		/*
+		 foGV = new JLabel();
+		
+		
+		foGA = new JLabel();
+		
+		foGP = new JLabel();
+		
+		*/
 		
 		
 		
+		JLabel background=new JLabel(new ImageIcon("ressources/images/MainGui.jpg"));
+		add(background);
+		background.setLayout(new BorderLayout());
 		
-		Container contentPane = getContentPane();
-		contentPane.setLayout(new BorderLayout());
-		
-		panOuest.setLayout(new GridLayout(5,3));
+		panOuest.setLayout(new GridLayout(9,3));
 		panOuest.setPreferredSize(new Dimension(270,300));
-		panOuest.setBackground(new Color(230, 230, 250));
+		//panOuest.setBackground(new Color(230, 230, 250));
+		panOuest.setOpaque(false);
 		panOuest.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
 		
 		
@@ -185,42 +255,114 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		panOuest.add(empty5);
 		panOuest.add(iI);
 		
-
+		panOuest.add(empty6);
+		panOuest.add(empty16);
+		panOuest.add(empty7);
+		
+		panOuest.add(empty8);
+		panOuest.add(empty9);
+		panOuest.add(empty10);
+		
+		panOuest.add(empty11);
+		panOuest.add(empty12);
+		panOuest.add(empty13);
+		
+		panOuest.add(empty11);
+		panOuest.add(empty14);
+		panOuest.add(empty15);
 		
 		
 		panEst.setLayout(new GridLayout(7,3));
 		panEst.setPreferredSize(new Dimension(400,300));
-		panEst.setBackground(new Color(230, 230, 250));
+		//panEst.setBackground(new Color(230, 230, 250));
+		panEst.setOpaque(false);
 		panEst.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
 		
 		panEst.add(vide);
 		panEst.add(buttonzone);
 		panEst.add(vide1);
 		
+		
+		
+		
+		buttonCA.setLayout(new GridLayout(3,1));
+		buttonCA.setBackground(new Color(230, 230, 250));
+		buttonCA.setOpaque(false);
+		buttonCA.add(videA);
+		buttonCA.add(startG);
+		buttonCA.add(videA1);
+		
 		panEst.add(buttonC);
 		panEst.add(vide2);
-		panEst.add(startG);
+		panEst.add(buttonCA);
+		
+	
+		buttonSA.setLayout(new GridLayout(3,1));
+		buttonSA.setBackground(new Color(230, 230, 250));
+		buttonSA.setOpaque(false);
+		buttonSA.add(videA2);
+		buttonSA.add(stopG);
+		buttonSA.add(videA3);
 		
 		panEst.add(buttonS);
 		panEst.add(vide3);
-		panEst.add(stopG);
+		panEst.add(buttonSA);
+		
+		
+		
+		
+		buttonDA.setLayout(new GridLayout(3,1));
+		buttonDA.setBackground(new Color(230, 230, 250));
+		buttonDA.setOpaque(false);
+		buttonDA.add(videA4);
+		buttonDA.add(dou);
+		buttonDA.add(videA5);
 		
 		panEst.add(buttondou);
 		panEst.add(vide4);
-		panEst.add(dou);
+		panEst.add(buttonDA);
+		
+		
+		
+		buttonFA.setLayout(new GridLayout(3,1));
+		buttonFA.setBackground(new Color(230, 230, 250));
+		buttonFA.setOpaque(false);
+		buttonFA.add(videA5);
+		buttonFA.add(demi);
+		buttonFA.add(videA6);
 		
 		panEst.add(buttondemi);
 		panEst.add(vide5);
-		panEst.add(demi);
+		panEst.add(buttonFA);
 
+		
+		
+		
+		buttonGA.setLayout(new GridLayout(3,1));
+		buttonGA.setBackground(new Color(230, 230, 250));
+		buttonGA.setOpaque(false);
+		buttonGA.add(videA7);
+		buttonGA.add(gardP);
+		buttonGA.add(videA8);
+		
 		panEst.add(buttonG);
 		panEst.add(vide6);
-		panEst.add(gardP);
+		panEst.add(buttonGA);
+		
+		
+		
+		
+		buttonHA.setLayout(new GridLayout(3,1));
+		buttonHA.setBackground(new Color(230, 230, 250));
+		buttonHA.setOpaque(false);
+		buttonHA.add(videA9);
+		buttonHA.add(itemP);
+		buttonHA.add(videA10);
 		
 		panEst.add(itemG);
 		panEst.add(vide7);
-		panEst.add(itemP);
-		
+		panEst.add(buttonHA);
+
 		
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map);
@@ -229,9 +371,9 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 		dashboard.setPreferredSize(preferredSize);
 		dashboard.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
-		contentPane.add(panOuest, BorderLayout.WEST);
-		contentPane.add(dashboard, BorderLayout.CENTER);
-		contentPane.add(panEst, BorderLayout.EAST);
+		background.add(panOuest, BorderLayout.WEST);
+		background.add(dashboard, BorderLayout.CENTER);
+		background.add(panEst, BorderLayout.EAST);
 		
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -239,11 +381,15 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		GameConfiguration.playmusic();
 
 	}
 	
-
+	
+	/**
+	 * Different action which will happen after clicking on buttons such as making the dashboard stop running, making it faster, slower, adding guardians or items
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object Button = e.getSource() ;
 		if (Button==stopG) {
@@ -279,6 +425,9 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	}
 
 	@Override
+	/**
+	 * run the dashboard unless the requirements are not valid
+	 */
 	public void run() {
 		while (true) {
 			while(!manager.intrudervoid()) {
@@ -289,10 +438,17 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 						System.out.println(e.getMessage());
 					}
 					iT.setText(String.valueOf(manager.getRound()));
+					iT.setForeground(Color.YELLOW);
 					iG.setText(String.valueOf(manager.getGuardians().size()));
+					iG.setForeground(Color.YELLOW);
 					iA.setText(String.valueOf(manager.getTotalmoney()));
+					iA.setForeground(Color.YELLOW);
 					iI.setText(String.valueOf(manager.getItems().size()));
+					iI.setForeground(Color.YELLOW);
 						
+					//foGV.setText(String.valueOf(Guardian.getVision()));
+					//foGA.setText(String.valueOf(Guardian.getAgility()));
+					//foGP.setText(String.valueOf(Guardian.getPrecision()));
 						
 					
 					manager.nextRound();
@@ -311,6 +467,9 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		}
 
 	}
+	/**
+	 * create an end window that summarize our achievements
+	 */
 	private void initend() {
 		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI/2) {
 			etoiles = 4;
@@ -335,35 +494,38 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 
 		}
-		JPanel panel = new JPanel();
+		JLabel backgroundEnd=new JLabel(new ImageIcon("ressources/images/endGame.jpg"));
+		add(backgroundEnd);
+		backgroundEnd.setLayout(new BorderLayout());
 		frame = new JFrame();
 		frame.setBounds(100, 100, 751, 699);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		JLabel Title = new JLabel("Bravo ! Vous avez obtenu " + etoiles + " étoiles !");
+		frame.getContentPane().add(backgroundEnd, BorderLayout.CENTER);
+		backgroundEnd.setLayout(null);
+		JLabel Title = new JLabel("<html><body><font color='white' size='5'>Bravo ! Vous avez obtenu " + etoiles + " &eacute;toiles !</body></html>");
 		Title.setHorizontalAlignment(SwingConstants.CENTER);
 		Title.setBounds(200, 27, 356, 52);
 		Title.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		panel.add(Title);
+		backgroundEnd.add(Title);
 		
 		JLabel nbEtoile = new JLabel (star);
 		nbEtoile.setBounds(0, 74, 723, 241);
-		panel.add(nbEtoile);
+		backgroundEnd.add(nbEtoile);
 		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel Or = new JLabel("Or amassé : "+ manager.getExitmoney());
+		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : "+ manager.getExitmoney() + "</body></html>");
 		Or.setBounds(269, 307, 168, 26);
-		panel.add(Or);
+		backgroundEnd.add(Or);
 
 		
-		JLabel lblArrestations = new JLabel("Arrestations :" + manager.getArrestations() );
+		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : </body></html>" + manager.getArrestations() + "</body></html>" );
 		lblArrestations.setBounds(269, 355, 223, 26);
-		panel.add(lblArrestations);
+		backgroundEnd.add(lblArrestations);
 		
-		JLabel lblDuelsRemports = new JLabel("Duels remportés par l'intrus : " + manager.getDuels());
+		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : </body></html>" + manager.getDuels() + "</body></html>");
 		lblDuelsRemports.setBounds(269, 404, 223, 26);
-		panel.add(lblDuelsRemports);
+		backgroundEnd.add(lblDuelsRemports);
 		
 		Reset = new JButton("Reset");
 		Reset.addActionListener(new ActionListener() {
@@ -376,7 +538,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 			}
 		});
 		Reset.setBounds(253, 496, 251, 46);
-		panel.add(Reset);
+		backgroundEnd.add(Reset);
 	}
 	
 	

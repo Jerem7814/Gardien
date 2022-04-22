@@ -70,7 +70,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 	private JLabel vide4= new JLabel("");
 
 	
-	private JLabel infozone= new JLabel("Zone d'Info :");
+	private JLabel infozone= new JLabel("<html><body><font color='yellow' size='5'>Zone d'Info :</body></html>");
 	private JLabel empty= new JLabel("");
 	private JLabel empty1= new JLabel("");
 	private JLabel empty2= new JLabel("");
@@ -78,7 +78,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 	private JLabel empty4= new JLabel("");
 	private JLabel empty5= new JLabel("");
 	
-	private JLabel infoStat= new JLabel("Zone d'Info :");
+	private JLabel infoStat= new JLabel("<html><body><font color='white' size='5'>Zone de Stat :");
 	
 	private JLabel empty6= new JLabel("");
 	private JLabel empty7= new JLabel("");
@@ -86,25 +86,25 @@ public class MainGUIgame extends JFrame implements Runnable {
 	private JLabel empty9= new JLabel("");
 	private JLabel empty10= new JLabel("");
 	
-	private JLabel infoT= new JLabel("Tour  :");
-	private JLabel infoG= new JLabel("Gardiens :");
-	private JLabel infoA= new JLabel("Argent actuel/sortis:");
-	private JLabel infoI= new JLabel("Items :");
+	private JLabel infoT= new JLabel("<html><body><font color='yellow' size='4'>Tour  :</body></html>");
+	private JLabel infoG= new JLabel("<html><body><font color='yellow' size='4'>Gardiens :</body></html>");
+	private JLabel infoA= new JLabel("<html><body><font color='yellow' size='4'>Argent actuel/sortis:</body></html>");
+	private JLabel infoI= new JLabel("<html><body><font color='yellow' size='4'>Items :</body></html>");
 	
-	private JLabel infoT2= new JLabel("Leurres dispo :");
-	private JLabel infoG2= new JLabel("Capes dispo :");
-	private JLabel infoA2= new JLabel("Tours leurres :");
-	private JLabel infoI2= new JLabel("Tours cape :");
+	private JLabel infoT2= new JLabel("<html><body><font color='#DABDE0' size='4'>Leurres dispo :</body></html>");
+	private JLabel infoG2= new JLabel("<html><body><font color='#DABDE0' size='4'>Capes dispo :</body></html>");
+	private JLabel infoA2= new JLabel("<html><body><font color='#DABDE0' size='4'>Tours leurres :</body></html>");
+	private JLabel infoI2= new JLabel("<html><body><font color='#DABDE0' size='4'>Tours cape :</body></html>");
 
 
 	
-	private JLabel infoGV= new JLabel("Vision :");
-	private JLabel infoGA= new JLabel("Agilite :");
-	private JLabel infoGP= new JLabel("Precision :");
+	private JLabel infoGV= new JLabel("<html><body><font color='white' size='4'>Vision :</body></html>");
+	private JLabel infoGA= new JLabel("<html><body><font color='white' size='4'>Agilite :</body></html>");
+	private JLabel infoGP= new JLabel("<html><body><font color='white' size='4'>Precision :</body></html>");
 	
-	private JLabel foGV= new JLabel("Vision :");
-	private JLabel foGA= new JLabel("Agilite :");
-	private JLabel foGP= new JLabel("Precision :");
+	private JLabel foGV= new JLabel("<html><body><font color='white' size='4'>Vision </body></html>:");
+	private JLabel foGA= new JLabel("<html><body><font color='white' size='4'>Agilite :</body></html>");
+	private JLabel foGP= new JLabel("<html><body><font color='white' size='4'>Precision :</body></html>");
 	
 	private JLabel iT = new JLabel();
 	private JLabel iG = new JLabel();
@@ -130,16 +130,16 @@ public class MainGUIgame extends JFrame implements Runnable {
 	}
 
 	private void init() {
-		iT = new JLabel();
+		iT = new JLabel("<html><body><font color='yellow'>0</body></html>");
 		
 		
 		iG = new JLabel();
 		
 		
-		iA = new JLabel();
+		iA = new JLabel("<html><body><font color='yellow'>0</body></html>");
 		
 		
-		iI = new JLabel();
+		iI = new JLabel("<html><body><font color='yellow'>0</body></html>");
 		
 		iT2 = new JLabel();
 		
@@ -163,21 +163,25 @@ public class MainGUIgame extends JFrame implements Runnable {
 		
 		
 		
-		Container contentPane = getContentPane();
-		contentPane.setLayout(new BorderLayout());
+		JLabel background=new JLabel(new ImageIcon("ressources/images/MainGuiGame.jpg"));
+		add(background);
+		background.setLayout(new BorderLayout());
 		
 		panOuest.setLayout(new GridLayout(9,3));
 		panOuest.setPreferredSize(new Dimension(270,300));
 		panOuest.setBackground(new Color(230, 230, 250));
+		panOuest.setOpaque(false);
 		panOuest.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
 		
 		
 		
 		panOuest.add(empty);
 		empty.setBackground(new Color(102, 102, 153));
+		empty.setOpaque(false);
 		
 		panOuest.add(infozone);
 		infozone.setBackground(new Color(102, 102, 153));
+		infozone.setOpaque(false);
 		
 		panOuest.add(empty1);
 		
@@ -217,6 +221,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		panEst.setLayout(new GridLayout(4,2));
 		panEst.setPreferredSize(new Dimension(270,300));
 		panEst.setBackground(new Color(230, 230, 250));
+		panEst.setOpaque(false);
 		panEst.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
 		 
 		panEst.add(infoT2);
@@ -247,7 +252,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		KeyControls keyControls = new KeyControls();
 		JTextField textField = new JTextField();
 		textField.addKeyListener(keyControls);
-		contentPane.add(textField, BorderLayout.SOUTH);
+		background.add(textField, BorderLayout.SOUTH);
 
 		map = GameBuilder.buildMap();
 		manager = GameBuilderGame.buildInitMobile(map);
@@ -262,9 +267,9 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 		dashboard.setPreferredSize(preferredSize);
 		dashboard.setBorder(new LineBorder(UIManager.getColor("Tree.foreground")));
-		contentPane.add(panOuest, BorderLayout.WEST);
-		contentPane.add(dashboard, BorderLayout.CENTER);
-		contentPane.add(panEst, BorderLayout.EAST);
+		background.add(panOuest, BorderLayout.WEST);
+		background.add(dashboard, BorderLayout.CENTER);
+		background.add(panEst, BorderLayout.EAST);
 		
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -272,6 +277,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		GameConfiguration.playmusic();
 	}
 
@@ -281,20 +287,28 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 
 				iT.setText(String.valueOf(manager.getRound()));
+				iT.setForeground(Color.YELLOW);
 				iG.setText(String.valueOf(manager.getGuardians().size()));
+				iG.setForeground(Color.YELLOW);
 				iA.setText(String.valueOf(manager.getTotalmoney()));
+				iA.setForeground(Color.YELLOW);
 				iI.setText(String.valueOf(manager.getItems().size()));
+				iI.setForeground(Color.YELLOW);
 				
 				iT2.setText(String.valueOf(manager.getIntruders().getItems().get("Lure").getNbre()));
+				iT2.setForeground(new Color(218,189,224));
 				iG2.setText(String.valueOf(manager.getIntruders().getItems().get("Invisibility cloak").getNbre()));
+				iG2.setForeground(new Color(218,189,224));
 				if(manager.getMlure()!=null) {
 					iA2.setText(String.valueOf(manager.getCountlure()));
+					iA2.setForeground(new Color(218,189,224));
 				}
 				else {
 					iA2.setText("");
 				}
 				if(manager.getIntruders().isTransparent()) {
 					iI2.setText(String.valueOf(manager.getCountcloak()));
+					iI2.setForeground(new Color(218,189,224));
 				}
 				else {
 					iI2.setText("");
@@ -307,8 +321,11 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 				
 				foGV.setText(String.valueOf(manager.getIntruders().getVision()));
+				foGV.setForeground(Color.WHITE);
 				foGA.setText(String.valueOf(manager.getIntruders().getAgility()));
+				foGA.setForeground(Color.WHITE);
 				foGP.setText(String.valueOf(manager.getIntruders().getDodge()));
+				foGP.setForeground(Color.WHITE);
 				
 				
 				manager.nextRound();
@@ -351,35 +368,38 @@ public class MainGUIgame extends JFrame implements Runnable {
 
 
 		}
-		JPanel panel = new JPanel();
+		JLabel backgroundEnd=new JLabel(new ImageIcon("ressources/images/endGame.jpg"));
+		add(backgroundEnd);
+		backgroundEnd.setLayout(new BorderLayout());
 		frame = new JFrame();
 		frame.setBounds(100, 100, 751, 699);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		JLabel Title = new JLabel("Bravo ! Vous avez obtenu " + etoiles + " étoiles !");
+		frame.getContentPane().add(backgroundEnd, BorderLayout.CENTER);
+		backgroundEnd.setLayout(null);
+		JLabel Title = new JLabel("<html><body><font color='white' size='5'>Bravo ! Vous avez obtenu " + etoiles + " &eacute;toiles !</body></html>");
 		Title.setHorizontalAlignment(SwingConstants.CENTER);
 		Title.setBounds(200, 27, 356, 52);
 		Title.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		panel.add(Title);
+		backgroundEnd.add(Title);
 		
 		JLabel nbEtoile = new JLabel (star);
 		nbEtoile.setBounds(0, 74, 723, 241);
-		panel.add(nbEtoile);
+		backgroundEnd.add(nbEtoile);
 		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel Or = new JLabel("Or amassé : "+ manager.getExitmoney());
+		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : </body><html>"+ manager.getExitmoney() + "</body></html>");
 		Or.setBounds(269, 307, 168, 26);
-		panel.add(Or);
+		backgroundEnd.add(Or);
 
 		
-		JLabel lblArrestations = new JLabel("Arrestations :" + manager.getArrestations() );
+		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : " + manager.getArrestations() + "</body></html>" );
 		lblArrestations.setBounds(269, 355, 223, 26);
-		panel.add(lblArrestations);
+		backgroundEnd.add(lblArrestations);
 		
-		JLabel lblDuelsRemports = new JLabel("Duels remportés par l'intrus : " + manager.getDuels());
+		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : " + manager.getDuels() + "</body></html>");
 		lblDuelsRemports.setBounds(269, 404, 223, 26);
-		panel.add(lblDuelsRemports);
+		backgroundEnd.add(lblDuelsRemports);
 		
 		Reset = new JButton("Reset");
 		Reset.addActionListener(new ActionListener() {
@@ -392,7 +412,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 			}
 		});
 		Reset.setBounds(253, 496, 251, 46);
-		panel.add(Reset);
+		backgroundEnd.add(Reset);
 	}
 
 	public class KeyControls implements KeyListener {

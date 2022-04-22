@@ -21,13 +21,20 @@ import model.Item;
 import model.Intruder;
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
- */
+* initialize the dashboard with it's tiles, intruders, guardians and items
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class PaintStrategy {
 
+	
+	/**
+	 * create Blocks so we can place entities on it
+	 * @param map
+	 * @param graphics
+	 */
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 
@@ -47,7 +54,12 @@ public class PaintStrategy {
 	}
 	
 	
-
+	
+	/**
+	 * Place the intruder(s) on the map with Line and Collumn of the map
+	 * @param intruders An arrayList of thiefthat
+	 * @param graphics
+	 */
 	public void paintI(List<Intruder> intruders, Graphics graphics)  {
 		for(Intruder intruder : intruders) {
 			Block position = intruder.getPosition();
@@ -77,6 +89,11 @@ public class PaintStrategy {
 
 	}
 
+	/**
+	 * Place the guardianon the map with Line and Collumn of the map
+	 * @param guardians
+	 * @param graphics
+	 */
 	public void paintG(List<Guardian> guardians, Graphics graphics)  {
 		for(Guardian guardian : guardians) {
 			Block position = guardian.getPosition();
@@ -97,6 +114,11 @@ public class PaintStrategy {
 	
 
 	
+	/**
+	 * Place the gate on the map with Line and Collumn of the map
+	 * @param gate
+	 * @param graphics
+	 */
 	public void paintGate(ExitGate gate, Graphics graphics)  {
 		
 		Block position = gate.getPosition();
@@ -114,6 +136,11 @@ public class PaintStrategy {
 		
 	}
 
+	/**
+	 * Place the items on the map with Line and Collumn of the map
+	 * @param items
+	 * @param graphics
+	 */
 	public void paintIt(List<Item> items, Graphics graphics)  {
 
 		for(Item item : items) {
@@ -189,6 +216,11 @@ public class PaintStrategy {
 		}
 	}
 	
+	/**
+	 * Place the lure on the map with Line and Collumn of the map
+	 * @param lure
+	 * @param graphics
+	 */
 	public void paintMLure(Item lure, Graphics graphics)  {
 			Block position = lure.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -203,6 +235,12 @@ public class PaintStrategy {
 				e.printStackTrace();
 			}
 	}
+		
+		/**
+		 * Place the filet on the map with Line and Collumn of the map
+		 * @param filet
+		 * @param graphics
+		 */
 		public void paintMFilet(Item filet, Graphics graphics)  {
 			Block position = filet.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;
