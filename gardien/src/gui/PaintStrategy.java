@@ -21,19 +21,18 @@ import model.Item;
 import model.Intruder;
 
 /**
-* initialize the dashboard with it's tiles, intruders, guardians and items
-* @version 14.0.1
-* @author jeremybureau
-* @author quentinvilley
-* @author abdallahelballadi
-*/
+ * Allows the display of different objects, characters and the map
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ */
 public class PaintStrategy {
 
-	
 	/**
-	 * create Blocks so we can place entities on it
-	 * @param map
-	 * @param graphics
+	 * Paints the map
+	 * @param map The map painted
+	 * @param graphics The graphics
 	 */
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -54,11 +53,10 @@ public class PaintStrategy {
 	}
 	
 	
-	
 	/**
-	 * Place the intruder(s) on the map with Line and Collumn of the map
-	 * @param intruders An arrayList of thiefthat
-	 * @param graphics
+	 * Paints the intruders
+	 * @param intruders The list of intruders
+	 * @param graphics The graphics
 	 */
 	public void paintI(List<Intruder> intruders, Graphics graphics)  {
 		for(Intruder intruder : intruders) {
@@ -90,9 +88,9 @@ public class PaintStrategy {
 	}
 
 	/**
-	 * Place the guardianon the map with Line and Collumn of the map
-	 * @param guardians
-	 * @param graphics
+	 * Paints the guardians
+	 * @param guardians The list of guardians
+	 * @param graphics The graphics
 	 */
 	public void paintG(List<Guardian> guardians, Graphics graphics)  {
 		for(Guardian guardian : guardians) {
@@ -113,11 +111,10 @@ public class PaintStrategy {
 	
 	
 
-	
 	/**
-	 * Place the gate on the map with Line and Collumn of the map
-	 * @param gate
-	 * @param graphics
+	 * Paints the exit gate
+	 * @param gate The exit gate
+	 * @param graphics The graphics
 	 */
 	public void paintGate(ExitGate gate, Graphics graphics)  {
 		
@@ -137,9 +134,9 @@ public class PaintStrategy {
 	}
 
 	/**
-	 * Place the items on the map with Line and Collumn of the map
-	 * @param items
-	 * @param graphics
+	 * Paints the items
+	 * @param items The list of items
+	 * @param graphics The graphics
 	 */
 	public void paintIt(List<Item> items, Graphics graphics)  {
 
@@ -217,9 +214,9 @@ public class PaintStrategy {
 	}
 	
 	/**
-	 * Place the lure on the map with Line and Collumn of the map
-	 * @param lure
-	 * @param graphics
+	 * Paints lure dropped by intruders
+	 * @param lure The lure
+	 * @param graphics The graphics
 	 */
 	public void paintMLure(Item lure, Graphics graphics)  {
 			Block position = lure.getPosition();
@@ -235,12 +232,11 @@ public class PaintStrategy {
 				e.printStackTrace();
 			}
 	}
-		
-		/**
-		 * Place the filet on the map with Line and Collumn of the map
-		 * @param filet
-		 * @param graphics
-		 */
+	/**
+	 * Paints net dropped by guardians
+	 * @param filet The net
+	 * @param graphics The graphics
+	 */
 		public void paintMFilet(Item filet, Graphics graphics)  {
 			Block position = filet.getPosition();
 			int blockSize = GameConfiguration.BLOCK_SIZE;

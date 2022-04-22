@@ -4,6 +4,7 @@ package gui;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 
 
 import javax.swing.ImageIcon;
@@ -20,7 +23,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import config.GameConfiguration;
 import process.GameBuilder;
@@ -48,27 +50,9 @@ public class OpenGame extends JFrame implements ActionListener {
 	private JComboBox<String> experience1 = new JComboBox<String>();
 
 	private JButton start = new JButton("Start");
-	private JButton regle = new JButton("Regle");	
+	private JButton regle = new JButton("Regle");
 	
-	private JLabel vide1= new JLabel("");
-	private JLabel vide2= new JLabel("");
-	private JLabel vide3= new JLabel("");
-	private JLabel vide4= new JLabel("");
-	private JLabel vide5= new JLabel("");
-	private JLabel vide6= new JLabel("");
-	private JLabel vide7= new JLabel("");
-	private JLabel vide8= new JLabel("");
-	private JLabel vide9= new JLabel("");
-	private JLabel vide10= new JLabel("");
-	private JLabel vide11= new JLabel("");
-	private JLabel vide12= new JLabel("");
-	private JLabel vide13= new JLabel("");
-	private JLabel vide14= new JLabel("");
-	private JLabel vide15= new JLabel("");
-	private JLabel vide16= new JLabel("");
-	private JLabel vide17= new JLabel("");
-	private JLabel vide18= new JLabel("");
-	private JLabel vide19= new JLabel("");
+
 	
 	/**
 	 * create the very first window of our game
@@ -127,45 +111,24 @@ public class OpenGame extends JFrame implements ActionListener {
 		
 
 
-		//container.setBackground(new Color(230, 230, 250));
 		container.setOpaque(false);
 		JPanel squette = new JPanel();
 		squette.setLayout(new GridLayout(3,1));
-		squette.setBackground(new Color(230, 230, 250));
 		squette.setOpaque(false);
 		squette.add(logo);
 		squette.add(container);
 		
 		JPanel start1 = new JPanel();
-		start1.setLayout(new GridLayout(3,7));
-		start1.setBackground(new Color(230, 230, 250));
+		start1.setLayout(null);
 		start1.setOpaque(false);
 		
-		start1.add(vide1);
-		start1.add(vide2);
-		start1.add(vide3);
-		start1.add(vide4);
-		start1.add(vide5);
-		start1.add(vide6);
-		start1.add(vide7);
-		
-		
-		start1.add(vide8);
-		start1.add(vide9);
+		regle.setBounds(120, 30, 150, 80);
+		start.setBounds(310, 30, 150, 80);
+
+
 		start1.add(regle);
-		start1.add(vide10);
 		start1.add(start);
-		start1.add(vide11);
-		start1.add(vide12);
-		
-		
-		start1.add(vide13);
-		start1.add(vide14);
-		start1.add(vide15);
-		start1.add(vide16);
-		start1.add(vide17);
-		start1.add(vide18);
-		start1.add(vide19);
+
 		
 		
 		squette.add(start1);
@@ -176,10 +139,21 @@ public class OpenGame extends JFrame implements ActionListener {
 		panCenter.add(squette);
 		background.add(panCenter, BorderLayout.CENTER);
 		
-		
+		File htmlFile = new File("ressources/html/index.html");
+		regle.addActionListener(e->{
+		try {
+			Desktop.getDesktop().browse(htmlFile.toURI());
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		});
+
 		
 		this.setContentPane(background);
 		setVisible(true) ;
+		GameConfiguration.playmusicOpen();
+
 	}
 	
 	/**
@@ -208,6 +182,7 @@ public class OpenGame extends JFrame implements ActionListener {
 						Thread gameThread = new Thread(gameMainGUI);
 						gameThread.start();
 					}
+					GameConfiguration.stopmusicOpen();
 					dispose();
 				}
 

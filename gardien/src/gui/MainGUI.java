@@ -101,7 +101,6 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JLabel empty4= new JLabel("");
 	private JLabel empty5= new JLabel("");
 	
-	//private JLabel infoStat= new JLabel("<html><body><font color='white' size='5'>Zone Stat:</body></html>");
 	
 	private JLabel empty6= new JLabel("");
 	private JLabel empty7= new JLabel("");
@@ -126,14 +125,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private JLabel infoA= new JLabel("<html><body><font color='yellow' size='4'>Argent r&eacute;colt&eacute; :</body></html>");
 	private JLabel infoI= new JLabel("<html><body><font color='yellow' size='4'>Nombre d'Item :</body></html>");
 	
-	/*private JLabel infoGV= new JLabel("<html><body><font color='white'>Vision :</body></html>");
-	private JLabel infoGA= new JLabel("<html><body><font color='white'>Agilite :</body></html>");
-	private JLabel infoGP= new JLabel("<html><body><font color='white'>Precision :</body></html>");
-	
-	private JLabel foGV= new JLabel("Vision :");
-	private JLabel foGA= new JLabel("Agilite :");
-	private JLabel foGP= new JLabel("Precision :");
-	*/
+
 	private JLabel iT = new JLabel();
 	private JLabel iG = new JLabel();
 	private JLabel iA = new JLabel();
@@ -206,15 +198,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		
 		
 
-		/*
-		 foGV = new JLabel();
-		
-		
-		foGA = new JLabel();
-		
-		foGP = new JLabel();
-		
-		*/
+
 		
 		
 		
@@ -389,6 +373,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	
 	/**
 	 * Different action which will happen after clicking on buttons such as making the dashboard stop running, making it faster, slower, adding guardians or items
+	 * @param e An action event
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Object Button = e.getSource() ;
@@ -446,9 +431,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					iI.setText(String.valueOf(manager.getItems().size()));
 					iI.setForeground(Color.YELLOW);
 						
-					//foGV.setText(String.valueOf(Guardian.getVision()));
-					//foGA.setText(String.valueOf(Guardian.getAgility()));
-					//foGP.setText(String.valueOf(Guardian.getPrecision()));
+
 						
 					
 					manager.nextRound();
@@ -514,18 +497,18 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		backgroundEnd.add(nbEtoile);
 		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : "+ manager.getExitmoney() + "</body></html>");
-		Or.setBounds(269, 307, 168, 26);
-		backgroundEnd.add(Or);
+		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : " + manager.getDuels() + "</body></html>");
+		lblDuelsRemports.setBounds(269, 307, 223, 26);
+		backgroundEnd.add(lblDuelsRemports);
 
 		
-		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : </body></html>" + manager.getArrestations() + "</body></html>" );
-		lblArrestations.setBounds(269, 355, 223, 26);
-		backgroundEnd.add(lblArrestations);
+		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : "+ manager.getExitmoney() + "</body></html>");
+		Or.setBounds(269, 355, 168, 26);
+		backgroundEnd.add(Or);
 		
-		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : </body></html>" + manager.getDuels() + "</body></html>");
-		lblDuelsRemports.setBounds(269, 404, 223, 26);
-		backgroundEnd.add(lblDuelsRemports);
+		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : " + manager.getArrestations() + "</body></html>" );
+		lblArrestations.setBounds(269, 404, 223, 26);
+		backgroundEnd.add(lblArrestations);
 		
 		Reset = new JButton("Reset");
 		Reset.addActionListener(new ActionListener() {

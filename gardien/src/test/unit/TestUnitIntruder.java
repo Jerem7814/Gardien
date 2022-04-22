@@ -30,13 +30,18 @@ public class TestUnitIntruder {
 		
 	}
 	
+	/**
+	 * Initializes a guardian and an intruders with their initial attributes 
+	 */
 	@Before
 	public void prepareIntruders() {
 		intruder.inititem();
 		guardian.inititem();
 	}
 	
-	
+	/**
+	 * Test that precision of guardian is always better than to that of the intruder
+	 */
 	@Test
 	public void testPrecision() {
 		int dodgei=intruder.getDodge();

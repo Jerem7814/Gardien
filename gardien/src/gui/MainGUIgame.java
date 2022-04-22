@@ -2,8 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -37,11 +37,12 @@ import process.MobileElementManagerGame;
 
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
- */
+* initialize the window with panels that allows us to see informations, the dashboard running and to make some change on the game running
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class MainGUIgame extends JFrame implements Runnable {
 	private boolean deplace=false;
 	
@@ -415,6 +416,9 @@ public class MainGUIgame extends JFrame implements Runnable {
 		backgroundEnd.add(Reset);
 	}
 
+	/**
+	 * Allow the utilisation of key
+	 */
 	public class KeyControls implements KeyListener {
 
 		@Override
@@ -444,6 +448,9 @@ public class MainGUIgame extends JFrame implements Runnable {
 		}
 	}
 
+	/**
+	 * Allow the utilisation of key
+	 */
 	public class MouseControls implements MouseListener {
 
 		@Override

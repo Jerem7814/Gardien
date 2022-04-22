@@ -29,13 +29,17 @@ public class TestUnitGuardian {
 		Block block=new Block(2,2);
 		this.guardian=new Guardian(block);
 	}
-	
+	/**
+	 * Initializes the guardian with its initial attributes 
+	 */
 	@Before
 	public void prepareGuardian() {
 		guardian.inititem();
 	}
 	
-	
+	/**
+	 * Test the quantity if net of the guardian
+	 */
 	@Test
 	public void testFilet() {
 		HashMap<String, Item> items=guardian.getItems();

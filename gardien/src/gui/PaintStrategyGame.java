@@ -21,10 +21,11 @@ import model.Item;
 import model.Intruder;
 
 /**
- * Copyright SEDAMOP - Software Engineering
- * 
- * @author tianxiao.liu@cyu.fr
- *
+ * Allows the display of different objects, characters and the map
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
  */
 public class PaintStrategyGame {
 	

@@ -7,6 +7,13 @@ import java.util.List;
 import config.GameConfiguration;
 import map.Block;
 
+/**
+* this class allows to initialize the intruders on the map and initialize it
+* @version 14.0.1
+* @author jeremybureau
+* @author quentinvilley
+* @author abdallahelballadi
+*/
 public class Intruder extends MElement{
 	private int vision;
 	private int agility;
@@ -17,7 +24,15 @@ public class Intruder extends MElement{
 	private boolean isTransparent;
 	private int transparentcount;
 
-
+	/**
+	 * build an intruder thanks to the position, vision, agility, dodge, list of items and the money of the intruder
+	 * @param position Position of the intruder
+	 * @param vision Vision of the intruder
+	 * @param agility Agility of the intruder
+	 * @param dodge Dodge of the intruder
+	 * @param items List of items 
+	 * @param moneyearned The money of the intruder
+	 */
 	
 	public Intruder(Block position, int vision, int agility, HashMap<String, Item> items, int dodge, int moneyearned) {
 		super(position);
@@ -28,6 +43,11 @@ public class Intruder extends MElement{
 		this.moneyearned = moneyearned;
 	}
 	
+	/**
+	 * build an intruder thanks to the position of the intruder
+	 * @param position The position of the intruder
+	 */
+	
 	public Intruder(Block position) {
 		super(position);
 		this.vision = 0;
@@ -37,7 +57,9 @@ public class Intruder extends MElement{
 		this.moneyearned = 0;
 		visionZone = new ArrayList<Block>();
 	}
-
+	/**
+	 * initialize the items of the intruder at the beggining of the game with his attributes
+	 */
 	public void inititem() {
 		String pA="Agility Potion";
 		int nbpA=0;
@@ -73,59 +95,105 @@ public class Intruder extends MElement{
 		
 	}
 	
-	
+	/**
+	 * verify if the intruder is transparent
+	 * @return boolean true or false 
+	 */
 	
 	public boolean isTransparent() {
 		return isTransparent;
 	}
 
+	/**
+	 * set the Transparency of the intruder if param given is true
+	 * @param isTransparent Boolean of isTransparent
+	 */
 	public void setTransparent(boolean isTransparent) {
 		this.isTransparent = isTransparent;
 	}
-
+	/**
+	 * get the dodge attribute
+	 * @return dodge of the intruder
+	 */
 	public int getDodge() {
 		return precision;
 	}
 
-
+	/**
+	 * set the precision attribute with the number given
+	 * @param dodge The number of dodge
+	 */
 	public void setDodge(int dodge) {
 		this.precision = dodge;
 	}
-
+	/**
+	 * get the money earned of the intruder
+	 * @return money earned of the intruder
+	 */
 
 	public int getMoneyearned() {
 		return moneyearned;
 	}
-
+	/**
+	 * set the money earned of the intruder
+	 * @param moneyearned Number of money
+	 */
 
 	public void setMoneyearned(int moneyearned) {
 		this.moneyearned = moneyearned;
 	}
 
+	/**
+	 * get the vision of the intruder
+	 * @return vision of the intruder
+	 */
 	public int getVision() {
 		return vision;
 	}
 
+	/**
+	 * set the vision of the intruder
+	 * @param vision Number of vision
+	 */
 	public void setVision(int vision) {
 		this.vision = vision;
 	}
 
+	/**
+	 * get the agility of the intruder
+	 * @return agility of the intruder
+	 */
 	public int getAgility() {
 		return agility;
 	}
 
+	/**
+	 * set the agility of the intruder
+	 * @param agility Number of agility
+	 */
 	public void setAgility(int agility) {
 		this.agility = agility;
 	}
 
+	/**
+	 * get the list of items of the intruder
+	 * @return list of items of the intruder
+	 */
 	public HashMap<String, Item> getItems() {
 		return items;
 	}
 
+	/**
+	 * set the list of items of the intruder
+	 * @param items List of items
+	 */
 	public void setItems(HashMap<String, Item> items) {
 		this.items = items;
 	}
 	
+	/**
+	 * set the vision zone of the intruder with his vision attribute in row and column
+	 */
 	public void setVisionzone() {
 		visionZone.clear();
 		int line = super.getPosition().getLine();
@@ -150,61 +218,104 @@ public class Intruder extends MElement{
 			}
 		}
 	}
-	
+	/**
+	 * get the vision zone of the intruder
+	 * @return vision zone of the intruder
+	 */
 	public List<Block> getVisionzone() {
 		return visionZone;
 	}
-	
+	/**
+	 * increment the agility given
+	 * @param n The number
+	 */
 	public void incrementA(int n) {
 		agility+=n;
 	}
-	
+	/**
+	 * decrement the agility given
+	 * @param n The number
+	 */
 	public void decrementA(int n) {
 		agility-=n;
 	}
-	
+	/**
+	 * increment the vision given
+	 * @param n The number
+	 */
 	public void incrementV(int n) {
 		vision+=n;
 	}
-	
+	/**
+	 * decrement the vision given
+	 * @param n The number
+	 */
 	public void decrementV(int n) {
 		vision-=n;
 	}
-	
+	/**
+	 * increment the precision given
+	 * @param n The number
+	 */
 	public void incrementP(int n) {
 		precision+=n;
 	}
-	
+	/**
+	 * decrement the precision given
+	 * @param n The number
+	 */
 	public void decrementP(int n) {
 		precision-=n;
 	}
-	
+	/**
+	 * increment the money earned
+	 * @param n The number
+	 */
 	public void incrementM(int n) {
 		moneyearned+=n;
 	}
-	
+	/**
+	 * decrement the money earned
+	 * @param n The number
+	 */
 	public void decrementM(int n) {
 		moneyearned-=n;
 	}
 	
 	
-	
+	/**
+	 * get the transparent count of the intruder
+	 * @return the transparent count of the intruder
+	 */
 	public int getTransparentcount() {
 		return transparentcount;
 	}
-
+	/**
+	 * set the transparent count with the number given
+	 * @param transparentcount Number of time the intruder became transparent
+	 */
 	public void setTransparentcount(int transparentcount) {
 		this.transparentcount = transparentcount;
 	}
-	
+	/**
+	 * increment the transparent count 
+	 */
 	public void incrementIC() {
 		transparentcount++;
 	}
 	
+	/**
+	 * decrement the transparent count 
+	 */
 	public void decrementIC() {
 		transparentcount--;
 	}
-
+	/**
+	 * pick a random number between a min and a max
+	 * @param min The lower bound
+	 * @param max The upper bound
+	 * @return a random number
+	 */
 	private static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}

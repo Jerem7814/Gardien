@@ -17,12 +17,12 @@ import model.Intruder;
 import process.MobileElementManagerGame;
 
 /**
-* initialize the manual dashbaord playable
-* @version 14.0.1
-* @author jeremybureau
-* @author quentinvilley
-* @author abdallahelballadi
-*/
+ * make the connection between manager and PaintStrategyGame
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ */
 public class GameDisplayGame extends JPanel {
 
 	private static final long serialVersionUID = 1L;

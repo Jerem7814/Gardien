@@ -16,12 +16,12 @@ import model.Intruder;
 import process.MobileElementManager;
 
 /**
-* initialize the dashboard with its components for the simulation
-* @version 14.0.1
-* @author jeremybureau
-* @author quentinvilley
-* @author abdallahelballadi
-*/
+ * make the connection between manager and PaintStrategy
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ */
 public class GameDisplay extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -30,21 +30,20 @@ public class GameDisplay extends JPanel {
 	private MobileElementManager manager;
 	private PaintStrategy paintStrategy = new PaintStrategy();
 	public static boolean stop = true;
-	
+
 	/**
-	 * 
-	 * @param map
-	 * @param manager
+	 * Build a gamedisplay
+	 * @param map The map
+	 * @param manager The manager 
 	 */
 	public GameDisplay(Map map, MobileElementManager manager) {
 		this.map = map;
 		this.manager = manager;
 	}
-
-	@Override
-	/**intialize the position of the entities on the map
-	 * @param g
+	/**
+	 * Recup the informations of manager to pass it to PaintStrategy
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
