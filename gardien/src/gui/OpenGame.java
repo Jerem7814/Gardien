@@ -42,7 +42,7 @@ public class OpenGame extends JFrame implements ActionListener {
 	private JLabel experience = new JLabel("Quel type d'experience voulez vous ?");
 	private JLabel error = new JLabel("");
 
-	private ImageIcon icone = new ImageIcon("ressources/images/logo2.png");
+	private ImageIcon icone = new ImageIcon("src/images/logo2.png");
 	private JLabel logo = new JLabel(icone);
 
 	private JComboBox<Integer> taille1 = new JComboBox<Integer>();
@@ -59,13 +59,13 @@ public class OpenGame extends JFrame implements ActionListener {
 	 */
 	public void build() {
 		
-		this.setTitle("Welcome");
+		this.setTitle("OpenGame");
 		setDefaultCloseOperation(EXIT_ON_CLOSE) ; 
 		this.setSize(700, 500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
-		JLabel background=new JLabel(new ImageIcon("ressources/images/Menu.jpg"));
+		JLabel background=new JLabel(new ImageIcon("src/images/Menu.jpg"));
 		add(background);
 		background.setLayout(new FlowLayout());
 		
@@ -139,7 +139,7 @@ public class OpenGame extends JFrame implements ActionListener {
 		panCenter.add(squette);
 		background.add(panCenter, BorderLayout.CENTER);
 		
-		File htmlFile = new File("ressources/html/index.html");
+		File htmlFile = new File("src/html/index.html");
 		regle.addActionListener(e->{
 		try {
 			Desktop.getDesktop().browse(htmlFile.toURI());
@@ -162,7 +162,6 @@ public class OpenGame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object Button = e.getSource();
 		if (Button == start) {
-			System.out.println((int) taille1.getSelectedItem()/2 +" "+ (int)intrus1.getSelectedItem());
 			if((int) taille1.getSelectedItem()/2 >= (int)intrus1.getSelectedItem()) {
 				if((experience1.getSelectedItem()=="Jeu"&&(int)intrus1.getSelectedItem()==1)||experience1.getSelectedItem()=="Simulation") {
 					GameConfiguration.BLOCK_SIZE = (GameConfiguration.WINDOW_HEIGHT)/((int) taille1.getSelectedItem());
@@ -215,13 +214,11 @@ public class OpenGame extends JFrame implements ActionListener {
 	
 	class ItemAction1 implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-//		     	System.out.println("La taille est : " + (int)taille1.getSelectedItem());
 		    }
 	}
 
 	class ItemAction2 implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-//			System.out.println("Le nombre de b�te est : " + (int)bete1.getSelectedItem());
 		}
 	}
 	

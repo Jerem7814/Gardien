@@ -8,7 +8,7 @@ import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import sound.Sound;
+import sounds.Sound;
 import map.Block;
 
 import java.util.ArrayList;
@@ -146,7 +146,6 @@ public class MobileElementManager {
 				generateItem();
 			}
 			droppeditem=false;
-			System.out.println("a");
 		}
 		
 		if(isNumber(20)) {
@@ -218,14 +217,12 @@ public class MobileElementManager {
 			droppeditem=true;
 			String nm=randomItem();
 			Item item = new Item(position,nm);
-			System.out.println(round+" "+item.getPosition());
 
 			add(item);
 		}
 		else {
 			for(Item i:items) {
 				if(i.getPosition().equals(position)||position.equals(gate.getPosition())) {
-					System.out.println(round+" error mon"+i.getPosition());
 
 					droppeditem=false;
 					break;
@@ -239,7 +236,6 @@ public class MobileElementManager {
 			if(droppeditem) {
 				String nm=randomItem();
 				Item item = new Item(position,nm);
-				System.out.println(round+" "+item.getPosition());
 				add(item);
 			}
 		}
@@ -268,7 +264,6 @@ public class MobileElementManager {
 		else {
 			for(Item i:items) {
 				if(i.getPosition().equals(position)||position.equals(gate.getPosition())) {
-					System.out.println(round+" error it"+i.getPosition());
 
 					droppedmoney=false;
 					break;
@@ -282,7 +277,6 @@ public class MobileElementManager {
 				String nm="Money";
 				
 				Item item = new Item(position,nm);
-				System.out.println(round+" "+item.getPosition());
 				item.setNbre(100);
 				add(item);
 			}
@@ -415,7 +409,6 @@ public class MobileElementManager {
 			Block intruderPosition = intruder.getPosition();
 			for (Item item : items) {
 				if (item.getPosition().equals(intruderPosition)) {
-					System.out.println("same");
 					Sound s = new Sound();
 					Item i=item;
 					eliminatedItem.add(item);
@@ -643,7 +636,6 @@ public class MobileElementManager {
 	 * if an intruder and a guardian are on the same block, remove the person with the least precision(guardian attribute name)/dodge(intruder attribute name)
 	 */	
 	public void combat() {
-		System.out.println("round :"+round+" countlure : "+countlure);
 		if(mlure!=null) {
 			lureappareance=true;
 		}
@@ -1040,10 +1032,7 @@ public class MobileElementManager {
 	 * @param direction The direction he will take
 	 * @param deplacement The number of case we want to move 
 	 */
-	public void deplacement(Guardian a,int direction, int deplacement) {
-		
-		
-		
+	public void deplacement(Guardian a,int direction, int deplacement) {		
 		
 		if(direction==0&&isOk(a,direction,deplacement)) {
 			a.getPosition().setColumn(a.getPosition().getColumn()+deplacement);
@@ -1410,7 +1399,7 @@ public class MobileElementManager {
 	}
 	
 	/**
-	 * check if intruder can exit thanks to conditions. Move on the exit gate if it's possible 
+	 * check if intruder can Ì thanks to conditions. Move on the exit gate if it's possible 
 	 */	
 	public void goExit() {
 		boolean exit=false;
@@ -1492,8 +1481,6 @@ public class MobileElementManager {
 	public void moneyearned() {
 		totalmoney+=roundmoney;
 		roundmoney=0;
-		System.out.println("totalmoney : "+totalmoney);
-		System.out.println("exitmoney : "+exitmoney);
 
 		
 

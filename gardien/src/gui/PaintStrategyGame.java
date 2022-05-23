@@ -29,7 +29,7 @@ import model.Intruder;
  */
 public class PaintStrategyGame {
 	
-	public File Gimage=new File("ressources/images/thiefinvisible.png");
+	public File Gimage=new File("src/images/thiefinvisible.png");
 	
 	
 	public void paint(Map map, Graphics graphics) {
@@ -85,7 +85,7 @@ public class PaintStrategyGame {
 			int x = position.getColumn();
 			if(intruder.isTransparent()) {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/thiefinvisible.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/thiefinvisible.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -93,7 +93,7 @@ public class PaintStrategyGame {
 			else {
 	
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/thief.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/thief.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -114,7 +114,7 @@ public class PaintStrategyGame {
 			int x = position.getColumn();
 	
 			try {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/gardien.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				graphics.drawImage(ImageIO.read(new File("src/images/gardien.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -134,7 +134,7 @@ public class PaintStrategyGame {
 		int x = position.getColumn();
 	
 		try {
-			graphics.drawImage(ImageIO.read(new File("ressources/images/gate.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+			graphics.drawImage(ImageIO.read(new File("src/images/gate.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -152,7 +152,7 @@ public class PaintStrategyGame {
 			int x = position.getColumn();
 			if(item.getName() == "Filet") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/net.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/net.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -160,7 +160,7 @@ public class PaintStrategyGame {
 			}
 			else if(item.getName() == "Lure") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/speaker.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/speaker.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -169,7 +169,7 @@ public class PaintStrategyGame {
 			}
 			else if(item.getName() == "Invisibility cloak") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/cloak.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/cloak.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -178,7 +178,7 @@ public class PaintStrategyGame {
 			}
 			else if(item.getName() == "Agility Potion") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/agility.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/agility.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -187,7 +187,7 @@ public class PaintStrategyGame {
 			}
 			else if(item.getName() == "Vision Potion") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/vision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/vision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -195,7 +195,7 @@ public class PaintStrategyGame {
 			}
 			else if(item.getName() == "Precision Potion") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/precision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/precision.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -204,7 +204,7 @@ public class PaintStrategyGame {
 			
 			else if(item.getName() == "Money") {
 				try {
-					graphics.drawImage(ImageIO.read(new File("ressources/images/money.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+					graphics.drawImage(ImageIO.read(new File("src/images/money.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -225,7 +225,7 @@ public class PaintStrategyGame {
 			int x = position.getColumn();
 
 			try {
-				graphics.drawImage(ImageIO.read(new File("ressources/images/mobilelure.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
+				graphics.drawImage(ImageIO.read(new File("src/images/mobilelure.png")),x * blockSize,y * blockSize,blockSize, blockSize,null);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

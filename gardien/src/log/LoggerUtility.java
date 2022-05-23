@@ -9,8 +9,11 @@ import org.apache.log4j.PropertyConfigurator;
  * 
  * We can generate logs in a text or a html file.
  * 
- * @author Tianxiao.Liu@u-cergy.fr
- */
+ * @version 14.0.1
+ * @author jeremybureau
+ * @author quentinvilley
+ * @author abdallahelballadi
+ *  */
 public class LoggerUtility {
 	private static final String TEXT_LOG_CONFIG = "src/log/log4j-text.properties";
 	private static final String HTML_LOG_CONFIG = "src/log/log4j-html.properties";

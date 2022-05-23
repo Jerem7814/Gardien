@@ -89,7 +89,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 	
 	private JLabel infoT= new JLabel("<html><body><font color='yellow' size='4'>Tour  :</body></html>");
 	private JLabel infoG= new JLabel("<html><body><font color='yellow' size='4'>Gardiens :</body></html>");
-	private JLabel infoA= new JLabel("<html><body><font color='yellow' size='4'>Argent actuel/sortis:</body></html>");
+	private JLabel infoA= new JLabel("<html><body><font color='yellow' size='4'>Argent actuel:</body></html>");
 	private JLabel infoI= new JLabel("<html><body><font color='yellow' size='4'>Items :</body></html>");
 	
 	private JLabel infoT2= new JLabel("<html><body><font color='#DABDE0' size='4'>Leurres dispo :</body></html>");
@@ -164,7 +164,7 @@ public class MainGUIgame extends JFrame implements Runnable {
 		
 		
 		
-		JLabel background=new JLabel(new ImageIcon("ressources/images/MainGuiGame.jpg"));
+		JLabel background=new JLabel(new ImageIcon("src/images/MainGuiGame.jpg"));
 		add(background);
 		background.setLayout(new BorderLayout());
 		
@@ -349,30 +349,30 @@ public class MainGUIgame extends JFrame implements Runnable {
 	private void initend() {
 		if (Integer.valueOf(manager.getExitmoney())>=1500 ) {
 			etoiles = 4;
-			star = new ImageIcon("ressources/images/4star.png");
+			star = new ImageIcon("src/images/4star.png");
 		}
 			else if (Integer.valueOf(manager.getExitmoney())>=800) {
 				etoiles = 3;
-				star = new ImageIcon("ressources/images/3star.png");
+				star = new ImageIcon("src/images/3star.png");
 			}
 			else if (Integer.valueOf(manager.getExitmoney())>=400) {
 				etoiles = 2;
-				star = new ImageIcon("ressources/images/2star.png");
+				star = new ImageIcon("src/images/2star.png");
 			}
 			else if (Integer.valueOf(manager.getExitmoney())>100 || Integer.valueOf(manager.getDuels())>=1 || Integer.valueOf(manager.getTotalmoney())>=1000) {
 			etoiles = 1;
-			star = new ImageIcon("ressources/images/1star.png");
+			star = new ImageIcon("src/images/1star.png");
 		}
 		else {
 			etoiles = 0;
-			star = new ImageIcon("ressources/images/0star.png");
+			star = new ImageIcon("src/images/0star.png");
 
 
 		}
-		JLabel backgroundEnd=new JLabel(new ImageIcon("ressources/images/endGame.jpg"));
+		JLabel backgroundEnd=new JLabel(new ImageIcon("src/images/endGame.jpg"));
 		add(backgroundEnd);
 		backgroundEnd.setLayout(new BorderLayout());
-		frame = new JFrame();
+		frame = new JFrame("EndGame");
 		frame.setBounds(100, 100, 751, 699);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -389,18 +389,18 @@ public class MainGUIgame extends JFrame implements Runnable {
 		backgroundEnd.add(nbEtoile);
 		nbEtoile.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : </body><html>"+ manager.getExitmoney() + "</body></html>");
-		Or.setBounds(269, 307, 168, 26);
-		backgroundEnd.add(Or);
+		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : " + manager.getDuels() + "</body></html>");
+		lblDuelsRemports.setBounds(269, 307, 223, 26);
+		backgroundEnd.add(lblDuelsRemports);
 
 		
-		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : " + manager.getArrestations() + "</body></html>" );
-		lblArrestations.setBounds(269, 355, 223, 26);
-		backgroundEnd.add(lblArrestations);
+		JLabel Or = new JLabel("<html><body><font color='white' size='3'>Or amass&eacute; : "+ manager.getExitmoney() + "</body></html>");
+		Or.setBounds(269, 355, 168, 26);
+		backgroundEnd.add(Or);
 		
-		JLabel lblDuelsRemports = new JLabel("<html><body><font color='white' size='3'>Duels remport&eacute;s par l'intrus : " + manager.getDuels() + "</body></html>");
-		lblDuelsRemports.setBounds(269, 404, 223, 26);
-		backgroundEnd.add(lblDuelsRemports);
+		JLabel lblArrestations = new JLabel("<html><body><font color='white' size='3'>Arrestations : " + manager.getArrestations() + "</body></html>" );
+		lblArrestations.setBounds(269, 404, 223, 26);
+		backgroundEnd.add(lblArrestations);
 		
 		Reset = new JButton("Reset");
 		Reset.addActionListener(new ActionListener() {
@@ -462,16 +462,12 @@ public class MainGUIgame extends JFrame implements Runnable {
 				Block deplacement = dashboard.getIntruderPosition(x, y);
 				List<Block> vision=manager.getIntruders().getVisionzone();
 				Block block1=new Block(manager.getIntruders().getPosition().getLine()-manager.getIntruders().getVision(),manager.getIntruders().getPosition().getColumn());
-				System.out.println("block4"+block1);
 
 				Block block2=new Block(manager.getIntruders().getPosition().getLine()+manager.getIntruders().getVision(),manager.getIntruders().getPosition().getColumn());
-				System.out.println("block4"+block2);
 
 				Block block3=new Block(manager.getIntruders().getPosition().getLine(),manager.getIntruders().getPosition().getColumn()-manager.getIntruders().getVision());
-				System.out.println("block4"+block3);
 
 				Block block4=new Block(manager.getIntruders().getPosition().getLine(),manager.getIntruders().getPosition().getColumn()+manager.getIntruders().getVision());
-				System.out.println("block4"+block4);
 				List<Block> deplacementblock=new ArrayList<Block>();
 
 				for(Block blo:vision) {

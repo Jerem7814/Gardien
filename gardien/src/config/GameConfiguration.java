@@ -1,6 +1,6 @@
 package config;
 
-import sound.Sound;
+import sounds.Sound;
 
 /**
 * configurations of the simulation 

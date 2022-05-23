@@ -13,7 +13,7 @@ import model.ExitGate;
 import model.Guardian;
 import model.Intruder;
 import model.Item;
-import sound.Sound;
+import sounds.Sound;
 
 
 /**
@@ -172,14 +172,12 @@ public class MobileElementManagerGame {
 			droppeditem=true;
 			String nm=randomItem();
 			Item item = new Item(position,nm);
-			System.out.println(round+" "+item.getPosition());
 
 			add(item);
 		}
 		else {
 			for(Item i:items) {
 				if(i.getPosition().equals(position)||position.equals(gate.getPosition())) {
-					System.out.println(round+" error mon"+i.getPosition());
 
 					droppeditem=false;
 					break;
@@ -193,7 +191,6 @@ public class MobileElementManagerGame {
 			if(droppeditem) {
 				String nm=randomItem();
 				Item item = new Item(position,nm);
-				System.out.println(round+" "+item.getPosition());
 				add(item);
 			}
 		}
@@ -220,7 +217,6 @@ public class MobileElementManagerGame {
 		else {
 			for(Item i:items) {
 				if(i.getPosition().equals(position)||position.equals(gate.getPosition())) {
-					System.out.println(round+" error it"+i.getPosition());
 
 					droppedmoney=false;
 					break;
@@ -234,7 +230,6 @@ public class MobileElementManagerGame {
 				String nm="Money";
 				
 				Item item = new Item(position,nm);
-				System.out.println(round+" "+item.getPosition());
 				item.setNbre(100);
 				add(item);
 			}
@@ -512,7 +507,6 @@ public class MobileElementManagerGame {
 
 			
 	public void combat() {
-		System.out.println("round :"+round+" countlure : "+countlure);
 		if(mlure!=null) {
 			lureappareance=true;
 		}
@@ -876,7 +870,6 @@ public class MobileElementManagerGame {
 	public void moneyearned() {
 		totalmoney+=roundmoney;
 		roundmoney=0;
-		System.out.println("totalmoney : "+totalmoney);
 		
 
 	}

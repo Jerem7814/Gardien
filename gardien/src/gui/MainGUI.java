@@ -50,6 +50,8 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
+	private MainGUI instance=this;
+	
 	private Map map;
 
 	private final static Dimension preferredSize = new Dimension(700, GameConfiguration.WINDOW_HEIGHT);
@@ -175,7 +177,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		gardP = new JButton ("Gardien");
 		gardP.addActionListener(this);
 		
-		itemP = new JButton ("item");
+		itemP = new JButton ("Item");
 		itemP.addActionListener(this);
 		
 		dou = new JButton ("x2");
@@ -202,7 +204,7 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		
 		
 		
-		JLabel background=new JLabel(new ImageIcon("ressources/images/MainGui.jpg"));
+		JLabel background=new JLabel(new ImageIcon("src/images/MainGui.jpg"));
 		add(background);
 		background.setLayout(new BorderLayout());
 		
@@ -385,10 +387,12 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 		if (Button==startG) {
 			
 			GameDisplay.stop = true;
+			Thread chronoThread = new Thread(instance);
+			chronoThread.start();
+			
 		}
 		
 		if (Button==dou) {
-			
 			GameConfiguration.GAME_SPEED = GameConfiguration.GAME_SPEED/2 ;
 		}
 		if (Button==demi) {
@@ -437,15 +441,12 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 					manager.nextRound();
 					dashboard.repaint();
 					}
-				else {
-					System.out.println("Ok");
-				}
+
 			}
 			manager.getIncendie().stop();
 			GameConfiguration.stopmusic();
             initend();
     		frame.setVisible(true);
-			System.out.println("Fin de partie");
 			break;
 		}
 
@@ -456,35 +457,36 @@ public class MainGUI extends JFrame implements Runnable, ActionListener {
 	private void initend() {
 		if (Integer.valueOf(manager.getExitmoney())>=1500 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI/2) {
 			etoiles = 4;
-			star = new ImageIcon("ressources/images/4star.png");
+			star = new ImageIcon("src/images/4star.png");
 		}
 		else if (Integer.valueOf(manager.getExitmoney())>=800 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI/2) {
 			etoiles = 3;
-			star = new ImageIcon("ressources/images/3star.png");
+			star = new ImageIcon("src/images/3star.png");
 		}
 		else if (Integer.valueOf(manager.getExitmoney())>=400 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI-1) {
 			etoiles = 2;
-			star = new ImageIcon("ressources/images/2star.png");
+			star = new ImageIcon("src/images/2star.png");
 		}
 		else if (Integer.valueOf(manager.getExitmoney())>100 && Integer.valueOf(manager.getArrestations())<=GameBuilder.nbrI-1) {
 			etoiles = 1;
-			star = new ImageIcon("ressources/images/1star.png");
+			star = new ImageIcon("src/images/1star.png");
 			
 		}
 		else {
 			etoiles = 0;
-			star = new ImageIcon("ressources/images/0star.png");
+			star = new ImageIcon("src/images/0star.png");
 
 
 		}
-		JLabel backgroundEnd=new JLabel(new ImageIcon("ressources/images/endGame.jpg"));
+		JLabel backgroundEnd=new JLabel(new ImageIcon("src/images/endGame.jpg"));
 		add(backgroundEnd);
 		backgroundEnd.setLayout(new BorderLayout());
-		frame = new JFrame();
+		frame = new JFrame("EndGame");
 		frame.setBounds(100, 100, 751, 699);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(backgroundEnd, BorderLayout.CENTER);
+		
 		backgroundEnd.setLayout(null);
 		JLabel Title = new JLabel("<html><body><font color='white' size='5'>Bravo ! Vous avez obtenu " + etoiles + " &eacute;toiles !</body></html>");
 		Title.setHorizontalAlignment(SwingConstants.CENTER);

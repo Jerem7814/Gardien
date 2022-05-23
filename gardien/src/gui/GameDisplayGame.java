@@ -90,7 +90,6 @@ public class GameDisplayGame extends JPanel {
 			List<Block> visioncopy = new ArrayList<Block>(vision); //copies the content	
 			paintStrategy.paintblack(manager.getIntruders(),visioncopy,map, g);
 		}
-		System.out.println("repaint2");
 
 
 		

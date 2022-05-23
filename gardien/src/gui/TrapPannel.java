@@ -29,7 +29,7 @@ public class TrapPannel extends JFrame{
 	}
  
 	private void build(){
-		setTitle("Fenêtre qui affiche du texte"); //On donne un titre à l'application
+		setTitle("TrapPannel"); //On donne un titre à l'application
 		setSize(700,240); //On donne une taille à notre fenêtre
 		setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
 		setResizable(true); //On permet le redimensionnement
